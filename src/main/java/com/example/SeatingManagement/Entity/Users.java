@@ -28,5 +28,7 @@ public class Users {
     private String password;
     private String designation;
 
+    @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
+    private UserDetails userDetail;
 
 }
