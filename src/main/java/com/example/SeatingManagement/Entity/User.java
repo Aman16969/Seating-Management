@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+public class User {
 
     @Id
     @Column(name = "accolite_id")
@@ -32,6 +33,7 @@ public class Users {
     @NotEmpty
     @Size(min=6,max=20,message = "Password Must Be Minimum Of 6 Character")
     @Pattern(regexp = ".*[0-9].*",message = "Password Must Contain One Number")
+    @JsonIgnore
     private String password;
     @Column(nullable = true)
     private String designation;

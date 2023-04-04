@@ -1,12 +1,14 @@
 package com.example.SeatingManagement.Services;
 
-import com.example.SeatingManagement.Entity.Users;
+
+import com.example.SeatingManagement.Entity.User;
+import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.UserRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -14,21 +16,32 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public Users registerUser(Users user){
-        Users createdUser=this.userRepository.save(user);
-        return createdUser;
+    public User registerUser(User user){
+        User newUser=this.userRepository.save(user);
+        return newUser;
     }
-    public Users updateUser(User user,String id){
-        return null;
+    public User updateUser(User user,String id){
+        User newUser=this.userRepository.findById(id).map(u -> {
+            u.setDesignation(user.getDesignation());
+            u.setAddress(user.getAddress());
+            u.setPhoneNumber(user.getPhoneNumber());
+            return userRepository.save(u);
+        }).orElseThrow(()->new ResourceNotFound("User","user_id",id));
+        return newUser;
     }
     public void deleteUser(String id){
+        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","user_id",id));
+        this.userRepository.delete(user);
 
     }
     public List<User> getAllUsers(){
-        return null;
+        List<User> allUsers=this.userRepository.findAll();
+        return allUsers;
     }
     public User getUserById(String id){
-        return null;
+       User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","user_id",id));
+       return user;
+
     }
 
 }
