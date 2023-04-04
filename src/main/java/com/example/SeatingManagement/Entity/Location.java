@@ -17,4 +17,7 @@ public class Location {
     @Column(name="location_name")
     private String name;
     private Integer seatingCapacity;
+    private String address;
+
+
 }

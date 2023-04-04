@@ -46,4 +46,9 @@ public class UserController {
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
 
     }
+    @PostMapping("/{user_id}/location/{location_id}")
+    public ResponseEntity<User> setLocation(@PathVariable String user_id,@PathVariable Integer location_id){
+        User user=this.userService.setLocation(user_id,location_id);
+        return ResponseEntity.ok(user);
+    }
 }

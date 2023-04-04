@@ -33,15 +33,18 @@ public class User {
     @NotEmpty
     @Size(min=6,max=20,message = "Password Must Be Minimum Of 6 Character")
     @Pattern(regexp = ".*[0-9].*",message = "Password Must Contain One Number")
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
     @Column(nullable = true)
     private String designation;
-    @Pattern(regexp = "^\\d{10}$")
+    @Pattern(regexp = "^\\d{10}$",message = "Invalid phone number")
     @Column(nullable = true)
     private String phoneNumber;
     @Column(nullable = true)
     private String address;
 
+    @ManyToOne
+    @JoinColumn(name = "location", referencedColumnName = "id")
+    private Location location;
 
 }
