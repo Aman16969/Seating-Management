@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Entity
-@Table(name="Users")
+@Table(name="users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -42,13 +42,9 @@ public class User {
     private String phoneNumber;
     @Column(nullable = true)
     private String address;
-    private boolean isadmin=false;
-
+    private boolean isAdmin=false;
 
     @ManyToOne
-    @JoinColumn(name = "location", referencedColumnName = "id")
+    @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-
-
-
 }

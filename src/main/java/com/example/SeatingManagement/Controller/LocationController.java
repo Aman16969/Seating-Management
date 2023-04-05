@@ -34,9 +34,6 @@ public class LocationController {
         return new ResponseEntity<>(updatedLocation, HttpStatus.CREATED);
     }
 
-
-
-
     @GetMapping("/{id}")
     public Location getLocationById(@PathVariable(value = "id") Integer id){
         return this.locationService.getLocationById(id);
