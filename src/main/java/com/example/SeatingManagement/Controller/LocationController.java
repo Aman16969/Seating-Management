@@ -1,8 +1,10 @@
 package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.Location;
+import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +36,14 @@ public class LocationController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Location> getLocationById(@PathVariable(value = "id") Integer id){
+    public Location getLocationById(@PathVariable(value = "id") Integer id){
         return this.locationService.getLocationById(id);
     }
-
     @DeleteMapping("/{id}")
-    public void deleteLocationById(@PathVariable(value = "id") int id){
+    public ResponseEntity<ApiResponse> deleteLocation(@PathVariable("id") Integer id){
         this.locationService.deleteLocationById(id);
+        return  new ResponseEntity<ApiResponse>( new ApiResponse("Location deleted Successfully",true), HttpStatus.OK);
+
     }
 }
+
