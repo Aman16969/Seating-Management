@@ -22,7 +22,8 @@ public class SeatService {
     public Seat addNewSeat(SeatRequestBody seatRequestBody){
         Integer locationId = seatRequestBody.getLocation_id();
         String seatId = seatRequestBody.getId();
-        Location location=this.locationRepository.findById(locationId).orElseThrow();
+        Location location=this.locationRepository.findById(locationId)
+                .orElseThrow(()-> new ResourceNotFound("Location", "location_id", seatId));
         Seat seat=new Seat(seatId,location);
         Seat newSeat = this.seatRepository.save(seat);
         return newSeat;
@@ -50,7 +51,9 @@ public class SeatService {
 
     //Get seats by location
     public List<Seat> getSeatsByLocation(Integer id){
-        List<Seat> seats = (List<Seat>) this.seatRepository.findSeatsByLocationId(id);
+        Location location=this.locationRepository.findById(id)
+                .orElseThrow(()-> new ResourceNotFound("Location", "location_id", String.valueOf(id)));
+        List<Seat> seats = (List<Seat>) this.seatRepository.findSeatsByLocationId(location);
         return seats;
     }
 }
