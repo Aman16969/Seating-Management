@@ -2,18 +2,14 @@ package com.example.SeatingManagement.Services;
 
 
 import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.Entity.Role;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
-import com.example.SeatingManagement.Repository.RoleRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -22,8 +18,7 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private LocationRepository locationRepository;
-    @Autowired
-    private RoleRepository roleRepository;
+
     //Create new User
     public User registerUser(User user){
         User newUser=this.userRepository.save(user);
@@ -64,20 +59,11 @@ public class UserService {
         User updatedUser=this.userRepository.save(user);
         return updatedUser;
     }
-//    set user role
-    public User setRole(String id, Integer role_id){
-        Role role=this.roleRepository.findById(role_id).orElseThrow(()->new ResourceNotFound("Role","Role_id",""+role_id));
-        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","user_id",id));
-        user.setRole(role);
-        return  this.userRepository.save(user);
-    }
+
     public Location getUserLocation(String id){
         Location location=this.userRepository.findLocationByUserId(id);
         return location;
     }
-    public Role getUserRole(String id){
-        Role role=this.userRepository.findRoleByUserId(id);
-        return role;
-    }
+
 
 }

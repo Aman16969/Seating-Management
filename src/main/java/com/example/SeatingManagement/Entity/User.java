@@ -42,13 +42,13 @@ public class User {
     private String phoneNumber;
     @Column(nullable = true)
     private String address;
+    private boolean isadmin=false;
+
 
     @ManyToOne
     @JoinColumn(name = "location", referencedColumnName = "id")
     private Location location;
 
-    @ManyToOne
-    @JoinColumn(name="role",referencedColumnName = "role_id")
-    private Role role;
+
 
 }

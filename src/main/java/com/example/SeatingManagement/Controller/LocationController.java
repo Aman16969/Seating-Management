@@ -35,10 +35,7 @@ public class LocationController {
     }
 
 
-    @GetMapping("/")
-    public List<Location> getAllLocations(){
-        return this.locationService.getAllLocation();
-    }
+
 
     @GetMapping("/{id}")
     public Location getLocationById(@PathVariable(value = "id") Integer id){

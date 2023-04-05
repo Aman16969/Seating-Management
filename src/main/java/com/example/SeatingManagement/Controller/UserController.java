@@ -2,7 +2,6 @@ package com.example.SeatingManagement.Controller;
 
 
 import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.Entity.Role;
 import com.example.SeatingManagement.Entity.User;
 
 import com.example.SeatingManagement.PayLoad.ApiResponse;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
@@ -53,20 +51,12 @@ public class UserController {
         User user=this.userService.setLocation(user_id,location_id);
         return ResponseEntity.ok(user);
     }
-    @PostMapping("/{user_id}/role/{role_id}")
-    public ResponseEntity<User> setRole(@PathVariable String user_id,@PathVariable Integer role_id){
-        User user=this.userService.setRole(user_id,role_id);
-        return ResponseEntity.ok(user);
-    }
+
 
     @GetMapping("/locationOfUser/{id}")
     public ResponseEntity<Location> findLocationOfUser(@PathVariable String id){
         Location location=this.userService.getUserLocation(id);
         return ResponseEntity.ok(location);
     }
-    @GetMapping("/roleOfUser/{id}")
-    public ResponseEntity<Role> findRoleOfUser(@PathVariable String id){
-        Role role=this.userService.getUserRole(id);
-        return ResponseEntity.ok(role);
-    }
+
 }
