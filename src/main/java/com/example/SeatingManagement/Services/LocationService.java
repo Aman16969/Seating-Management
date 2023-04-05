@@ -21,10 +21,12 @@ public class LocationService {
         Location newLocation = this.locationRepository.save(location);
         return newLocation;
     }
-    public List<Location> getAllLocations(){
-        return this.locationRepository.findAll();
+
+    public List<Location> getAllLocation(){
+        List<Location> location=this.locationRepository.findAll();
+        return location;
     }
-    public Location getLocationById(Integer id){
+    public Location getLocationByIds(Integer id){
         return this.locationRepository.findById(id).orElseThrow(()->new ResourceNotFound("Location","id",String.valueOf(id)));
     }
     public Location updateLocation(Location newLocation, Integer id){
@@ -37,9 +39,7 @@ public class LocationService {
         return updatedLocation;
     }
 
-    public List<Location> getAllLocations(){
-        return this.locationRepository.findAll();
-    }
+
 
     public Location getLocationById(Integer id){
 
@@ -47,9 +47,6 @@ public class LocationService {
     }
 
 
-        }).orElseThrow(()->new ResourceNotFound("Location","id",String.valueOf(id)));
-        return updatedLocation;
-    }
 
     public void deleteLocationById(Integer id){
         this.locationRepository.deleteById(id);
