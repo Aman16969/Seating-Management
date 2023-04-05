@@ -14,21 +14,30 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
-
     @Autowired
     private LocationService locationService;
 
     @PostMapping("/")
     public ResponseEntity<Location> createLocation(@RequestBody Location location){
         Location newLocation = this.locationService.createLocation(location);
-        return ResponseEntity.ok(newLocation);
+        return new ResponseEntity<>(newLocation, HttpStatus.CREATED);
     }
-
+    @GetMapping("/")
+    public ResponseEntity<List<Location>> getAllLocations(){
+        List<Location> allLocations = this.locationService.getAllLocations();
+        return new ResponseEntity<>(allLocations, HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Location> getLocationById(@PathVariable(value = "id") Integer id){
+        Location location = this.locationService.getLocationById(id);
+        return new ResponseEntity<>(location, HttpStatus.OK);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<Location> updateLocation(@RequestBody Location location, @PathVariable(value = "id") Integer id){
         Location updatedLocation = this.locationService.updateLocation(location, id);
-        return ResponseEntity.ok(updatedLocation);
+        return new ResponseEntity<>(updatedLocation, HttpStatus.CREATED);
     }
+<<<<<<< HEAD
 
     @GetMapping("/")
     public List<Location> getAllLocations(){
@@ -44,6 +53,12 @@ public class LocationController {
         this.locationService.deleteLocationById(id);
         return  new ResponseEntity<ApiResponse>( new ApiResponse("Location deleted Successfully",true), HttpStatus.OK);
 
+=======
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteLocationById(@PathVariable(value = "id") int id){
+        this.locationService.deleteLocationById(id);
+        return new ResponseEntity<ApiResponse>(new ApiResponse("Location deleted Successfully", true), HttpStatus.OK);
+>>>>>>> fe5d94c25c21181d7ff0e331b5801edff8cd90d2
     }
 }
 
