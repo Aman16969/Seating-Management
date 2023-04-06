@@ -17,7 +17,7 @@ import java.util.*;
 
 
 @Entity
-@Table(name="Users")
+@Table(name="users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,11 +39,20 @@ public class User{
     @Pattern(regexp = "^\\d{10}$",message = "Invalid phone number")
     @Column(nullable = true)
     private String phoneNumber;
+<<<<<<< HEAD
     private boolean isadmin=false;
+=======
+    @Column(nullable = true)
+    private String address;
+    private boolean isAdmin=false;
+>>>>>>> ddee7e0940beaff43b3aeff70f2623e9e8c85ecd
 
     @ManyToOne
-    @JoinColumn(name = "location", referencedColumnName = "id")
+    @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> ddee7e0940beaff43b3aeff70f2623e9e8c85ecd
 }

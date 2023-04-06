@@ -11,10 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,String> {
-Optional<User> findByEmail(String email);
 
     @Query("SELECT u.location FROM User u WHERE u.id = :id")
     Location findLocationByUserId(@Param("id") String userId);
-
-
 }
