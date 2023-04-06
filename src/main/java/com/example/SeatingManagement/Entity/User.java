@@ -39,20 +39,20 @@ public class User{
     @Pattern(regexp = "^\\d{10}$",message = "Invalid phone number")
     @Column(nullable = true)
     private String phoneNumber;
-<<<<<<< HEAD
     private boolean isadmin=false;
-=======
-    @Column(nullable = true)
-    private String address;
-    private boolean isAdmin=false;
->>>>>>> ddee7e0940beaff43b3aeff70f2623e9e8c85ecd
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="user_role",joinColumns =
+    @JoinColumn(name="user_id",referencedColumnName = "accolite_id"),
+    inverseJoinColumns =
+    @JoinColumn(name = "role_id",referencedColumnName = "id"))
+    Set<Role> roles=new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-<<<<<<< HEAD
 
 
-=======
->>>>>>> ddee7e0940beaff43b3aeff70f2623e9e8c85ecd
+
 }
