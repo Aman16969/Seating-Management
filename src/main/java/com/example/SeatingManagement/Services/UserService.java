@@ -27,8 +27,6 @@ public class UserService {
 //    Update User partially
     public User updateUser(User user,String id){
         User newUser=this.userRepository.findById(id).map(u -> {
-            u.setDesignation(user.getDesignation());
-            u.setAddress(user.getAddress());
             u.setPhoneNumber(user.getPhoneNumber());
             return userRepository.save(u);
         }).orElseThrow(()->new ResourceNotFound("User","user_id",id));

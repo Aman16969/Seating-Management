@@ -7,12 +7,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.UUID;
+import java.util.*;
+
 
 @Entity
 @Table(name="Users")
@@ -20,7 +22,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+// implements UserDetails
+public class User{
 
     @Id
     @Column(name = "accolite_id")
@@ -30,25 +33,17 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    @NotEmpty
-    @Size(min=6,max=20,message = "Password Must Be Minimum Of 6 Character")
-    @Pattern(regexp = ".*[0-9].*",message = "Password Must Contain One Number")
-//    @JsonIgnore
+@Pattern(regexp = ".*[0-9].*",message = "Password Must Contain One Number")
+@Column(name = "user_password",nullable = false)
     private String password;
-    @Column(nullable = true)
-    private String designation;
     @Pattern(regexp = "^\\d{10}$",message = "Invalid phone number")
     @Column(nullable = true)
     private String phoneNumber;
-    @Column(nullable = true)
-    private String address;
     private boolean isadmin=false;
-
 
     @ManyToOne
     @JoinColumn(name = "location", referencedColumnName = "id")
     private Location location;
-
 
 
 }
