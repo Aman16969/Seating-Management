@@ -75,23 +75,15 @@ public class SeatService {
         Integer loc_id = location.getId();
 
         if (updatedCapacity<currentCapacity) {
-            for (Integer i = updatedCapacity + 1; i <= currentCapacity; i++) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("" + loc_id).append(keyCode).append("" + i);
-                String id = sb.toString();
-                Seat seat = this.seatRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Seat", "seat_id", id));
-                this.seatRepository.deleteById(seat.getId());
-            }
-
-        } else {
             for (Integer i = currentCapacity+1; i <= updatedCapacity; i++) {
                 StringBuilder sb = new StringBuilder();
                 sb.append("" + loc_id).append(keyCode).append("" + i);
                 String id = sb.toString();
                 Seat seat = new Seat(id, location);
                 this.seatRepository.save(seat);
-            }
+            }}
 
-        }
+
+
     }
 }

@@ -4,6 +4,7 @@ package com.example.SeatingManagement.Controller;
 import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.User;
 
+import com.example.SeatingManagement.Entity.UserRequestBody;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @PostMapping("/")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User newUser=this.userService.registerUser(user);
+    public ResponseEntity<User> registerUser(@RequestBody UserRequestBody userRequestBody) {
+        User newUser=this.userService.registerUser(userRequestBody);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     @GetMapping("/")

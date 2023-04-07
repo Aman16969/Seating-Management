@@ -26,7 +26,5 @@ public class Location {
     private Integer seatingCapacity;
     private String address;
 
-    @OneToMany(mappedBy = "location",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Seat> seat=new ArrayList<>();
+
 }

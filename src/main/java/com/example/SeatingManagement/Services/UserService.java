@@ -3,6 +3,7 @@ package com.example.SeatingManagement.Services;
 
 import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.User;
+import com.example.SeatingManagement.Entity.UserRequestBody;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
@@ -20,7 +21,16 @@ public class UserService {
     private LocationRepository locationRepository;
 
     //Create new User
-    public User registerUser(User user){
+    public User registerUser(UserRequestBody userRequestBody){
+        Integer loc_id=userRequestBody.getLocation();
+        Location location=this.locationRepository.findById(loc_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+loc_id));
+        String id=userRequestBody.getId();
+        String fname=userRequestBody.getFirstName();
+        String lname=userRequestBody.getLastName();
+        String phone_no=userRequestBody.getPhoneNumber();
+        String email=userRequestBody.getEmail();
+        String password=userRequestBody.getPassword();
+        User user=new User(id,email,fname,lname,password,phone_no,false,null,location);
         User newUser=this.userRepository.save(user);
         return newUser;
     }
