@@ -47,4 +47,5 @@ public class SeatController {
         List<Seat> seats = this.seatService.getSeatsByLocation(id);
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
+
 }

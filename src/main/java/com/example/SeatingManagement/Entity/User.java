@@ -49,7 +49,7 @@ public class User{
     @JoinColumn(name = "role_id",referencedColumnName = "id"))
     Set<Role> roles=new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
 

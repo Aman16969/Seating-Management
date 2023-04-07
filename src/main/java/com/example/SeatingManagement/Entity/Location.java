@@ -1,5 +1,6 @@
 package com.example.SeatingManagement.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,8 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,4 +25,8 @@ public class Location {
     private String name;
     private Integer seatingCapacity;
     private String address;
+
+    @OneToMany(mappedBy = "location",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Seat> seat=new ArrayList<>();
 }

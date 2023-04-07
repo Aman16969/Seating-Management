@@ -19,41 +19,79 @@ public class SeatService {
     private LocationRepository locationRepository;
 
     //Add new seat
-    public Seat addNewSeat(SeatRequestBody seatRequestBody){
+    public Seat addNewSeat(SeatRequestBody seatRequestBody) {
         Integer locationId = seatRequestBody.getLocation_id();
         String seatId = seatRequestBody.getId();
-        Location location=this.locationRepository.findById(locationId)
-                .orElseThrow(()-> new ResourceNotFound("Location", "location_id", seatId));
-        Seat seat=new Seat(seatId,location);
+        Location location = this.locationRepository.findById(locationId)
+                .orElseThrow(() -> new ResourceNotFound("Location", "location_id", seatId));
+        Seat seat = new Seat(seatId, location);
         Seat newSeat = this.seatRepository.save(seat);
         return newSeat;
     }
 
     //Get all seats
-    public List<Seat> getAllSeats(){
+    public List<Seat> getAllSeats() {
         List<Seat> allSeats = this.seatRepository.findAll();
-        return  allSeats;
+        return allSeats;
     }
 
     //Get specific seat by ID
-    public Seat getSeatById(String id){
+    public Seat getSeatById(String id) {
         Seat seat = this.seatRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFound("Seat", "seat_id", id));
+                .orElseThrow(() -> new ResourceNotFound("Seat", "seat_id", id));
         return seat;
     }
 
     //Delete a seat by id
-    public void deleteSeat(String id){
+    public void deleteSeat(String id) {
         Seat seat = this.seatRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFound("Seat", "seat_id", id));
+                .orElseThrow(() -> new ResourceNotFound("Seat", "seat_id", id));
         this.seatRepository.delete(seat);
     }
 
     //Get seats by location
-    public List<Seat> getSeatsByLocation(Integer id){
-        Location location=this.locationRepository.findById(id)
-                .orElseThrow(()-> new ResourceNotFound("Location", "location_id", String.valueOf(id)));
+    public List<Seat> getSeatsByLocation(Integer id) {
+        Location location = this.locationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("Location", "location_id", String.valueOf(id)));
         List<Seat> seats = (List<Seat>) this.seatRepository.findSeatsByLocationId(location);
         return seats;
+    }
+
+    public void generateSeat(Location location) {
+        Integer capacity = location.getSeatingCapacity();
+        String keyCode = location.getName().substring(0, 1).toUpperCase();
+        Integer loc_id = location.getId();
+        for (int i = 1; i <= capacity; i++) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("" + loc_id).append(keyCode).append("" + i);
+            String id = sb.toString();
+            Seat seat = new Seat(id, location);
+            this.seatRepository.save(seat);
+        }
+    }
+
+    public void updateSeatWhenUpdateLocation(Integer currentCapacity, Integer updatedCapacity, Location location) {
+        String keyCode = location.getName().substring(0, 1).toUpperCase();
+        Integer loc_id = location.getId();
+
+        if (updatedCapacity<currentCapacity) {
+            for (Integer i = updatedCapacity + 1; i <= currentCapacity; i++) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("" + loc_id).append(keyCode).append("" + i);
+                String id = sb.toString();
+                Seat seat = this.seatRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Seat", "seat_id", id));
+                this.seatRepository.deleteById(seat.getId());
+            }
+
+        } else {
+            for (Integer i = currentCapacity+1; i <= updatedCapacity; i++) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("" + loc_id).append(keyCode).append("" + i);
+                String id = sb.toString();
+                Seat seat = new Seat(id, location);
+                this.seatRepository.save(seat);
+            }
+
+        }
     }
 }

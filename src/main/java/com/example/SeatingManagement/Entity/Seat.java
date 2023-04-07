@@ -1,5 +1,5 @@
 package com.example.SeatingManagement.Entity;
-
+import javax.persistence.CascadeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ public class Seat {
     @Column(name="seat_id")
     private String id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
 }
