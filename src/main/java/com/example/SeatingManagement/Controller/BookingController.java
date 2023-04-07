@@ -14,6 +14,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/booking")
+@CrossOrigin
 public class BookingController {
 
     @Autowired
