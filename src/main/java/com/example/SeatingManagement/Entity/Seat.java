@@ -17,8 +17,8 @@ public class Seat {
     @Id
     @Column(name="seat_id")
     private String id;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "locations", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;
+
 }

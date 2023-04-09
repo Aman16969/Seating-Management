@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.Location;
+import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +20,26 @@ public class LocationController {
     private LocationService locationService;
 
     @PostMapping("/")
-    public ResponseEntity<Location> createLocation(@RequestBody Location location){
-        Location newLocation = this.locationService.createLocation(location);
+    public ResponseEntity<LocationDto> createLocation(@RequestBody LocationDto locationDto){
+        LocationDto newLocation = this.locationService.createLocation(locationDto);
         return new ResponseEntity<>(newLocation, HttpStatus.CREATED);
     }
     @GetMapping("/")
-    public ResponseEntity<List<Location>> getAllLocation(){
-        List<Location> allLocations = this.locationService.getAllLocation();
+    public ResponseEntity<List<LocationDto>> getAllLocations(){
+        List<LocationDto> allLocations = this.locationService.getAllLocations();
         return new ResponseEntity<>(allLocations, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Location> updateLocation(@RequestBody Location location, @PathVariable(value = "id") Integer id){
-        Location updatedLocation = this.locationService.updateLocation(location, id);
-        return new ResponseEntity<>(updatedLocation, HttpStatus.CREATED);
+    public ResponseEntity<LocationDto> updateLocationById(@RequestBody LocationDto locationDto, @PathVariable(value = "id") Integer id){
+        LocationDto updatedLocationDto = this.locationService.updateLocationById(locationDto,id);
+        return new ResponseEntity<>(updatedLocationDto, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public Location getLocationById(@PathVariable(value = "id") Integer id){
-        return this.locationService.getLocationById(id);
+    public ResponseEntity<LocationDto> getLocationById(@PathVariable(value = "id") Integer id){
+        LocationDto locationDto=this.locationService.getLocationById(id);
+        return new ResponseEntity<>(locationDto,HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteLocation(@PathVariable("id") Integer id) {

@@ -73,17 +73,17 @@ public class SeatService {
     public void updateSeatWhenUpdateLocation(Integer currentCapacity, Integer updatedCapacity, Location location) {
         String keyCode = location.getName().substring(0, 1).toUpperCase();
         Integer loc_id = location.getId();
-
-        if (updatedCapacity<currentCapacity) {
+        System.out.println(currentCapacity);
+        System.out.println(updatedCapacity);
+        if (updatedCapacity>currentCapacity) {
             for (Integer i = currentCapacity+1; i <= updatedCapacity; i++) {
+//                System.out.println(i);
                 StringBuilder sb = new StringBuilder();
                 sb.append("" + loc_id).append(keyCode).append("" + i);
                 String id = sb.toString();
                 Seat seat = new Seat(id, location);
                 this.seatRepository.save(seat);
             }}
-
-
 
     }
 }

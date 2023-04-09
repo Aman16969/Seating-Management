@@ -9,7 +9,9 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,12 +21,12 @@ import java.util.List;
 @Table(name="locations")
 public class Location {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name="location_name")
     private String name;
     private Integer seatingCapacity;
     private String address;
-
-
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Seat> seats = new HashSet<>();
 }
