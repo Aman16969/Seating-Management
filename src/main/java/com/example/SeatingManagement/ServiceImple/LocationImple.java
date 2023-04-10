@@ -2,6 +2,7 @@ package com.example.SeatingManagement.ServiceImple;
 
 import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.EntityRequestBody.LocationDto;
+import com.example.SeatingManagement.ExceptionHandling.IllegalArgument;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Services.LocationService;
@@ -27,8 +28,9 @@ public class LocationImple implements LocationService {
     public LocationDto createLocation(LocationDto locationDto) {
         Location location=this.modelMaper.map(locationDto,Location.class);
         Location newLocation=this.locationRepository.save(location);
-        this.seatService.generateSeat(newLocation);
-        return this.modelMaper.map(newLocation,LocationDto.class);
+        LocationDto newLocationDto=this.modelMaper.map(newLocation,LocationDto.class);
+        this.seatService.autoGenerateSeats(newLocationDto);
+        return newLocationDto;
     }
 
     @Override
@@ -51,14 +53,15 @@ public class LocationImple implements LocationService {
         Integer currentSeatCapacity=location.getSeatingCapacity();
         Integer newSeatCapacity=locationDto.getSeatingCapacity();
         if(newSeatCapacity<currentSeatCapacity) {
-            throw new IllegalArgumentException("Cannot decrease the seat capacity");
+            throw (new IllegalArgument("Seats",currentSeatCapacity,newSeatCapacity));
         }
         location.setName(locationDto.getName());
         location.setAddress(locationDto.getAddress());
         location.setSeatingCapacity(locationDto.getSeatingCapacity());
         Location updatedLocation=this.locationRepository.save(location);
-        this.seatService.updateSeatWhenUpdateLocation(currentSeatCapacity,newSeatCapacity,updatedLocation);
-        return this.modelMaper.map(updatedLocation,LocationDto.class);
+        LocationDto updatedLocationDto=this.modelMaper.map(updatedLocation,LocationDto.class);
+        this.seatService.autoUpdateExistingSeats(currentSeatCapacity,newSeatCapacity,updatedLocationDto);
+        return updatedLocationDto;
     }
 
     @Override

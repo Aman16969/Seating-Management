@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +21,7 @@ public class LocationController {
     private LocationService locationService;
 
     @PostMapping("/")
-    public ResponseEntity<LocationDto> createLocation(@RequestBody LocationDto locationDto){
+    public ResponseEntity<LocationDto> createLocation(@Valid @RequestBody LocationDto locationDto){
         LocationDto newLocation = this.locationService.createLocation(locationDto);
         return new ResponseEntity<>(newLocation, HttpStatus.CREATED);
     }
@@ -31,7 +32,7 @@ public class LocationController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<LocationDto> updateLocationById(@RequestBody LocationDto locationDto, @PathVariable(value = "id") Integer id){
+    public ResponseEntity<LocationDto> updateLocationById( @Valid @RequestBody LocationDto locationDto, @PathVariable(value = "id") Integer id){
         LocationDto updatedLocationDto = this.locationService.updateLocationById(locationDto,id);
         return new ResponseEntity<>(updatedLocationDto, HttpStatus.CREATED);
     }

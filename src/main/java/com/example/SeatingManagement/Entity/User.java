@@ -40,16 +40,11 @@ public class User{
     @Column(nullable = true)
     private String phoneNumber;
     private boolean isadmin=false;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="user_role",joinColumns =
-    @JoinColumn(name="user_id",referencedColumnName = "accolite_id"),
-    inverseJoinColumns =
-    @JoinColumn(name = "role_id",referencedColumnName = "id"))
-    Set<Role> roles=new HashSet<>();
+    private boolean isLoggedIn=false;
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "locations", referencedColumnName = "id")
+    @JoinColumn(name = "location", referencedColumnName = "id")
     private Location location;
+
 
 
 

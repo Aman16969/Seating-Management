@@ -5,9 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,11 +16,12 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookingDetail {
+public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Date date;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate date;
     @OneToOne
     @JoinColumn(name = "seats", referencedColumnName = "seat_id")
     private Seat seat;
@@ -31,7 +33,7 @@ public class BookingDetail {
     private Location location;
 
 
-    public BookingDetail(Date date, Seat seat, User user, Location location) {
+    public Booking(LocalDate date, Seat seat, User user, Location location) {
         this.date=date;
         this.location=location;
         this.user=user;

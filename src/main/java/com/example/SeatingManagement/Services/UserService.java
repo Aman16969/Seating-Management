@@ -1,77 +1,23 @@
 package com.example.SeatingManagement.Services;
 
 
-import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.Entity.User;
-import com.example.SeatingManagement.Entity.UserRequestBody;
-import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
-import com.example.SeatingManagement.Repository.LocationRepository;
-import com.example.SeatingManagement.Repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.SeatingManagement.EntityRequestBody.LocationDto;
+import com.example.SeatingManagement.EntityRequestBody.UserDto;
+import com.example.SeatingManagement.utils.UserBody;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public interface UserService {
+    UserDto registerUser(UserBody userBody);
+    UserDto updateUserById(String id,UserBody userBody);
+    UserDto getUserById(String id);
+    void deleteUserById(String id);
+    List<UserDto>getAllUser();
+    LocationDto getLocationOfUserById(String id);
+    UserDto setLocationOfUser(String id,Integer location_id);
 
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private LocationRepository locationRepository;
-
-    //Create new User
-    public User registerUser(UserRequestBody userRequestBody){
-        Integer loc_id=userRequestBody.getLocation();
-        Location location=this.locationRepository.findById(loc_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+loc_id));
-        String id=userRequestBody.getId();
-        String fname=userRequestBody.getFirstName();
-        String lname=userRequestBody.getLastName();
-        String phone_no=userRequestBody.getPhoneNumber();
-        String email=userRequestBody.getEmail();
-        String password=userRequestBody.getPassword();
-        User user=new User(id,email,fname,lname,password,phone_no,false,null,location);
-        User newUser=this.userRepository.save(user);
-        return newUser;
-    }
-//    Update User partially
-    public User updateUser(User user,String id){
-        User newUser=this.userRepository.findById(id).map(u -> {
-            u.setPhoneNumber(user.getPhoneNumber());
-            return userRepository.save(u);
-        }).orElseThrow(()->new ResourceNotFound("User","user_id",id));
-        return newUser;
-    }
-    //delete User
-    public void deleteUser(String id){
-        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","user_id",id));
-        this.userRepository.delete(user);
-
-    }
-//    Get all user
-    public List<User> getAllUsers(){
-        List<User> allUsers=this.userRepository.findAll();
-        return allUsers;
-    }
-//    Get user by id
-    public User getUserById(String id){
-       User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","user_id",id));
-       return user;
-
-    }
-//    set user location
-    public  User setLocation(String id,Integer location_id){
-        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));
-        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","user_id",id));
-        user.setLocation(location);
-        User updatedUser=this.userRepository.save(user);
-        return updatedUser;
-    }
-
-    public Location getUserLocation(String id){
-        Location location=this.userRepository.findLocationByUserId(id);
-        return location;
-    }
 
 
 }

@@ -26,6 +26,7 @@ public class LocationDto {
     private String address;
     @NotNull
     private Integer seatingCapacity;
+
     private List<User> user=new ArrayList<>();
     private Set<Seat> seat=new HashSet<>();
 }

@@ -1,8 +1,6 @@
 package com.example.SeatingManagement.Controller;
 
-import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.Entity.Seat;
-import com.example.SeatingManagement.Entity.SeatRequestBody;
+import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,32 +19,32 @@ public class SeatController {
     private SeatService seatService;
 
     @PostMapping("/")
-    public ResponseEntity<Seat> addNewSeat(@RequestBody SeatRequestBody seatRequestBody){
-        Seat newSeat = this.seatService.addNewSeat(seatRequestBody);
+    public ResponseEntity<SeatDto> addNewSeat( @Valid @RequestBody SeatDto seatDto){
+        SeatDto newSeat = this.seatService.addNewSeat(seatDto);
         return new ResponseEntity<>(newSeat, HttpStatus.OK);
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Seat>> getAllSeats(){
-        List<Seat> allSeats = this.seatService.getAllSeats();
+    public ResponseEntity<List<SeatDto>> getAllSeat(){
+        List<SeatDto> allSeats = this.seatService.getAllSeats();
         return new ResponseEntity<>(allSeats, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Seat> getSeatById(@PathVariable("id") String id){
-        Seat seat = this.seatService.getSeatById(id);
-        return new ResponseEntity<>(seat, HttpStatus.OK);
+    public ResponseEntity<SeatDto> getSeatById(@PathVariable("id") String id){
+        SeatDto seatDto = this.seatService.getSeatById(id);
+        return new ResponseEntity<>(seatDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteSeat(@PathVariable("id") String id){
-        this.seatService.deleteSeat(id);
+        this.seatService.deleteSeatById(id);
         return new ResponseEntity<ApiResponse>(new ApiResponse("Seat deleted successfully", true), HttpStatus.OK);
     }
 
     @GetMapping("/location/{id}")
-    public ResponseEntity<List<Seat>> getSeatsByLocation(@PathVariable("id") Integer id){
-        List<Seat> seats = this.seatService.getSeatsByLocation(id);
+    public ResponseEntity<List<SeatDto>> getSeatsByLocation(@PathVariable("id") Integer id){
+        List<SeatDto> seats = this.seatService.getSeatsByLocation(id);
         return new ResponseEntity<>(seats, HttpStatus.OK);
     }
 
