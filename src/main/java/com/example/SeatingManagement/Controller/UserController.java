@@ -22,13 +22,14 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/")
-    @PreAuthorize("hasAnyAuthority('USER')")
+//    @PreAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserBody userBody) {
+        System.out.println("hi");
         UserDto newUser=this.userService.registerUser(userBody);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     @GetMapping("/")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<UserDto>> allUsers(){
         List<UserDto> allUser=this.userService.getAllUser();
         return new ResponseEntity<>(allUser,HttpStatus.OK);

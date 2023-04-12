@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +27,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String a=bCryptPasswordEncoder.encode("Aman@16969");
+        System.out.println(a);
         try{
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
             User user = (User) authentication.getPrincipal();
             String accessToken = jwtTokenUtil.generateAccessToken(user);
             AuthResponse authResponse = new AuthResponse(user.getEmail(), accessToken);
+            System.out.println(authResponse);
             return new ResponseEntity<>(authResponse, HttpStatus.OK);
         }
         catch (BadCredentialsException ex){

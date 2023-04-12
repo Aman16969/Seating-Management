@@ -9,7 +9,6 @@ import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.UserService;
 import com.example.SeatingManagement.utils.UserBody;
-import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
