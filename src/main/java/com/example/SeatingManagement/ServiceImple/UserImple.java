@@ -12,6 +12,7 @@ import com.example.SeatingManagement.utils.UserBody;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,15 +28,16 @@ public class UserImple implements UserService {
     private ModelMapper modelMapper;
     @Override
     public UserDto registerUser(UserBody userBody) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String id=userBody.getId();
         String fname=userBody.getFirstName();
         String lname=userBody.getLastName();
         String email=userBody.getEmail();
-        String password=userBody.getPassword();
+        String password=bCryptPasswordEncoder.encode(userBody.getPassword());
         String phoneNo=userBody.getPhoneNumber();
         Integer location_id=userBody.getLocation();
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
-        UserDto newUserDto=new UserDto(id,email,fname,lname,password,phoneNo,false,false,location);
+        UserDto newUserDto=new UserDto(id,email,fname,lname,phoneNo,location,1,"USER",password);
         User user=this.modelMapper.map(newUserDto,User.class);
         System.out.println(user);
         User createdUser=this.userRepository.save(user);
