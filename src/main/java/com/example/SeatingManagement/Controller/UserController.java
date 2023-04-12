@@ -9,6 +9,7 @@ import com.example.SeatingManagement.utils.UserBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,16 +22,19 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/")
+    @PreAuthorize("hasAnyAuthority('USER')")
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserBody userBody) {
         UserDto newUser=this.userService.registerUser(userBody);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     @GetMapping("/")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<List<UserDto>> allUsers(){
         List<UserDto> allUser=this.userService.getAllUser();
         return new ResponseEntity<>(allUser,HttpStatus.OK);
     }
     @GetMapping("/{user_id}")
+    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
     public ResponseEntity<UserDto> userById(@PathVariable("user_id") String user_id){
         UserDto user=this.userService.getUserById(user_id);
         return ResponseEntity.ok(user);
