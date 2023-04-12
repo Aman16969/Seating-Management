@@ -10,7 +10,7 @@ public class IllegalArgument extends IllegalArgumentException{
     Integer curr;
     Integer updated;
     public IllegalArgument(String resourceName, Integer curr, Integer updated) {
-        super(String.format(" %s Cannot Decrease from  %i  to %i",resourceName,curr,updated));
+        super(String.format(" %s Cannot Decrease from  %d  to %d",resourceName,curr,updated));
         this.resourceName = resourceName;
         this.curr = curr;
         this.updated = updated;

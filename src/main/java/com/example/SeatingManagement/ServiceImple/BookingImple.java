@@ -5,6 +5,7 @@ import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.Seat;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
+import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.BookingRepository;
 import com.example.SeatingManagement.Repository.LocationRepository;
@@ -91,6 +92,15 @@ public class BookingImple implements BookingServices {
         List<BookingDto> allBookingDto=allBookingsByLocation.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
         return allBookingDto;
     }
+
+    @Override
+    public List<SeatDto> allAvailableSeats(Integer location_id, LocalDate date) {
+        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));
+        List<Seat> availabeSeats=this.bookingRepository.findAvailableSeatsByLocationAndDate(location,date);
+        List<SeatDto> availableSeatsDto=availabeSeats.stream().map((e)->this.modelMapper.map(e,SeatDto.class)).collect(Collectors.toList());
+        return availableSeatsDto;
+    }
+
     @Override
     public List<BookingDto> getAllBookingByDateAndLocation(LocalDate date, Integer location_id) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));

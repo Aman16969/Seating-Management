@@ -58,7 +58,8 @@ public class UserImple implements UserService {
     @Override
     public void deleteUserById(String id) {
         User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",id));
-        this.userRepository.delete(user);
+        this.userRepository.deleteUserById(id);
+
 
     }
 

@@ -2,6 +2,7 @@ package com.example.SeatingManagement.Services;
 
 import com.example.SeatingManagement.Entity.*;
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
+import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.BookingRepository;
 import com.example.SeatingManagement.Repository.LocationRepository;
@@ -26,5 +27,6 @@ public interface BookingServices {
     List<BookingDto> getAllBookingByDateAndLocation(LocalDate date,Integer location_id);
     List<BookingDto> getAllBookingByLocation(Integer location_id);
 
+    List<SeatDto> allAvailableSeats(Integer location_id,LocalDate date);
 
 }

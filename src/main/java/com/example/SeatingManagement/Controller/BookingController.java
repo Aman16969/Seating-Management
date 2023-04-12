@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
+import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.BookingBody;
@@ -39,6 +40,11 @@ public class BookingController {
         List<BookingDto> allBookingsByLocation=this.bookingServices.getAllBookingByLocation(location_id);
         return new ResponseEntity<>(allBookingsByLocation,HttpStatus.OK);
     }
+    @GetMapping("/user")
+    public ResponseEntity<List<BookingDto>> getBookingsByUser(@RequestParam("user") String user_id) {
+        List<BookingDto> allBookingsByUser=this.bookingServices.getAllBookingByUser(user_id);
+        return new ResponseEntity<>(allBookingsByUser,HttpStatus.OK);
+    }
     @GetMapping("/locationAndDate")
     public ResponseEntity<List<BookingDto>> getBookingsByDate( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,@RequestParam("location") Integer location_id) {
 
@@ -50,6 +56,10 @@ public class BookingController {
         List<BookingDto> allBookingsByDate=this.bookingServices.getAllBookingByDate(date);
         return new ResponseEntity<>(allBookingsByDate,HttpStatus.OK);
     }
+    @GetMapping("/availabe/locationAndDate")
+    public ResponseEntity<List<SeatDto>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
 
-//    @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+        List<SeatDto> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
+        return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
+    }
 }
