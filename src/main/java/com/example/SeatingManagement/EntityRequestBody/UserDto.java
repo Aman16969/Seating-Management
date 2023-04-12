@@ -2,7 +2,7 @@ package com.example.SeatingManagement.EntityRequestBody;
 
 
 import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.Entity.Role;
+
 import com.example.SeatingManagement.Entity.Seat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,11 +24,11 @@ public class UserDto {
     private String email;
     private String firstName;
     private String lastName;
-    private String password;
     private String phoneNumber;
-    private boolean isAdmin=false;
-    private boolean isLoggedIn=false;
     private Location location;
+    private Integer isActive = 1;
+    private String role = "USER";
+    private String password;
 
 
 
