@@ -31,6 +31,7 @@ public class LocationController {
         return new ResponseEntity<>(allLocations, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<LocationDto> updateLocationById( @Valid @RequestBody LocationDto locationDto, @PathVariable(value = "id") Integer id){
         LocationDto updatedLocationDto = this.locationService.updateLocationById(locationDto,id);

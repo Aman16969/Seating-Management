@@ -49,12 +49,12 @@ public class SpringSecurityConfiguration {
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable();
+        httpSecurity.cors().and().csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/api/user/").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
         httpSecurity.exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> {
