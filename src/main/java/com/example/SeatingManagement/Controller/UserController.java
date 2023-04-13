@@ -23,9 +23,8 @@ public class UserController {
     private UserService userService;
     @PostMapping("/")
 //    @PreAuthorize("hasAnyAuthority('USER')")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserBody userBody) {
-        System.out.println("hi");
-        UserDto newUser=this.userService.registerUser(userBody);
+    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
+        UserDto newUser=this.userService.registerUser(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
     @GetMapping("/")
@@ -35,34 +34,27 @@ public class UserController {
         return new ResponseEntity<>(allUser,HttpStatus.OK);
     }
     @GetMapping("/{user_id}")
-    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
-    public ResponseEntity<UserDto> userById(@PathVariable("user_id") String user_id){
+//    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    public ResponseEntity<UserDto> userById(@PathVariable("user_id") Integer user_id){
         UserDto user=this.userService.getUserById(user_id);
         return ResponseEntity.ok(user);
     }
     @DeleteMapping("/{user_id}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("user_id") String user_id){
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("user_id") Integer user_id){
         this.userService.deleteUserById(user_id);
         return  new ResponseEntity<ApiResponse>( new ApiResponse("User deleted Successfully",true),HttpStatus.OK);
-
     }
     @PutMapping("/{user_id}")
-    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserBody userBody,@PathVariable String user_id){
-        UserDto updatedUser=this.userService.updateUserById(user_id,userBody);
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable Integer user_id){
+        UserDto updatedUser=this.userService.updateUserById(user_id,userDto);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
 
     }
-    @PostMapping("/{user_id}/location/{location_id}")
-    public ResponseEntity<UserDto> setLocation(@PathVariable String user_id,@PathVariable Integer location_id){
-        UserDto user=this.userService.setLocationOfUser(user_id,location_id);
-        return ResponseEntity.ok(user);
-    }
 
-
-    @GetMapping("/locationOfUser/{id}")
-    public ResponseEntity<LocationDto> findLocationOfUser(@PathVariable String id){
-        LocationDto location=this.userService.getLocationOfUserById(id);
-        return ResponseEntity.ok(location);
+    @GetMapping("/findByEmail/{email}")
+    public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email){
+        UserDto userDto=this.userService.getUserByEmail(email);
+        return ResponseEntity.ok(userDto);
     }
 
 }

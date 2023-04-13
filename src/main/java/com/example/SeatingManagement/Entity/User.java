@@ -28,28 +28,22 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
-    @Column(name="accolite_id")
-    private String id;
-    @Email(message = "Email should be of email type")
-    @Column(name="accolite_email")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="user_id")
+    private Integer id;
+    private String accoliteId;
     private String email;
     private String firstName;
     private String lastName;
-    @Pattern(regexp = "^\\d{10}$",message = "Invalid phone number")
-    @Column(nullable = true)
-    private String phoneNumber;
     private String role = "USER";
-    @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "location",nullable = false)
-    private Location location;
-    private Integer isActive = 1;
-    private String password;
-
+    private String password="password";
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
         authorityList.add(new SimpleGrantedAuthority("USER"));
-//        authorityList.add(new SimpleGrantedAuthority("ADMIN"));
+        if(this.role.equals("ADMIN")){
+            authorityList.add(new SimpleGrantedAuthority("ADMIN"));
+        }
         return authorityList;
     }
 

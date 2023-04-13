@@ -40,10 +40,10 @@ public class BookingImple implements BookingServices {
     @Override
     public BookingDto createNewBooking(BookingBody bookingBody) {
         Integer location_id=bookingBody.getLocation_id();
-        String user_id=bookingBody.getUser_id();
+        Integer user_id= Integer.valueOf(bookingBody.getUser_id());
         String seat_id=bookingBody.getSeat_id();
         LocalDate date=bookingBody.getDate();
-        User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",user_id));
+        User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",""+user_id));
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         Seat seat=this.seatRepository.findById(seat_id).orElseThrow(()->new ResourceNotFound("Seat","Seat_id",seat_id));
         Booking booking=new Booking(date,seat,user,location);
@@ -71,9 +71,11 @@ public class BookingImple implements BookingServices {
        return allBookingDto;
     }
 
+
+
     @Override
-    public List<BookingDto> getAllBookingByUser(String user_id) {
-        User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",user_id));
+    public List<BookingDto> getAllBookingByUser(Integer user_id) {
+        User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",""+user_id));
         List<Booking> allBookingsByUser=this.bookingRepository.findByUser(user);
         List<BookingDto> allBookingDto=allBookingsByUser.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
         return allBookingDto;

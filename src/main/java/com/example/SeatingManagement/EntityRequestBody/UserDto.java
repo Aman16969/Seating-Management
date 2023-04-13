@@ -20,16 +20,13 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private String id;
+
+    private Integer id;
+    private String accoliteId;
     private String email;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
-    private Location location;
-    private Integer isActive = 1;
-    private String role = "USER";
+    private String role ;
     private String password;
-
-
 
 }

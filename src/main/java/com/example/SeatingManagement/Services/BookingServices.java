@@ -22,7 +22,7 @@ public interface BookingServices {
     BookingDto updateExistingBooking(BookingBody bookingBody);
     void deleteBookingOfUserById(Integer id);
     List<BookingDto> getAllBooking();
-    List<BookingDto> getAllBookingByUser(String user_id);
+    List<BookingDto> getAllBookingByUser(Integer user_id);
     List<BookingDto> getAllBookingByDate(LocalDate date);
     List<BookingDto> getAllBookingByDateAndLocation(LocalDate date,Integer location_id);
     List<BookingDto> getAllBookingByLocation(Integer location_id);

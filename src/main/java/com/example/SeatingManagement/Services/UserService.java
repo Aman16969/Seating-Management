@@ -10,13 +10,15 @@ import java.util.List;
 
 @Service
 public interface UserService {
-    UserDto registerUser(UserBody userBody);
-    UserDto updateUserById(String id,UserBody userBody);
-    UserDto getUserById(String id);
-    void deleteUserById(String id);
+    UserDto registerUser(UserDto userDto);
+
+
+    UserDto updateUserById(Integer id, UserDto userDto);
+    UserDto getUserById(Integer id);
+    void deleteUserById(Integer id);
     List<UserDto>getAllUser();
-    LocationDto getLocationOfUserById(String id);
-    UserDto setLocationOfUser(String id,Integer location_id);
+    UserDto getUserByEmail(String email);
+
 
 
 

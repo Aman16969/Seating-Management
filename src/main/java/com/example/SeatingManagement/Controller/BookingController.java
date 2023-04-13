@@ -41,7 +41,7 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByLocation,HttpStatus.OK);
     }
     @GetMapping("/user")
-    public ResponseEntity<List<BookingDto>> getBookingsByUser(@RequestParam("user") String user_id) {
+    public ResponseEntity<List<BookingDto>> getBookingsByUser(@RequestParam("user") Integer user_id) {
         List<BookingDto> allBookingsByUser=this.bookingServices.getAllBookingByUser(user_id);
         return new ResponseEntity<>(allBookingsByUser,HttpStatus.OK);
     }

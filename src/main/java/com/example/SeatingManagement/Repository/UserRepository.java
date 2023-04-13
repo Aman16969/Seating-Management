@@ -12,12 +12,10 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,String> {
+public interface UserRepository extends JpaRepository<User,Integer> {
 
 Optional<User> findByEmail(String email);
 
-    @Query("SELECT u.location FROM User u WHERE u.id = :id")
-    Location findLocationByUserId(@Param("id") String userId);
 
     @Transactional
     @Modifying

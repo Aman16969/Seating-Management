@@ -29,7 +29,4 @@ public class Location {
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Seat> seats = new HashSet<>();
-    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private Set<User> users = new HashSet<>();
 }

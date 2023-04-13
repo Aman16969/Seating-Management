@@ -1,8 +1,6 @@
 package com.example.SeatingManagement.ServiceImple;
 
-import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.User;
-import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
@@ -25,41 +23,35 @@ public class UserImple implements UserService {
     private LocationRepository locationRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Override
-    public UserDto registerUser(UserBody userBody) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String id=userBody.getId();
-        String fname=userBody.getFirstName();
-        String lname=userBody.getLastName();
-        String email=userBody.getEmail();
-        String password=bCryptPasswordEncoder.encode(userBody.getPassword());
-        String phoneNo=userBody.getPhoneNumber();
-        Integer location_id=userBody.getLocation();
-        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
-        UserDto newUserDto=new UserDto(id,email,fname,lname,phoneNo,location,1,"USER",password);
-        User user=this.modelMapper.map(newUserDto,User.class);
-        System.out.println(user);
-        User createdUser=this.userRepository.save(user);
 
+
+    @Override
+    public UserDto registerUser(UserDto userDto) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String password=bCryptPasswordEncoder.encode("password");
+       userDto.setPassword(password);
+        userDto.setRole("USER");
+        User user=this.modelMapper.map(userDto,User.class);
+        User createdUser=this.userRepository.save(user);
         return this.modelMapper.map(createdUser,UserDto.class);
     }
 
     @Override
-    public UserDto updateUserById(String id, UserBody userBody) {
+    public UserDto updateUserById(Integer id, UserDto userDto) {
         return null;
     }
 
     @Override
-    public UserDto getUserById(String id) {
-        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",id));
+    public UserDto getUserById(Integer id) {
+        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",""+id));
         UserDto userDto=this.modelMapper.map(user,UserDto.class);
         return userDto;
     }
 
     @Override
-    public void deleteUserById(String id) {
-        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",id));
-        this.userRepository.deleteUserById(id);
+    public void deleteUserById(Integer id) {
+        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",""+id));
+        this.userRepository.delete(user);
 
 
     }
@@ -70,19 +62,27 @@ public class UserImple implements UserService {
         List<UserDto> allUsers=users.stream().map((e)->this.modelMapper.map(e,UserDto.class)).collect(Collectors.toList());
         return allUsers;
     }
+//    @Override
+//    public LocationDto getLocationOfUserById(String id) {
+//        Location location=this.userRepository.findLocationByUserId(id);
+//        LocationDto locationDto=this.modelMapper.map(location,LocationDto.class);
+//        return locationDto;
+//    }
+
     @Override
-    public LocationDto getLocationOfUserById(String id) {
-        Location location=this.userRepository.findLocationByUserId(id);
-        LocationDto locationDto=this.modelMapper.map(location,LocationDto.class);
-        return locationDto;
-    }
-    @Override
-    public UserDto setLocationOfUser(String id, Integer location_id) {
-        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));
-        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",id));
-        user.setLocation(location);
-        User updatedUser=this.userRepository.save(user);
-        UserDto userDto=this.modelMapper.map(updatedUser,UserDto.class);
+    public UserDto getUserByEmail(String email) {
+        User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("User","email",email));
+        UserDto userDto=this.modelMapper.map(user,UserDto.class);
         return userDto;
     }
+
+//    @Override
+//    public UserDto setLocationOfUser(String id, Integer location_id) {
+//        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));
+//        User user=this.userRepository.findById(id).orElseThrow(()->new ResourceNotFound("User","User_id",id));
+//        user.setLocation(location);
+//        User updatedUser=this.userRepository.save(user);
+//        UserDto userDto=this.modelMapper.map(updatedUser,UserDto.class);
+//        return userDto;
+//    }
 }

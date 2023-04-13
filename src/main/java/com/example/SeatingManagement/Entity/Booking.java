@@ -26,12 +26,11 @@ public class Booking {
     @JoinColumn(name = "seats", referencedColumnName = "seat_id")
     private Seat seat;
     @OneToOne
-    @JoinColumn(name = "users", referencedColumnName = "accolite_id")
+    @JoinColumn(name = "users", referencedColumnName = "user_id")
     private User user;
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-
 
     public Booking(LocalDate date, Seat seat, User user, Location location) {
         this.date=date;
