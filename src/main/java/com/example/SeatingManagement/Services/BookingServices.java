@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface BookingServices {
@@ -24,9 +25,9 @@ public interface BookingServices {
     List<BookingDto> getAllBooking();
     List<BookingDto> getAllBookingByUser(Integer user_id);
     List<BookingDto> getAllBookingByDate(LocalDate date);
-    List<BookingDto> getAllBookingByDateAndLocation(LocalDate date,Integer location_id);
+    Map<String,String> getAllBookingByDateAndLocation(LocalDate date, Integer location_id);
     List<BookingDto> getAllBookingByLocation(Integer location_id);
 
-    List<SeatDto> allAvailableSeats(Integer location_id,LocalDate date);
+    Map<String,String> allAvailableSeats(Integer location_id,LocalDate date);
 
 }

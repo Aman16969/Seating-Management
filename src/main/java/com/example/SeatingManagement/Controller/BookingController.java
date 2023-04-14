@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/booking")
@@ -46,9 +47,9 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByUser,HttpStatus.OK);
     }
     @GetMapping("/locationAndDate")
-    public ResponseEntity<List<BookingDto>> getBookingsByDate( @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,@RequestParam("location") Integer location_id) {
+    public ResponseEntity<Map<String,String>> getBookingsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("location") Integer location_id) {
 
-        List<BookingDto> allBookingsByDateAndLocation=this.bookingServices.getAllBookingByDateAndLocation(date,location_id);
+        Map<String,String> allBookingsByDateAndLocation=this.bookingServices.getAllBookingByDateAndLocation(date,location_id);
         return new ResponseEntity<>(allBookingsByDateAndLocation,HttpStatus.OK);
     }
     @GetMapping("/date")
@@ -57,9 +58,9 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByDate,HttpStatus.OK);
     }
     @GetMapping("/availabe/locationAndDate")
-    public ResponseEntity<List<SeatDto>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
+    public ResponseEntity<Map<String,String>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
 
-        List<SeatDto> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
+        Map<String,String> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
         return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
     }
 }

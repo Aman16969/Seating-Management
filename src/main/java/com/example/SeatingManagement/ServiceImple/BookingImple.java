@@ -98,15 +98,20 @@ public class BookingImple implements BookingServices {
     }
 
     @Override
-    public List<SeatDto> allAvailableSeats(Integer location_id, LocalDate date) {
+    public Map<String,String> allAvailableSeats(Integer location_id, LocalDate date) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));
         List<Seat> availabeSeats=this.bookingRepository.findAvailableSeatsByLocationAndDate(location,date);
-        List<SeatDto> availableSeatsDto=availabeSeats.stream().map((e)->this.modelMapper.map(e,SeatDto.class)).collect(Collectors.toList());
-        return availableSeatsDto;
+        Map<String,String> availableseat=new HashMap<>();
+        for(Seat seat:availabeSeats){
+            String seatId=seat.getId();
+            String seatName=seat.getName();
+            availableseat.put(seatId,seatName);
+        }
+        return availableseat;
     }
 
     @Override
-    public List<BookingDto> getAllBookingByDateAndLocation(LocalDate date, Integer location_id) {
+    public Map<String,String> getAllBookingByDateAndLocation(LocalDate date, Integer location_id) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(date,location);
         Map<String,String> bookedSeat=new HashMap<>();
@@ -115,10 +120,7 @@ public class BookingImple implements BookingServices {
             String seatName=booking.getSeat().getName();
             bookedSeat.put(seatId,seatName);
         }
-
-
-        List<BookingDto> allBookingDto=allBookingsByLocationAndDate.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
-        return allBookingDto;
+        return bookedSeat;
     }
 
 

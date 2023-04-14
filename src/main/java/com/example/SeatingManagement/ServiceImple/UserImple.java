@@ -59,13 +59,16 @@ public class UserImple implements UserService {
         if(user.isEmpty()) {
             BCryptPasswordEncoder b=new BCryptPasswordEncoder();
             String password= b.encode("password");
-            UserDto userDto = new UserDto(null, map.get("email"), map.get("given_name"), map.get("family_name"), "USER",password);
-            System.out.println(userDto);
-            User newuser = this.modelMapper.map(userDto, User.class);
-            this.userRepository.save(newuser);
+            User newuser=new User();
+            newuser.setEmail(map.get("email"));
+            newuser.setFirstName(map.get("given_name"));
+            newuser.setLastName(map.get("family_name"));
+            newuser.setPassword(password);
+//            UserDto userDto = new UserDto(null, map.get("email"), map.get("given_name"), map.get("family_name"), "USER",password);
+//            System.out.println(userDto);
+            User nuser = this.modelMapper.map(newuser, User.class);
+            this.userRepository.save(nuser);
         }
-
-
         return map.get("email");
     }
 
