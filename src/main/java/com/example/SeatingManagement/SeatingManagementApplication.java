@@ -16,8 +16,4 @@ public class SeatingManagementApplication  {
 	public ModelMapper modelMapper(){
 		return new ModelMapper();
 	}
-
-
-
-
 }

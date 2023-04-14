@@ -20,11 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-<<<<<<< HEAD
-
     private Integer id;
-=======
->>>>>>> e6f24982210927902b376b43dd9252701787f6d4
     private String accoliteId;
     private String email;
     private String firstName;

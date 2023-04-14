@@ -5,7 +5,6 @@ import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.Seat;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
-import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.BookingRepository;
 import com.example.SeatingManagement.Repository.LocationRepository;
@@ -13,13 +12,12 @@ import com.example.SeatingManagement.Repository.SeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.BookingBody;
-import lombok.Setter;
+import com.example.SeatingManagement.utils.BookingResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +38,7 @@ public class BookingImple implements BookingServices {
     private ModelMapper modelMapper;
 
     @Override
-    public BookingDto createNewBooking(BookingBody bookingBody) {
+    public BookingResponse createNewBooking(BookingBody bookingBody) {
         Integer location_id=bookingBody.getLocation_id();
         Integer user_id= Integer.valueOf(bookingBody.getUser_id());
         String seat_id=bookingBody.getSeat_id();
@@ -49,9 +47,14 @@ public class BookingImple implements BookingServices {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         Seat seat=this.seatRepository.findById(seat_id).orElseThrow(()->new ResourceNotFound("Seat","Seat_id",seat_id));
         Booking booking=new Booking(date,seat,user,location);
+        if(this.bookingRepository.isSeatBookedOnThatDate(seat, date)==1){
+            return new BookingResponse(0, "This seat was already taken.");
+        }
+        if(this.bookingRepository.isUserBookedOnThatDate(user, date)==1){
+            return new BookingResponse(0, "You already made booking for this date.");
+        }
         Booking newBooking=this.bookingRepository.save(booking);
-        return this.modelMapper.map(newBooking,BookingDto.class);
-
+        return new BookingResponse(1, "Booking Successful");
     }
 
     @Override
@@ -113,7 +116,7 @@ public class BookingImple implements BookingServices {
     @Override
     public Integer isBookedOrNot(Integer userId, LocalDate date) {
         User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User","user_id",""+userId));
-        Integer isBookedOrNot = this.bookingRepository.isBookedOrNot(user, date);
+        Integer isBookedOrNot = this.bookingRepository.isUserBookedOnThatDate(user, date);
         return isBookedOrNot;
     }
 

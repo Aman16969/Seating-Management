@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -25,5 +24,8 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     List<Seat> findAvailableSeatsByLocationAndDate(@Param("location") Location location, @Param("date") LocalDate date);
 
     @Query("SELECT count(*) from Booking b where b.user = :user AND b.date = :date")
-    Integer isBookedOrNot(@Param("user") User user, @Param("date") LocalDate date);
+    Integer isUserBookedOnThatDate(@Param("user") User user, @Param("date") LocalDate date);
+
+    @Query("SELECT count(*) from Booking b where b.seat = :seat AND b.date = :date")
+    Integer isSeatBookedOnThatDate(@Param("seat") Seat seat, @Param("date") LocalDate date);
 }
