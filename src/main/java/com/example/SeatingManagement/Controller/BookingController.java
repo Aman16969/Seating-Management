@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -58,8 +59,13 @@ public class BookingController {
     }
     @GetMapping("/availabe/locationAndDate")
     public ResponseEntity<List<SeatDto>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
-
         List<SeatDto> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
         return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
+    }
+
+    @GetMapping("/bookedOrNotOnDate")
+    public ResponseEntity<Integer> isUserBookedSeatOrNotOnDate(@RequestParam("user") Integer user_id, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        Integer isBookedOrNot = this.bookingServices.isBookedOrNot(user_id, date);
+        return new ResponseEntity<>(isBookedOrNot, HttpStatus.OK);
     }
 }

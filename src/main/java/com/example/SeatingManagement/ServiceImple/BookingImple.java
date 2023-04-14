@@ -106,6 +106,13 @@ public class BookingImple implements BookingServices {
     }
 
     @Override
+    public Integer isBookedOrNot(Integer userId, LocalDate date) {
+        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User","user_id",""+userId));
+        Integer isBookedOrNot = this.bookingRepository.isBookedOrNot(user, date);
+        return isBookedOrNot;
+    }
+
+    @Override
     public List<BookingDto> getAllBookingByDateAndLocation(LocalDate date, Integer location_id) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(date,location);
