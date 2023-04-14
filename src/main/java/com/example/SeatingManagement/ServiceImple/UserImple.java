@@ -7,12 +7,18 @@ import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.UserService;
 import com.example.SeatingManagement.utils.UserBody;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +40,33 @@ public class UserImple implements UserService {
         User user=this.modelMapper.map(userDto,User.class);
         User createdUser=this.userRepository.save(user);
         return this.modelMapper.map(createdUser,UserDto.class);
+    }
+
+    @Override
+    public String decodeGoogleToken(String token) {
+        String[] chunks = token.split("\\.");
+        String payload = new String(Base64.decodeBase64(chunks[1]));
+        Map<String, String> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            map = mapper.readValue(payload, new TypeReference<Map<String, String>>() {
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Optional<User> user=this.userRepository.findByEmail(map.get("email"));
+        if(user.isEmpty()) {
+            BCryptPasswordEncoder b=new BCryptPasswordEncoder();
+            String password= b.encode("password");
+            UserDto userDto = new UserDto(null, map.get("email"), map.get("given_name"), map.get("family_name"), "USER",password);
+            System.out.println(userDto);
+            User newuser = this.modelMapper.map(userDto, User.class);
+            this.userRepository.save(newuser);
+        }
+
+
+        return map.get("email");
     }
 
     @Override

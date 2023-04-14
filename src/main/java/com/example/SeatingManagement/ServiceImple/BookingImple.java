@@ -20,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,6 +109,14 @@ public class BookingImple implements BookingServices {
     public List<BookingDto> getAllBookingByDateAndLocation(LocalDate date, Integer location_id) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(date,location);
+        Map<String,String> bookedSeat=new HashMap<>();
+        for(Booking booking:allBookingsByLocationAndDate){
+            String seatId=booking.getSeat().getId();
+            String seatName=booking.getSeat().getName();
+            bookedSeat.put(seatId,seatName);
+        }
+
+
         List<BookingDto> allBookingDto=allBookingsByLocationAndDate.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
         return allBookingDto;
     }
