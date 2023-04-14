@@ -10,6 +10,7 @@ import com.example.SeatingManagement.Repository.SeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.utils.BookingBody;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,5 +30,7 @@ public interface BookingServices {
     List<BookingDto> getAllBookingByLocation(Integer location_id);
 
     Map<String,String> allAvailableSeats(Integer location_id,LocalDate date);
+
+    Integer isBookedOrNot(Integer userId, LocalDate date);
 
 }

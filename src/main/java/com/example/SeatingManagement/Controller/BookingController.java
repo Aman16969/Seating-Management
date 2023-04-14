@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,6 @@ public class BookingController {
     }
     @GetMapping("/locationAndDate")
     public ResponseEntity<Map<String,String>> getBookingsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("location") Integer location_id) {
-
         Map<String,String> allBookingsByDateAndLocation=this.bookingServices.getAllBookingByDateAndLocation(date,location_id);
         return new ResponseEntity<>(allBookingsByDateAndLocation,HttpStatus.OK);
     }
@@ -59,8 +59,13 @@ public class BookingController {
     }
     @GetMapping("/availabe/locationAndDate")
     public ResponseEntity<Map<String,String>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
-
         Map<String,String> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
         return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
+    }
+
+    @GetMapping("/bookedOrNotOnDate")
+    public ResponseEntity<Integer> isUserBookedSeatOrNotOnDate(@RequestParam("user") Integer user_id, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
+        Integer isBookedOrNot = this.bookingServices.isBookedOrNot(user_id, date);
+        return new ResponseEntity<>(isBookedOrNot, HttpStatus.OK);
     }
 }
