@@ -7,12 +7,12 @@ import com.example.SeatingManagement.utils.UserBody;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
     UserDto registerUser(UserDto userDto);
-
-
+    String decodeGoogleToken(String token);
     UserDto updateUserById(Integer id, UserDto userDto);
     UserDto getUserById(Integer id);
     void deleteUserById(Integer id);
