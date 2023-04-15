@@ -26,5 +26,17 @@ public class LocationDto {
     private String address;
     @NotNull
     private Integer seatingCapacity;
+
+    @Override
+    public String toString() {
+        return "LocationDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", seatingCapacity=" + seatingCapacity +
+                ", seat=" + seat +
+                '}';
+    }
+
     private Set<Seat> seat=new HashSet<>();
 }
