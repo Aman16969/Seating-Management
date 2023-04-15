@@ -22,6 +22,7 @@ public class LocationController {
 
     @PostMapping("/")
     public ResponseEntity<LocationDto> createLocation(@Valid @RequestBody LocationDto locationDto){
+        //System.out.println(locationDto.toString());
         LocationDto newLocation = this.locationService.createLocation(locationDto);
         return new ResponseEntity<>(newLocation, HttpStatus.CREATED);
     }

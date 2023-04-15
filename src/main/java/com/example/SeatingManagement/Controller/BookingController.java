@@ -5,6 +5,7 @@ import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.BookingBody;
+import com.example.SeatingManagement.utils.BookingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,9 @@ public class BookingController {
     @Autowired
     private BookingServices bookingServices;
     @PostMapping("/")
-    public ResponseEntity<BookingDto> addNewBooking(@RequestBody BookingBody bookingBody){
-        BookingDto newbooking=this.bookingServices.createNewBooking(bookingBody);
-        return new ResponseEntity<>(newbooking, HttpStatus.CREATED);
+    public ResponseEntity<BookingResponse> addNewBooking(@RequestBody BookingBody bookingBody){
+        BookingResponse bookingResponse = this.bookingServices.createNewBooking(bookingBody);
+        return new ResponseEntity<>(bookingResponse, HttpStatus.CREATED);
     }
     @GetMapping("/")
     public ResponseEntity<List<BookingDto>> getAllBookings(){
