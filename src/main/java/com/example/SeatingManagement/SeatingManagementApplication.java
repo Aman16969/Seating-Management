@@ -13,9 +13,10 @@ public class SeatingManagementApplication  {
 		SpringApplication.run(SeatingManagementApplication.class, args);
 	}
 	@Bean
-	public ModelMapper modelMapper(){
+	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
+	///Hello
 
 
 
