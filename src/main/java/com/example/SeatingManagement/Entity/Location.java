@@ -26,6 +26,8 @@ public class Location {
     private String name;
     private Integer seatingCapacity;
     private String address;
+    @Column(columnDefinition = "LONGTEXT")
+    private String image;
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Seat> seats = new HashSet<>();

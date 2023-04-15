@@ -24,6 +24,7 @@ public class LocationDto {
     @NotNull
     private String name;
     private String address;
+    private String image;
     @NotNull
     private Integer seatingCapacity;
 
