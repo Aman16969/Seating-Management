@@ -45,8 +45,9 @@ public class UserController {
         return  new ResponseEntity<ApiResponse>( new ApiResponse("User deleted Successfully",true),HttpStatus.OK);
     }
     @PutMapping("/{user_id}")
-    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable Integer user_id){
-        UserDto updatedUser=this.userService.updateUserById(user_id,userDto);
+    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody String accoliteId,@PathVariable Integer user_id){
+        System.out.println(accoliteId);
+        UserDto updatedUser=this.userService.updateUserById(user_id,accoliteId);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
 
     }

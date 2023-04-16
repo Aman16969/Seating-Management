@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthResponse {
+    private Integer id;
     private String email;
     private String accessToken;
 }

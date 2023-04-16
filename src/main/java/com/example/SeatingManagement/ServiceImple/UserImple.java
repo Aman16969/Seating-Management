@@ -73,8 +73,13 @@ public class UserImple implements UserService {
     }
 
     @Override
-    public UserDto updateUserById(Integer id, UserDto userDto) {
-        return null;
+    public UserDto updateUserById(Integer id, String accoliteId) {
+        User user=this.userRepository.findById(id).orElseThrow(()-> new ResourceNotFound("User","user id",""+id));
+        user.setAccoliteId(accoliteId);
+        User updatedUser=this.userRepository.save(user);
+        UserDto updateduserDto=this.modelMapper.map(updatedUser,UserDto.class);
+
+        return updateduserDto;
     }
 
     @Override
