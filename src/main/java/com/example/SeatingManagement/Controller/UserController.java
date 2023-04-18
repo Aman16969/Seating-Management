@@ -46,7 +46,6 @@ public class UserController {
     }
     @PutMapping("/{user_id}")
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody String accoliteId,@PathVariable Integer user_id){
-        System.out.println(accoliteId);
         UserDto updatedUser=this.userService.updateUserById(user_id,accoliteId);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
 

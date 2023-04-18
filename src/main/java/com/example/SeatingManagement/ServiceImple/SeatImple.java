@@ -76,7 +76,7 @@ public class SeatImple implements SeatService {
             genrateName.append(locNameKey).append(""+i);
             String id = geneateId.toString();
             String name=genrateName.toString();
-            SeatDto seatdto=new SeatDto(id,name,location);
+            SeatDto seatdto=new SeatDto(id,name,true,location);
             SeatDto createdSeat=addNewSeat(seatdto);
         }
     }
@@ -94,7 +94,7 @@ public class SeatImple implements SeatService {
                 genrateName.append(locNameKey).append(""+i);
                 String id = geneateId.toString();
                 String name=genrateName.toString();
-                SeatDto seatdto=new SeatDto(id,name,location);
+                SeatDto seatdto=new SeatDto(id,name,true,location);
                 SeatDto createdSeat=addNewSeat(seatdto);
 
             }

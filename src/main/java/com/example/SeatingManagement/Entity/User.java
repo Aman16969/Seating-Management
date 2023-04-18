@@ -35,8 +35,13 @@ public class User implements UserDetails {
     private String email;
     private String firstName;
     private String lastName;
+    private boolean isActive=true;
     private String role = "USER";
     private String password="password";
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
+    private Location location;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();

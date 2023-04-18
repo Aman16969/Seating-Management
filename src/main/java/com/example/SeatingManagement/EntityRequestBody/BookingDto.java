@@ -22,7 +22,9 @@ import java.util.Date;
 public class BookingDto {
     private Integer id;
     private LocalDate date;
+    private boolean isActive=true;
     private Seat seat;
     private User user;
     private Location location;
+
 }
