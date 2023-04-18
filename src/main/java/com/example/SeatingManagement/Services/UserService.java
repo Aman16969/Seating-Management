@@ -19,7 +19,7 @@ public interface UserService {
     void deleteUserById(Integer id);
     List<UserDto>getAllUser();
     UserDto getUserByEmail(String email);
-   User updateUserActiveStatus(String email, boolean value);
+   String updateUserActiveStatus(String email, boolean value);
 
 
 

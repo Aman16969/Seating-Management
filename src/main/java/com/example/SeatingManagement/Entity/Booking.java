@@ -31,7 +31,7 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-
+    private boolean isActive=true;
     public Booking(LocalDate date, Seat seat, User user, Location location) {
         this.date=date;
         this.location=location;

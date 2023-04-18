@@ -69,4 +69,12 @@ public class LocationImple implements LocationService {
         Location location=this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+id));
         this.locationRepository.delete(location);
     }
+
+    @Override
+    public String setActiveStatus(Integer id, boolean value) {
+        Location location=this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+id));
+        location.setActive(value);
+        this.locationRepository.save(location);
+        return location.getName()+ "'s active status is changed to "+value;
+    }
 }

@@ -57,8 +57,8 @@ public class UserController {
     }
 //    updating user active status
     @PutMapping("/updateActiveStatus/{email}/{value}")
-    public ResponseEntity<User> updateUserActiveStatus(@PathVariable String email,@PathVariable boolean value){
-        User user=this.userService.updateUserActiveStatus(email,value);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<String> updateUserActiveStatus(@PathVariable String email,@PathVariable boolean value){
+        String response=this.userService.updateUserActiveStatus(email,value);
+        return ResponseEntity.ok(response);
     }
 }

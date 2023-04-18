@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.Location;
+import com.example.SeatingManagement.EntityRequestBody.BookingDto;
 import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.LocationService;
@@ -48,6 +49,11 @@ public class LocationController {
     public ResponseEntity<ApiResponse> deleteLocation(@PathVariable("id") Integer id) {
         this.locationService.deleteLocationById(id);
         return new ResponseEntity<ApiResponse>(new ApiResponse("Location deleted Successfully", true), HttpStatus.OK);
+    }
+    @PutMapping("/setActiveStatus/{id}/{value}")
+    public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id, @PathVariable boolean value){
+        String response=this.locationService.setActiveStatus(id,value);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
 

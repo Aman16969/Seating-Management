@@ -121,6 +121,15 @@ public class BookingImple implements BookingServices {
     }
 
     @Override
+    public String setActiveStatus(Integer id, boolean value) {
+        Booking booking=this.bookingRepository.findById(id).orElseThrow(()->new ResourceNotFound("Booking","booking_id",""+id));
+        booking.setActive(value);
+        this.bookingRepository.save(booking);
+
+        return booking.getId()+"'s active status is changed to "+value;
+    }
+
+    @Override
     public Map<String,String> getAllBookingByDateAndLocation(LocalDate date, Integer location_id) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(date,location);

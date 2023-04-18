@@ -18,4 +18,5 @@ public interface LocationService {
     LocationDto getLocationById(Integer id);
     LocationDto updateLocationById(LocationDto locationDto, Integer id);
     void deleteLocationById(Integer id);
+    String setActiveStatus(Integer id,boolean value);
 }

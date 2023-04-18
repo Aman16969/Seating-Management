@@ -118,11 +118,11 @@ public class UserImple implements UserService {
     }
 
     @Override
-    public User updateUserActiveStatus(String email,boolean value) {
+    public String updateUserActiveStatus(String email,boolean value) {
         User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("user","userEmail",email));
         user.setActive(value);
-        User nUser=this.userRepository.save(user);
-        return nUser;
+        this.userRepository.save(user);
+        return user.getEmail()+"'s active status is changed to "+value;
 
     }
 

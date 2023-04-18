@@ -21,7 +21,8 @@ public interface BookingServices {
     List<BookingDto> getAllBookingByLocation(Integer location_id);
 
     Map<String,String> allAvailableSeats(Integer location_id,LocalDate date);
-
     Integer isBookedOrNot(Integer userId, LocalDate date);
+
+    String setActiveStatus(Integer id,boolean value);
 
 }
