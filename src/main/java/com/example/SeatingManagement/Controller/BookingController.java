@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -68,5 +69,11 @@ public class BookingController {
     public ResponseEntity<Integer> isUserBookedSeatOrNotOnDate(@RequestParam("user") Integer user_id, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         Integer isBookedOrNot = this.bookingServices.isBookedOrNot(user_id, date);
         return new ResponseEntity<>(isBookedOrNot, HttpStatus.OK);
+    }
+
+    @GetMapping("/available/locationAndDates")
+    public ResponseEntity<Map<String, Integer>> seatsAvailableOnDatesAndLocation(@RequestParam("location") Integer locationId, @RequestParam("startDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate endDate) throws ParseException, ParseException {
+        Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableOnDatesAndLocation(locationId, startDate, endDate);
+        return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
 }

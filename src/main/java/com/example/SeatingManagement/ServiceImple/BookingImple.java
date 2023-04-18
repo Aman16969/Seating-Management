@@ -17,10 +17,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -133,5 +134,52 @@ public class BookingImple implements BookingServices {
         return bookedSeat;
     }
 
-
+    @Override
+    public Map<String, Integer> seatsAvailableOnDatesAndLocation(Integer locationId, LocalDate startDate, LocalDate endDate) throws ParseException, ParseException {
+        System.out.println(locationId);
+        Location location = this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location", "location_id", String.valueOf(locationId)));
+        System.out.println(location.getName());
+        List<Seat> seats = this.seatRepository.findSeatsByLocationId(location);
+        System.out.println(seats.toArray());
+        Map<String, Integer> availableSeats = new HashMap<>();
+        for(int i=0; i<seats.size(); i++){
+            availableSeats.put(seats.get(i).getId(), 1);
+        }
+        System.out.println(availableSeats.toString());
+        List<String> dates = new ArrayList<>();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate1 = formatter.parse(String.valueOf(startDate)); // today's date
+        Calendar calendarBegin = Calendar.getInstance();
+        calendarBegin.setTime(startDate1);
+        Date endDate1 = formatter.parse(String.valueOf(endDate)); // today's date
+        Calendar calendarEnd = Calendar.getInstance();
+        calendarEnd.setTime(endDate1);
+        calendarEnd.add(Calendar.DATE, 1);
+        while (calendarBegin.before(calendarEnd)) {
+            // get Date & add to List and increment Date by 1 day
+            Date date = calendarBegin.getTime();
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+            String date1 = format1.format(date);
+            dates.add(date1);
+            calendarBegin.add(Calendar.DATE, 1);
+        }
+        for(String date :  dates) {
+            //Date date1 = formatter.parse(String.valueOf(date));
+            System.out.println(date);
+            List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(LocalDate.parse(date),location);
+            for(int i=0; i<allBookingsByLocationAndDate.size(); i++){
+                availableSeats.put(allBookingsByLocationAndDate.get(i).getSeat().getId(), 0);
+            }
+        }
+//        for(; startDate.isBefore(endDate);){
+//            System.out.println(startDate.toString());
+//            List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(startDate,location);
+//            for(int i=0; i<allBookingsByLocationAndDate.size(); i++){
+//                availableSeats.put(allBookingsByLocationAndDate.get(i).getSeat(), 0);
+//            }
+//            startDate.plusDays(1);
+//            System.out.println(startDate.toString());
+//        }
+        return availableSeats;
+    }
 }
