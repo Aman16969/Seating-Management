@@ -18,6 +18,7 @@ public interface UserService {
     void deleteUserById(Integer id);
     List<UserDto>getAllUser();
     UserDto getUserByEmail(String email);
+    String softDelete(String email, boolean value);
 
 
 

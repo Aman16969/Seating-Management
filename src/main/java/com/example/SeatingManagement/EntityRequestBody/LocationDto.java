@@ -27,17 +27,6 @@ public class LocationDto {
     private String image;
     @NotNull
     private Integer seatingCapacity;
-
-    @Override
-    public String toString() {
-        return "LocationDto{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", seatingCapacity=" + seatingCapacity +
-                ", seat=" + seat +
-                '}';
-    }
-
+    private boolean isActive=true;
     private Set<Seat> seat=new HashSet<>();
 }

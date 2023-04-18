@@ -22,6 +22,7 @@ public class SeatDto {
     @NotNull
     @Pattern(regexp = "^([A-z][0-9]+)$", message="Seat Naming Convention Should Be Like eg:A1")
     private String name;
+    private boolean isActive=true;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Location location;
 }

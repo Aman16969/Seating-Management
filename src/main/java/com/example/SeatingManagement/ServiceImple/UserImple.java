@@ -6,7 +6,6 @@ import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.UserService;
-import com.example.SeatingManagement.utils.UserBody;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -115,6 +114,15 @@ public class UserImple implements UserService {
         User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("User","email",email));
         UserDto userDto=this.modelMapper.map(user,UserDto.class);
         return userDto;
+    }
+
+    @Override
+    public String softDelete(String email,boolean value) {
+        User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("user","userEmail",email));
+        user.setActive(value);
+        this.userRepository.save(user);
+        return user.getEmail()+" active status of user has been changed to "+value;
+
     }
 
 //    @Override

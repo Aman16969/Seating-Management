@@ -28,4 +28,5 @@ public class UserDto {
     private String lastName;
     private String role ;
     private String password;
+    private boolean isActive=true;
 }
