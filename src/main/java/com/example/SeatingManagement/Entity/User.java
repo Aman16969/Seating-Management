@@ -2,6 +2,7 @@ package com.example.SeatingManagement.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.micrometer.core.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,7 +41,7 @@ public class User implements UserDetails {
     private String password="password";
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "location",nullable = true, referencedColumnName = "id")
     private Location location;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

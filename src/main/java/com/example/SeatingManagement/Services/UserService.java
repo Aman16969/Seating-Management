@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Services;
 
 
+import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.utils.UserBody;
@@ -18,7 +19,7 @@ public interface UserService {
     void deleteUserById(Integer id);
     List<UserDto>getAllUser();
     UserDto getUserByEmail(String email);
-    String softDelete(String email, boolean value);
+   User updateUserActiveStatus(String email, boolean value);
 
 
 

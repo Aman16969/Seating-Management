@@ -4,6 +4,8 @@ package com.example.SeatingManagement.EntityRequestBody;
 import com.example.SeatingManagement.Entity.Location;
 
 import com.example.SeatingManagement.Entity.Seat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.micrometer.core.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +31,6 @@ public class UserDto {
     private String role ;
     private String password;
     private boolean isActive=true;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Location location;
 }

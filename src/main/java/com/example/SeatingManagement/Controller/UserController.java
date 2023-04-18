@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Controller;
 
 
+import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
@@ -48,13 +49,16 @@ public class UserController {
     public ResponseEntity<UserDto> updateUser(@Valid @RequestBody String accoliteId,@PathVariable Integer user_id){
         UserDto updatedUser=this.userService.updateUserById(user_id,accoliteId);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
-
     }
-
     @GetMapping("/findByEmail/{email}")
     public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email){
         UserDto userDto=this.userService.getUserByEmail(email);
         return ResponseEntity.ok(userDto);
     }
-
+//    updating user active status
+    @PutMapping("/updateActiveStatus/{email}/{value}")
+    public ResponseEntity<User> updateUserActiveStatus(@PathVariable String email,@PathVariable boolean value){
+        User user=this.userService.updateUserActiveStatus(email,value);
+        return ResponseEntity.ok(user);
+    }
 }

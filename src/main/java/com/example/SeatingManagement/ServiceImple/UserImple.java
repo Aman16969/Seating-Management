@@ -62,6 +62,7 @@ public class UserImple implements UserService {
             newuser.setEmail(map.get("email"));
             newuser.setFirstName(map.get("given_name"));
             newuser.setLastName(map.get("family_name"));
+            newuser.setLocation(null);
             newuser.setPassword(password);
 //            UserDto userDto = new UserDto(null, map.get("email"), map.get("given_name"), map.get("family_name"), "USER",password);
 //            System.out.println(userDto);
@@ -117,11 +118,11 @@ public class UserImple implements UserService {
     }
 
     @Override
-    public String softDelete(String email,boolean value) {
+    public User updateUserActiveStatus(String email,boolean value) {
         User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("user","userEmail",email));
         user.setActive(value);
-        this.userRepository.save(user);
-        return user.getEmail()+" active status of user has been changed to "+value;
+        User nUser=this.userRepository.save(user);
+        return nUser;
 
     }
 

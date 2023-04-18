@@ -29,4 +29,5 @@ public class LocationDto {
     private Integer seatingCapacity;
     private boolean isActive=true;
     private Set<Seat> seat=new HashSet<>();
+    private Set<User> user=new HashSet<>();
 }
