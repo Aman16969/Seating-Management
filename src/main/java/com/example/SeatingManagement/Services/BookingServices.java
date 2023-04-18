@@ -5,6 +5,7 @@ import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,11 @@ public interface BookingServices {
     List<BookingDto> getAllBookingByDate(LocalDate date);
     Map<String,String> getAllBookingByDateAndLocation(LocalDate date, Integer location_id);
     List<BookingDto> getAllBookingByLocation(Integer location_id);
-
     Map<String,String> allAvailableSeats(Integer location_id,LocalDate date);
     Integer isBookedOrNot(Integer userId, LocalDate date);
 
+
     String setActiveStatus(Integer id,boolean value);
+    Map<String, Integer> seatsAvailableOnDatesAndLocation(Integer locationId, LocalDate startDate, LocalDate endDate) throws ParseException;
 
 }

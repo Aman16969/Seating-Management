@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -70,8 +71,13 @@ public class BookingController {
         return new ResponseEntity<>(isBookedOrNot, HttpStatus.OK);
     }
     @PutMapping("/setActiveStatus/{id}/{value}")
-    public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id,@PathVariable boolean value){
-        String response=this.bookingServices.setActiveStatus(id,value);
-        return new ResponseEntity<>(response,HttpStatus.OK);
+    public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id,@PathVariable boolean value) {
+        String response = this.bookingServices.setActiveStatus(id, value);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/available/locationAndDates")
+    public ResponseEntity<Map<String, Integer>> seatsAvailableOnDatesAndLocation(@RequestParam("location") Integer locationId, @RequestParam("startDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate endDate) throws ParseException, ParseException {
+        Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableOnDatesAndLocation(locationId, startDate, endDate);
+        return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
 }
