@@ -1,7 +1,6 @@
 package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,40 +8,41 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/location")
-@CrossOrigin
 public class LocationController {
     @Autowired
     private LocationService locationService;
 
     @PostMapping("/")
-    public ResponseEntity<LocationDto> createLocation(@Valid @RequestBody LocationDto locationDto){
-        //System.out.println(locationDto.toString());
-        LocationDto newLocation = this.locationService.createLocation(locationDto);
+    public ResponseEntity<Location> createLocation(@RequestBody Location location){
+        Location newLocation = this.locationService.createLocation(location);
         return new ResponseEntity<>(newLocation, HttpStatus.CREATED);
     }
     @GetMapping("/")
-    public ResponseEntity<List<LocationDto>> getAllLocations(){
-        List<LocationDto> allLocations = this.locationService.getAllLocations();
+    public ResponseEntity<List<Location>> getAllLocation(){
+        List<Location> allLocations = this.locationService.getAllLocation();
         return new ResponseEntity<>(allLocations, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
-    public ResponseEntity<LocationDto> updateLocationById( @Valid @RequestBody LocationDto locationDto, @PathVariable(value = "id") Integer id){
-        LocationDto updatedLocationDto = this.locationService.updateLocationById(locationDto,id);
-        return new ResponseEntity<>(updatedLocationDto, HttpStatus.CREATED);
+    public ResponseEntity<Location> updateLocation(@RequestBody Location location, @PathVariable(value = "id") Integer id){
+        Location updatedLocation = this.locationService.updateLocation(location, id);
+        return new ResponseEntity<>(updatedLocation, HttpStatus.CREATED);
+    }
+
+
+    @GetMapping("/")
+    public List<Location> getAllLocations(){
+        return this.locationService.getAllLocation();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LocationDto> getLocationById(@PathVariable(value = "id") Integer id){
-        LocationDto locationDto=this.locationService.getLocationById(id);
-        return new ResponseEntity<>(locationDto,HttpStatus.OK);
+    public Location getLocationById(@PathVariable(value = "id") Integer id){
+        return this.locationService.getLocationById(id);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteLocation(@PathVariable("id") Integer id) {

@@ -1,7 +1,6 @@
 package com.example.SeatingManagement.Services;
 
 import com.example.SeatingManagement.Entity.Location;
-import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +10,45 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface LocationService {
+public class LocationService {
 
-    LocationDto createLocation(LocationDto locationDto);
-    List<LocationDto> getAllLocations();
-    LocationDto getLocationById(Integer id);
-    LocationDto updateLocationById(LocationDto locationDto, Integer id);
-    void deleteLocationById(Integer id);
+    @Autowired
+
+    private LocationRepository locationRepository;
+
+
+    public Location createLocation(Location location){
+        Location newLocation = this.locationRepository.save(location);
+        return newLocation;
+    }
+
+    public List<Location> getAllLocation(){
+        List<Location> location=this.locationRepository.findAll();
+        return location;
+    }
+    public Location getLocationByIds(Integer id){
+        return this.locationRepository.findById(id).orElseThrow(()->new ResourceNotFound("Location","id",String.valueOf(id)));
+    }
+    public Location updateLocation(Location newLocation, Integer id){
+        Location updatedLocation = this.locationRepository.findById(id).map(location -> {
+            location.setName(newLocation.getName());
+            location.setSeatingCapacity(newLocation.getSeatingCapacity());
+            return locationRepository.save(location);
+
+        }).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+id));
+        return updatedLocation;
+    }
+
+
+
+    public Location getLocationById(Integer id){
+
+        return this.locationRepository.findById(id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+id));
+    }
+
+
+
+    public void deleteLocationById(Integer id){
+        this.locationRepository.deleteById(id);
+    }
 }

@@ -6,70 +6,49 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.*;
-
+import java.util.UUID;
 
 @Entity
+@Table(name="Users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// implements UserDetails
-public class User implements UserDetails {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="user_id")
-    private Integer id;
-    private String accoliteId;
+    @Column(name = "accolite_id")
+    private String id;
+    @Email(message = "Email should be of email type")
+    @Column(name="accolite_email")
     private String email;
     private String firstName;
     private String lastName;
-    private String role = "USER";
-    private String password="password";
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("USER"));
-        if(this.role.equals("ADMIN")){
-            authorityList.add(new SimpleGrantedAuthority("ADMIN"));
-        }
-        return authorityList;
-    }
+    @NotEmpty
+    @Size(min=6,max=20,message = "Password Must Be Minimum Of 6 Character")
+    @Pattern(regexp = ".*[0-9].*",message = "Password Must Contain One Number")
+//    @JsonIgnore
+    private String password;
+    @Column(nullable = true)
+    private String designation;
+    @Pattern(regexp = "^\\d{10}$",message = "Invalid phone number")
+    @Column(nullable = true)
+    private String phoneNumber;
+    @Column(nullable = true)
+    private String address;
 
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
+    @ManyToOne
+    @JoinColumn(name = "location", referencedColumnName = "id")
+    private Location location;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+    @ManyToOne
+    @JoinColumn(name="role",referencedColumnName = "role_id")
+    private Role role;
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
-
