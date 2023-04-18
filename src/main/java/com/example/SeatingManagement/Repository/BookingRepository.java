@@ -17,7 +17,9 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     List<Booking> findByDateAndLocation(LocalDate date, Location location);
     List<Booking> findByLocation(Location location);
     List<Booking> findByDate(LocalDate date);
-    List<Booking> findByUser(User user);
+
+    List<Booking> findByUserAndIsActive(User user, boolean isActive);
+
 
     @Query("SELECT s FROM Seat s WHERE s.location = :location AND s NOT IN "
             + "(SELECT b.seat FROM Booking b WHERE b.location = :location AND b.date = :date)")

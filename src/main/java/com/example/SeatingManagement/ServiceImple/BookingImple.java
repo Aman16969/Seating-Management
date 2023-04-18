@@ -82,11 +82,10 @@ public class BookingImple implements BookingServices {
     @Override
     public List<BookingDto> getAllBookingByUser(Integer user_id) {
         User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",""+user_id));
-        List<Booking> allBookingsByUser=this.bookingRepository.findByUser(user);
+        List<Booking> allBookingsByUser=this.bookingRepository.findByUserAndIsActive(user,true);
         List<BookingDto> allBookingDto=allBookingsByUser.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
         return allBookingDto;
     }
-
     @Override
     public List<BookingDto> getAllBookingByDate(LocalDate date) {
         List<Booking> allBookingsByDate=this.bookingRepository.findByDate(date);
