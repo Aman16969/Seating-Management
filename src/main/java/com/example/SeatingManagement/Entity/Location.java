@@ -25,7 +25,8 @@ public class Location {
     private Integer id;
     private String name;
     private Integer seatingCapacity;
-    private String address;
+    private Integer boardRoomCapacity;
+    private Integer disscussionRoomCapacity;
     @Column(columnDefinition = "LONGTEXT")
     private String image;
     private boolean isActive=true;

@@ -56,7 +56,6 @@ public class LocationImple implements LocationService {
             throw (new IllegalArgument("Seats",currentSeatCapacity,newSeatCapacity));
         }
         location.setName(locationDto.getName());
-        location.setAddress(locationDto.getAddress());
         location.setSeatingCapacity(locationDto.getSeatingCapacity());
         Location updatedLocation=this.locationRepository.save(location);
         LocationDto updatedLocationDto=this.modelMaper.map(updatedLocation,LocationDto.class);
