@@ -35,7 +35,7 @@ public class LocationImple implements LocationService {
 
     @Override
     public List<LocationDto> getAllLocations() {
-        List<Location> allLocation=this.locationRepository.findAll();
+        List<Location> allLocation=this.locationRepository.findByIsActive(true);
         List<LocationDto> allLocationDto=allLocation.stream().map((e)->this.modelMaper.map(e,LocationDto.class)).collect(Collectors.toList());
         return allLocationDto;
     }
