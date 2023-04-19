@@ -1,5 +1,6 @@
 package com.example.SeatingManagement.utils;
 
+import com.example.SeatingManagement.Entity.Location;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ public class AuthResponse {
     private String email;
     private String role;
     private String accessToken;
+    private Integer locationId;
 }
