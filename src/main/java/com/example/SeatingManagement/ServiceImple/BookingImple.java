@@ -75,4 +75,43 @@ public class BookingImple implements BookingServices {
         List<SeatDto> availableSeats = seats.stream().map((e)->this.modelMapper.map(e,SeatDto.class)).collect(Collectors.toList());
         return availableSeats;
     }
+
+    @Override
+    public List<BookingDto> getAllBookingsByLocation(Integer locationId) {
+        Location location = this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location", "location_id", ""+locationId));
+        List<Booking> bookings = this.bookingRepository.findByLocation(location);
+        List<BookingDto> bookingsDto = bookings.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
+        return bookingsDto;
+    }
+
+//    @Override
+//    public List<BookingDto> getAllBookingsByDate(LocalDate date) {
+//        List<Booking> bookings = this.bookingRepository.findByDate(date);
+//        List<BookingDto> bookingsDto = bookings.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
+//        return bookingsDto;
+//    }
+
+    @Override
+    public List<BookingDto> getAllBookingsByUser(Integer userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User", "user_id", ""+userId));
+        List<Booking> bookings = this.bookingRepository.findByUser(user);
+        List<BookingDto> bookingsDto = bookings.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
+        return bookingsDto;
+    }
+
+//    @Override
+//    public List<BookingDto> getAllBookingsByDateAndLocation(LocalDate date, Integer locationId) {
+//        Location location = this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location", "location_id", ""+locationId));
+//        List<Booking> bookings = this.bookingRepository.findByDateAndLocation(date, location);
+//        List<BookingDto> bookingsDto = bookings.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
+//        return bookingsDto;
+//    }
+
+//    @Override
+//    public List<BookingDto> getAllBookingsByDateAndUser(LocalDate date, Integer userId) {
+//        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User", "user_id", ""+userId));
+//        List<Booking> bookings = this.bookingRepository.findByDateAndUser(date, user);
+//        List<BookingDto> bookingsDto = bookings.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
+//        return bookingsDto;
+//    }
 }
