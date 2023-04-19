@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -22,7 +23,14 @@ public class Booking {
     private Integer id;
     private boolean isActive=true;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate date;
+    private LocalDate fromDate;
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    private LocalDate toDate;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime fromTime;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime toTime;
+
     @OneToOne
     @JoinColumn(name = "seats", referencedColumnName = "seat_id")
     private Seat seat;
@@ -33,10 +41,9 @@ public class Booking {
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
 
-    public Booking(LocalDate date, Seat seat, User user, Location location) {
-        this.date=date;
-        this.location=location;
-        this.user=user;
-        this.seat=seat;
-    }
+
+
+
+
+
 }

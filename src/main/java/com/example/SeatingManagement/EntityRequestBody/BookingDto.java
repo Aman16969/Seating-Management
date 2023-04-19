@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -21,7 +22,10 @@ import java.util.Date;
 @AllArgsConstructor
 public class BookingDto {
     private Integer id;
-    private LocalDate date;
+    private LocalDate fromDate;
+    private LocalDate toDate;
+    private LocalTime fromTime;
+    private LocalTime toTime;
     private boolean isActive=true;
     private Seat seat;
     private User user;
