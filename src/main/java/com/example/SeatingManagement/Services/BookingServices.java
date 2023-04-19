@@ -21,7 +21,7 @@ public interface BookingServices {
     List<SeatDto> findAvailableSeats(Integer locationID, LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime);
     List<BookingDto> getAllBookingsByLocation(Integer locationId);
 //    List<BookingDto> getAllBookingsByDate(LocalDate date);
-    List<BookingDto> getAllBookingsByUser(Integer userId);
+    List<BookingDto> getAllActiveBookingsByUser(Integer userId);
 //    List<BookingDto> getAllBookingsByDateAndLocation(LocalDate date, Integer locationId);
 //    List<BookingDto> getAllBookingsByDateAndUser(LocalDate date, Integer userId);
 }

@@ -9,7 +9,9 @@ import com.example.SeatingManagement.Repository.DisscussionRoomRepository;
 import com.example.SeatingManagement.Services.DisscussionRoomServices;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DisscussionRoomImple implements DisscussionRoomServices {
     @Autowired
     private ModelMapper modelMapper;

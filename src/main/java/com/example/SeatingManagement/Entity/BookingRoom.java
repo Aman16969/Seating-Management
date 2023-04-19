@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -21,6 +22,12 @@ public class BookingRoom {
     private Integer id;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate date;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime fromTime;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime toTime;
+    @JoinColumn(name = "userAdmin", referencedColumnName = "user_id")
+    private User admin;
     @OneToOne
     @JoinColumn(name = "boardRooms", referencedColumnName = "boardRoom_id")
     private BoardRoom boardRoom;

@@ -10,12 +10,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class BookingRoomDto {
     private Integer id;
     private LocalDate date;
+    private LocalTime fromTime;
+    private LocalTime toTime;
     private BoardRoom boardRoom;
     private DisscussionRoom disscussionRoom;
+    private User admin;
     private User user;
     private Location location;
     private boolean isActive=true;

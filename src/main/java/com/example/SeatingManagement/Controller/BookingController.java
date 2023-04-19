@@ -55,26 +55,15 @@ public class BookingController {
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<BookingDto>> findAvailableSeatsByUser(@RequestParam("user") Integer userId) throws ParseException, ParseException{
-        List<BookingDto> bookings = this.bookingServices.getAllBookingsByUser(userId);
+    @GetMapping("/findByUser/{id}")
+    public ResponseEntity<List<BookingDto>> findByUser(@PathVariable Integer id){
+        List<BookingDto> bookings = this.bookingServices.getAllActiveBookingsByUser(id);
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
+    @GetMapping("/findByLocation/{id}")
+    public ResponseEntity<List<BookingDto>> findByLocation(@PathVariable Integer id){
+        List<BookingDto> bookingDtos=this.bookingServices.getAllBookingsByLocation(id);
+        return new ResponseEntity<>(bookingDtos,HttpStatus.OK);
+    }
 
-//    @GetMapping("/date")
-//    public ResponseEntity<List<BookingDto>> findAvailableSeatsByDate(@RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date) throws ParseException, ParseException{
-//        List<BookingDto> bookings = this.bookingServices.getAllBookingsByDate(date);
-//        return new ResponseEntity<>(bookings, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/userAndDate")
-//    public ResponseEntity<List<BookingDto>> findAvailableSeatsByDateAndUser(@RequestParam("user") Integer userId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date) throws ParseException, ParseException{
-//        List<BookingDto> bookings = this.bookingServices.getAllBookingsByDateAndUser(date, userId);
-//        return new ResponseEntity<>(bookings, HttpStatus.OK);
-//    }
-//    @GetMapping("/locationAndDate")
-//    public ResponseEntity<List<BookingDto>> findAvailableSeatsByDateAndLocation(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date) throws ParseException, ParseException{
-//        List<BookingDto> bookings = this.bookingServices.getAllBookingsByDateAndUser(date, locationId);
-//        return new ResponseEntity<>(bookings, HttpStatus.OK);
-//    }
 }
