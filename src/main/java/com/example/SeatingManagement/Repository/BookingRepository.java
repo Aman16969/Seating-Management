@@ -31,6 +31,6 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
 //
 //    @Query("SELECT count(*) from Booking b where b.seat = :seat AND b.date = :date")
 //    Integer isSeatBookedOnThatDate(@Param("seat") Seat seat, @Param("date") LocalDate date);
-    @Query("SELECT s FROM Seat s WHERE s.location = :location AND s NOT IN (SELECT b.seat FROM Booking b WHERE b.isActive = true AND b.location = :location AND ((b.fromDate <= :toDate AND b.toDate >= :fromDate) OR (b.fromDate = :fromDate AND b.toDate = :toDate AND b.fromTime <= :toTime AND b.toTime >= :fromTime)))")
+    @Query("SELECT s FROM Seat s WHERE s.location = :location AND s NOT IN (SELECT b.seat FROM Booking b WHERE b.isActive = true AND b.location = :location AND ((b.fromDate < :toDate AND b.toDate > :fromDate) AND (b.fromDate = :fromDate AND b.toDate = :toDate AND b.fromTime < :toTime AND b.toTime > :fromTime)))")
     List<Seat> findAvailableSeats(@Param("location") Location location, @Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate, @Param("fromTime") LocalTime fromTime, @Param("toTime") LocalTime toTime);
 }
