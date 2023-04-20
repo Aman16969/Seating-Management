@@ -21,4 +21,5 @@ public class BookingRoomBody {
     private String disscussionRoom_id;
     private String boardRoom_id;
     private Integer location_id;
+
 }

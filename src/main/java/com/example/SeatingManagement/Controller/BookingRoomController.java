@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.Controller;
 
 
+import com.example.SeatingManagement.Entity.BookingRoom;
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
 import com.example.SeatingManagement.EntityRequestBody.BookingRoomDto;
 import com.example.SeatingManagement.Services.BookingRoomServices;
@@ -19,13 +20,13 @@ public class BookingRoomController {
     @Autowired
     private BookingRoomServices bookingRoomServices;
     @GetMapping("/user/{email}")
-    public ResponseEntity<List<BookingRoomDto>> bookingByUser(@PathVariable String email){
-        List<BookingRoomDto> bookings = this.bookingRoomServices.getBookingByUser(email);
+    public ResponseEntity<List<BookingRoom>> bookingByUser(@PathVariable String email){
+        List<BookingRoom> bookings = this.bookingRoomServices.getBookingByUser(email);
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
     @GetMapping("/admin/{email}")
-    public ResponseEntity<List<BookingRoomDto>> bookingByAdmin(@PathVariable String email){
-        List<BookingRoomDto> bookings = this.bookingRoomServices.getBookingsByAdmin(email);
+    public ResponseEntity<List<BookingRoom>> bookingByAdmin(@PathVariable String email){
+        List<BookingRoom> bookings = this.bookingRoomServices.getBookingsByAdmin(email);
         return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
     @PutMapping("/setActiveStatus/{id}/{value}")
@@ -34,8 +35,8 @@ public class BookingRoomController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PostMapping("/")
-    public ResponseEntity<BookingRoomDto> createNewBooking(@RequestBody BookingRoomBody bookingRoomBody){
-        BookingRoomDto bookingRoomDto=this.bookingRoomServices.createNewBooking(bookingRoomBody);
-        return new ResponseEntity<>(bookingRoomDto,HttpStatus.CREATED);
+    public ResponseEntity<BookingRoom> createNewBooking(@RequestBody BookingRoomBody bookingRoomBody){
+        BookingRoom bookingRoom=this.bookingRoomServices.createNewBooking(bookingRoomBody);
+        return new ResponseEntity<>(bookingRoom,HttpStatus.CREATED);
     }
 }

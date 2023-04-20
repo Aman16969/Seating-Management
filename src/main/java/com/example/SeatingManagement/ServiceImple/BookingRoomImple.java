@@ -28,13 +28,14 @@ public class BookingRoomImple implements BookingRoomServices {
     @Autowired
     private UserRepository userRepository;
     @Override
-    public BookingRoomDto createNewBooking(BookingRoomBody bookingRoomBody) {
+    public BookingRoom createNewBooking(BookingRoomBody bookingRoomBody) {
         User admin=this.userRepository.findByEmail(bookingRoomBody.getAdminEmail()).orElseThrow(()->new ResourceNotFound("user","userEmail",bookingRoomBody.getAdminEmail()));
         User user=this.userRepository.findByEmail(bookingRoomBody.getUserEmail()).orElseThrow(()->new ResourceNotFound("user","userEmail",bookingRoomBody.getUserEmail()));
         Location location=this.locationRepository.findById(bookingRoomBody.getLocation_id()).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+bookingRoomBody.getLocation_id()));
         BoardRoom boardRoom=this.boardRoomRepository.findById(bookingRoomBody.getBoardRoom_id()).orElseThrow(() -> new ResourceNotFound("BoardRoom", "BoardRoom_id", ""+bookingRoomBody.getBoardRoom_id()));
-        DisscussionRoom disscussionRoom =this.disscussionRoomRepository.findById(bookingRoomBody.getDisscussionRoom_id()).orElseThrow(() -> new ResourceNotFound("BoardRoom", "BoardRoom_id", ""+bookingRoomBody.getDisscussionRoom_id()));
+        DisscussionRoom disscussionRoom =this.disscussionRoomRepository.findById(bookingRoomBody.getDisscussionRoom_id()).orElseThrow(() -> new ResourceNotFound("DisscussionRoom", "DisscussRoom_id", ""+bookingRoomBody.getDisscussionRoom_id()));
         BookingRoom bookingRoom=new BookingRoom();
+        System.out.println(admin.getEmail());
         bookingRoom.setBoardRoom(boardRoom);
         bookingRoom.setDisscussionRoom(disscussionRoom);
         bookingRoom.setUser(user);
@@ -42,9 +43,10 @@ public class BookingRoomImple implements BookingRoomServices {
         bookingRoom.setDate(bookingRoomBody.getDate());
         bookingRoom.setFromTime(bookingRoomBody.getFromTime());
         bookingRoom.setToTime(bookingRoomBody.getToTime());
+        bookingRoom.setLocation(location);
         bookingRoom.setActive(true);
         BookingRoom newBooking=this.bookingRoomRepository.save(bookingRoom);
-        return this.modelMapper.map(newBooking,BookingRoomDto.class);
+        return newBooking;
 
     }
     @Override
@@ -56,18 +58,18 @@ public class BookingRoomImple implements BookingRoomServices {
     }
 
     @Override
-    public List<BookingRoomDto> getBookingsByAdmin(String email) {
+    public List<BookingRoom> getBookingsByAdmin(String email) {
         User admin=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("user","userEmail",email));
         List<BookingRoom> bookingRooms=this.bookingRoomRepository.findAllByAdmin(admin);
-        List<BookingRoomDto> bookingRoomDtos=bookingRooms.stream().map((e)->this.modelMapper.map(e,BookingRoomDto.class)).collect(Collectors.toList());
-        return bookingRoomDtos;
+//        List<BookingRoomDto> bookingRoomDtos=bookingRooms.stream().map((e)->this.modelMapper.map(e,BookingRoomDto.class)).collect(Collectors.toList());
+        return bookingRooms;
     }
 
     @Override
-    public List<BookingRoomDto> getBookingByUser(String email) {
+    public List<BookingRoom> getBookingByUser(String email) {
         User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("user","userEmail",email));
         List<BookingRoom> bookingRooms=this.bookingRoomRepository.findAllByUserAndIsActive(user,true);
-        List<BookingRoomDto> bookingRoomDtos=bookingRooms.stream().map((e)->this.modelMapper.map(e,BookingRoomDto.class)).collect(Collectors.toList());
-        return bookingRoomDtos;
+//        List<BookingRoomDto> bookingRoomDtos=bookingRooms.stream().map((e)->this.modelMapper.map(e,BookingRoomDto.class)).collect(Collectors.toList());
+        return bookingRooms;
     }
 }

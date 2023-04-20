@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -26,6 +27,7 @@ public class BookingRoom {
     private LocalTime fromTime;
     @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime toTime;
+    @OneToOne
     @JoinColumn(name = "userAdmin", referencedColumnName = "user_id")
     private User admin;
     @OneToOne

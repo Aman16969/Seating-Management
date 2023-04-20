@@ -17,11 +17,12 @@ public class BookingRoomDto {
     private LocalDate date;
     private LocalTime fromTime;
     private LocalTime toTime;
+    private boolean isActive;
     private BoardRoom boardRoom;
     private DisscussionRoom disscussionRoom;
     private User admin;
     private User user;
     private Location location;
-    private boolean isActive=true;
+
 
 }
