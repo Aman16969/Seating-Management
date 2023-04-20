@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("api/user")
@@ -27,6 +29,12 @@ public class UserController {
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
         UserDto newUser=this.userService.registerUser(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+    @PostMapping("/role/{email}")
+    public ResponseEntity<String> updateUserRole(@PathVariable String email,@RequestBody Map<Object,Object> role){
+
+        String message=this.userService.updateUserRole(email,role);
+        return ResponseEntity.ok(message);
     }
     @GetMapping("/")
 //    @PreAuthorize("hasAnyAuthority('ADMIN')")

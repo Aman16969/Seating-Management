@@ -126,6 +126,15 @@ public class UserImple implements UserService {
 
     }
 
+    @Override
+    public String updateUserRole(String email, Map<Object,Object> role) {
+        User user=this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("user","userEmail",email));
+        System.out.println(role.get("value"));
+        user.setRole((String)role.get("value"));
+        this.userRepository.save(user);
+        return "user Role changes";
+    }
+
 //    @Override
 //    public UserDto setLocationOfUser(String id, Integer location_id) {
 //        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));

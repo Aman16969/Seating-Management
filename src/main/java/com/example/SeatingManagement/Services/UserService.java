@@ -20,6 +20,7 @@ public interface UserService {
     List<UserDto>getAllUser();
     UserDto getUserByEmail(String email);
    String updateUserActiveStatus(String email, boolean value);
+   String updateUserRole(String email,Map<Object,Object> role);
 
 
 

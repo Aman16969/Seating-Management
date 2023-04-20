@@ -71,7 +71,7 @@ public class BookingController {
         Integer isBookedOrNot = this.bookingServices.isBookedOrNot(user_id, date);
         return new ResponseEntity<>(isBookedOrNot, HttpStatus.OK);
     }
-    @PutMapping("/setActiveStatus/{id}/{value}")
+    @PutMapping("/setActiveStatus/{id}/value/{value}")
     public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id,@PathVariable boolean value) {
         String response = this.bookingServices.setActiveStatus(id, value);
         return new ResponseEntity<>(response, HttpStatus.OK);
