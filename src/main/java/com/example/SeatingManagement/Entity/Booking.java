@@ -10,7 +10,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -21,16 +20,8 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private boolean isActive=true;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate fromDate;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
-    private LocalDate toDate;
-    @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime fromTime;
-    @DateTimeFormat(pattern = "HH:mm:ss")
-    private LocalTime toTime;
-
+    private LocalDate date;
     @OneToOne
     @JoinColumn(name = "seats", referencedColumnName = "seat_id")
     private Seat seat;
@@ -40,10 +31,7 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-
-
-
-
-
-
+    private boolean isActive=true;
+    private LocalTime fromTime;
+    private LocalTime toTime;
 }

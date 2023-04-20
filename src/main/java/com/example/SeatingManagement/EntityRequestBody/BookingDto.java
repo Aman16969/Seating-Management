@@ -22,12 +22,12 @@ import java.util.Date;
 @AllArgsConstructor
 public class BookingDto {
     private Integer id;
-    private LocalDate fromDate;
-    private LocalDate toDate;
+    private LocalDate date;
     private LocalTime fromTime;
     private LocalTime toTime;
     private boolean isActive=true;
     private Seat seat;
     private User user;
     private Location location;
+
 }

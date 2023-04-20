@@ -18,11 +18,10 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingBody {
-    private LocalDate fromDate;
-    private LocalDate toDate;
+    private LocalDate date;
     private LocalTime fromTime;
     private LocalTime toTime;
-    private String seat_id;
-    private String user_id;
-    private Integer location_id;
+    private String seatId;
+    private String userId;
+    private Integer locationId;
 }
