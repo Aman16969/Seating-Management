@@ -23,10 +23,13 @@ public class LocationDto {
     private Integer id;
     @NotNull
     private String name;
-    private String address;
     private String image;
     @NotNull
     private Integer seatingCapacity;
+    @NotNull
+    private Integer boardRoomCapacity;
+    @NotNull
+    private Integer disscussionRoomCapacity;
     private boolean isActive=true;
     private Set<Seat> seat=new HashSet<>();
     private Set<User> user=new HashSet<>();
