@@ -1,5 +1,6 @@
 package com.example.SeatingManagement.Services;
 
+import com.example.SeatingManagement.Entity.Seat;
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -27,4 +29,5 @@ public interface BookingServices {
     String setActiveStatus(Integer id,boolean value);
     Map<String, Integer> seatsAvailableOnDatesAndLocation(Integer locationId, LocalDate startDate, LocalDate endDate) throws ParseException;
 
+    Map<String, Integer> seatsAvailableByLocationDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime);
 }

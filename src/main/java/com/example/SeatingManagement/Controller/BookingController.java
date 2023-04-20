@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,8 @@ public class BookingController {
     }
     @GetMapping("/")
     public ResponseEntity<List<BookingDto>> getAllBookings(){
-        List<BookingDto> allbookings=this.bookingServices.getAllBooking();
-        return new ResponseEntity<>(allbookings, HttpStatus.CREATED);
+        List<BookingDto> allBookings=this.bookingServices.getAllBooking();
+        return new ResponseEntity<>(allBookings, HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteBookingById(@PathVariable("id") Integer id) {
@@ -59,7 +60,7 @@ public class BookingController {
         List<BookingDto> allBookingsByDate=this.bookingServices.getAllBookingByDate(date);
         return new ResponseEntity<>(allBookingsByDate,HttpStatus.OK);
     }
-    @GetMapping("/availabe/locationAndDate")
+    @GetMapping("/available/locationAndDate")
     public ResponseEntity<Map<String,String>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
         Map<String,String> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
         return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
@@ -78,6 +79,12 @@ public class BookingController {
     @GetMapping("/available/locationAndDates")
     public ResponseEntity<Map<String, Integer>> seatsAvailableOnDatesAndLocation(@RequestParam("location") Integer locationId, @RequestParam("startDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate endDate) throws ParseException, ParseException {
         Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableOnDatesAndLocation(locationId, startDate, endDate);
+        return new ResponseEntity<>(availableSeats, HttpStatus.OK);
+    }
+
+    @GetMapping("/available/locationDateTime")
+    public ResponseEntity<Map<String, Integer>> seatsAvailableByLocationDateTime(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("fromTime") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime fromTime, @RequestParam("toTime") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime toTime) throws ParseException{
+        Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableByLocationDateTime(locationId, date, fromTime, toTime);
         return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
 }

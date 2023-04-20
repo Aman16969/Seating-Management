@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 
@@ -18,7 +19,9 @@ import java.util.Date;
 @AllArgsConstructor
 public class BookingBody {
     private LocalDate date;
-    private String seat_id;
-    private String user_id;
-    private Integer location_id;
+    private LocalTime fromTime;
+    private LocalTime toTime;
+    private String seatId;
+    private String userId;
+    private Integer locationId;
 }

@@ -21,6 +21,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,14 +41,20 @@ public class BookingImple implements BookingServices {
 
     @Override
     public BookingResponse createNewBooking(BookingBody bookingBody) {
-        Integer location_id=bookingBody.getLocation_id();
-        Integer user_id= Integer.valueOf(bookingBody.getUser_id());
-        String seat_id=bookingBody.getSeat_id();
+        Integer location_id=bookingBody.getLocationId();
+        Integer user_id= Integer.valueOf(bookingBody.getUserId());
+        String seat_id=bookingBody.getSeatId();
         LocalDate date=bookingBody.getDate();
         User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",""+user_id));
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         Seat seat=this.seatRepository.findById(seat_id).orElseThrow(()->new ResourceNotFound("Seat","Seat_id",seat_id));
-        Booking booking=new Booking(date,seat,user,location);
+        Booking booking=new Booking();
+        booking.setSeat(seat);
+        booking.setUser(user);
+        booking.setLocation(location);
+        booking.setDate(bookingBody.getDate());
+        booking.setFromTime(bookingBody.getFromTime());
+        booking.setToTime(bookingBody.getToTime());
         if(this.bookingRepository.isSeatBookedOnThatDate(seat, date)==1){
             return new BookingResponse(0, "This seat was already taken.");
         }
@@ -103,14 +110,14 @@ public class BookingImple implements BookingServices {
     @Override
     public Map<String,String> allAvailableSeats(Integer location_id, LocalDate date) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));
-        List<Seat> availabeSeats=this.bookingRepository.findAvailableSeatsByLocationAndDate(location,date);
-        Map<String,String> availableseat=new HashMap<>();
-        for(Seat seat:availabeSeats){
+        List<Seat> availableSeats=this.bookingRepository.findAvailableSeatsByLocationAndDate(location,date);
+        Map<String,String> availableSeat=new HashMap<>();
+        for(Seat seat:availableSeats){
             String seatId=seat.getId();
             String seatName=seat.getName();
-            availableseat.put(seatId,seatName);
+            availableSeat.put(seatId,seatName);
         }
-        return availableseat;
+        return availableSeat;
     }
 
     @Override
@@ -189,5 +196,16 @@ public class BookingImple implements BookingServices {
 //            System.out.println(startDate.toString());
 //        }
         return availableSeats;
+    }
+
+    @Override
+    public Map<String, Integer> seatsAvailableByLocationDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime) {
+        Location location=this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location","location_id",""+locationId));
+        List<Seat> availableSeats = this.bookingRepository.findAvailableSeatsByLocationDateTime(location, date, fromTime, toTime);
+        Map<String, Integer> seatAvailability = new HashMap<>();
+        for(int i=0; i<availableSeats.size(); i++){
+            seatAvailability.put(availableSeats.get(i).getId(), 1);
+        }
+        return seatAvailability;
     }
 }
