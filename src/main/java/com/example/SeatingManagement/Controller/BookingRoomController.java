@@ -16,6 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("api/bookRoom")
+@CrossOrigin
 public class BookingRoomController {
     @Autowired
     private BookingRoomServices bookingRoomServices;
@@ -36,6 +37,7 @@ public class BookingRoomController {
     }
     @PostMapping("/")
     public ResponseEntity<BookingRoom> createNewBooking(@RequestBody BookingRoomBody bookingRoomBody){
+        System.out.println(bookingRoomBody);
         BookingRoom bookingRoom=this.bookingRoomServices.createNewBooking(bookingRoomBody);
         return new ResponseEntity<>(bookingRoom,HttpStatus.CREATED);
     }

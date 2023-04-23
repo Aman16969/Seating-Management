@@ -25,7 +25,7 @@ public class RequestRoomController {
        RequestBookingRoomDto request = this.requestBookingService.createNewRequest(requestBookingRoomDto);
        return new ResponseEntity<>(request, HttpStatus.CREATED);
    }
-   @PutMapping("/request/{request_id}/{value}")
+   @PutMapping("/request/{request_id}/value/{value}")
    public ResponseEntity<String> setActiveStatus(@PathVariable Integer request_id,@PathVariable boolean value) {
        String request = this.requestBookingService.setActiveStatus(request_id,value);
        return new ResponseEntity<>(request, HttpStatus.OK);

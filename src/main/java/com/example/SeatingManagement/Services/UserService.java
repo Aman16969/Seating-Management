@@ -14,7 +14,7 @@ import java.util.Map;
 public interface UserService {
     UserDto registerUser(UserDto userDto);
     String decodeGoogleToken(String token);
-    UserDto updateUserById(Integer id, String accoliteId);
+    UserDto updateUserLocationById(Integer UserId, Integer locationId);
     UserDto getUserById(Integer id);
     void deleteUserById(Integer id);
     List<UserDto>getAllUser();

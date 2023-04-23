@@ -22,29 +22,28 @@ public class BookingRoomImple implements BookingRoomServices {
     @Autowired
     private LocationRepository locationRepository;
     @Autowired
-    private BoardRoomRepository boardRoomRepository;
-    @Autowired
-    private DisscussionRoomRepository disscussionRoomRepository;
+    private RoomRepository boardRoomRepository;
+
     @Autowired
     private UserRepository userRepository;
     @Override
     public BookingRoom createNewBooking(BookingRoomBody bookingRoomBody) {
+
         User admin=this.userRepository.findByEmail(bookingRoomBody.getAdminEmail()).orElseThrow(()->new ResourceNotFound("user","userEmail",bookingRoomBody.getAdminEmail()));
         User user=this.userRepository.findByEmail(bookingRoomBody.getUserEmail()).orElseThrow(()->new ResourceNotFound("user","userEmail",bookingRoomBody.getUserEmail()));
         Location location=this.locationRepository.findById(bookingRoomBody.getLocation_id()).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+bookingRoomBody.getLocation_id()));
-        BoardRoom boardRoom=this.boardRoomRepository.findById(bookingRoomBody.getBoardRoom_id()).orElseThrow(() -> new ResourceNotFound("BoardRoom", "BoardRoom_id", ""+bookingRoomBody.getBoardRoom_id()));
-        DisscussionRoom disscussionRoom =this.disscussionRoomRepository.findById(bookingRoomBody.getDisscussionRoom_id()).orElseThrow(() -> new ResourceNotFound("DisscussionRoom", "DisscussRoom_id", ""+bookingRoomBody.getDisscussionRoom_id()));
+        Room room=this.boardRoomRepository.findById(bookingRoomBody.getRoom_id()).orElseThrow(() -> new ResourceNotFound("Room", "Room_id", ""+bookingRoomBody.getRoom_id()));
         BookingRoom bookingRoom=new BookingRoom();
-        System.out.println(admin.getEmail());
-        bookingRoom.setBoardRoom(boardRoom);
-        bookingRoom.setDisscussionRoom(disscussionRoom);
         bookingRoom.setUser(user);
         bookingRoom.setAdmin(admin);
         bookingRoom.setDate(bookingRoomBody.getDate());
         bookingRoom.setFromTime(bookingRoomBody.getFromTime());
         bookingRoom.setToTime(bookingRoomBody.getToTime());
         bookingRoom.setLocation(location);
+        bookingRoom.setRoom(room);
+        bookingRoom.setRoomType(bookingRoomBody.getRoomType());
         bookingRoom.setActive(true);
+
         BookingRoom newBooking=this.bookingRoomRepository.save(bookingRoom);
         return newBooking;
 

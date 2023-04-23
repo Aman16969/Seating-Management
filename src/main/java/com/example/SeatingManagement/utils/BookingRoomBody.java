@@ -18,8 +18,7 @@ public class BookingRoomBody {
     private LocalTime toTime;
     private String adminEmail;
     private String userEmail;
-    private String disscussionRoom_id;
-    private String boardRoom_id;
+    private String roomType;
+    private Integer room_id;
     private Integer location_id;
-
 }

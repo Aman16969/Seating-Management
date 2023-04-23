@@ -1,5 +1,6 @@
 package com.example.SeatingManagement.ServiceImple;
 
+import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
@@ -73,12 +74,12 @@ public class UserImple implements UserService {
     }
 
     @Override
-    public UserDto updateUserById(Integer id, String accoliteId) {
-        User user=this.userRepository.findById(id).orElseThrow(()-> new ResourceNotFound("User","user id",""+id));
-        user.setAccoliteId(accoliteId);
+    public UserDto updateUserLocationById(Integer userId, Integer locationId) {
+        User user=this.userRepository.findById(userId).orElseThrow(()-> new ResourceNotFound("User","user id",""+userId));
+        Location location=this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+locationId));
+        user.setLocation(location);
         User updatedUser=this.userRepository.save(user);
         UserDto updateduserDto=this.modelMapper.map(updatedUser,UserDto.class);
-
         return updateduserDto;
     }
 
