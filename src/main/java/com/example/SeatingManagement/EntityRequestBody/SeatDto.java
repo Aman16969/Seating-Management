@@ -20,9 +20,22 @@ public class SeatDto {
     @NotNull
     private String id;
     @NotNull
-    @Pattern(regexp = "^([A-z][0-9]+)$", message="Seat Naming Convention Should Be Like eg:A1")
+    private Integer r;
+    @NotNull
+    private Integer c;
+    @NotNull
+    private Integer d=0;
+    @NotNull
+    //@Pattern(regexp = "^([A-z][0-9]+)$", message="Seat Naming Convention Should Be Like eg:A1")
     private String name;
     private boolean isActive=true;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Location location;
+
+    public SeatDto(String id, String name, boolean b, Location location) {
+        this.id = id;
+        this.name = name;
+        this.isActive = b;
+        this.location = location;
+    }
 }

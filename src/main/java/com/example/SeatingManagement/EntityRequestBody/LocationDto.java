@@ -24,12 +24,11 @@ public class LocationDto {
     @NotNull
     private String name;
     private String image;
-    @NotNull
-    private Integer seatingCapacity;
-    @NotNull
-    private Integer boardRoomCapacity;
-    @NotNull
-    private Integer disscussionRoomCapacity;
+    private Integer seatingCapacity=0;
+    private Integer boardRoomCapacity=0;
+    private Integer discussionRoomCapacity=0;
+    private Integer rs=1;
+    private Integer cs=1;
     private boolean isActive=true;
     private Set<Seat> seat=new HashSet<>();
     private Set<User> user=new HashSet<>();
