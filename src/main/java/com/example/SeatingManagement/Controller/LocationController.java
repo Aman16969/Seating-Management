@@ -40,6 +40,12 @@ public class LocationController {
         return new ResponseEntity<>(updatedLocationDto, HttpStatus.CREATED);
     }
 
+    @PutMapping("/updateRowAndColumn")
+    public ResponseEntity<LocationDto> updateRowAndColumn(@RequestParam("location") Integer locationId, @RequestParam("row") Integer row, @RequestParam("column") Integer column){
+        LocationDto updatedLocationDto = this.locationService.updateLocationRowAndColumn(locationId, row, column);
+        return new ResponseEntity<>(updatedLocationDto, HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<LocationDto> getLocationById(@PathVariable(value = "id") Integer id){
         LocationDto locationDto=this.locationService.getLocationById(id);
@@ -55,7 +61,5 @@ public class LocationController {
         String response=this.locationService.setActiveStatus(id,value);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
-
-
 }
 

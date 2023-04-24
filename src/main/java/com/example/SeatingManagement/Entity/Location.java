@@ -20,18 +20,20 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="locations")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Integer seatingCapacity;
-    private Integer boardRoomCapacity;
-    private Integer disscussionRoomCapacity;
+    private Integer seatingCapacity = 0;
+    private Integer boardRoomCapacity = 0;
+    private Integer discussionRoomCapacity = 0;
+    private Integer rs = 1;
+    private Integer cs = 1;
     @Column(columnDefinition = "LONGTEXT")
     private String image;
-    private boolean isActive=true;
+    private boolean isActive = true;
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<Seat> seats = new HashSet<>();
