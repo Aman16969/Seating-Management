@@ -45,6 +45,8 @@ public class BookingImple implements BookingServices {
         Integer user_id= Integer.valueOf(bookingBody.getUserId());
         String seat_id=bookingBody.getSeatId();
         LocalDate date=bookingBody.getDate();
+        LocalTime fromTime=bookingBody.getFromTime();
+        LocalTime toTime=bookingBody.getToTime();
         User user=this.userRepository.findById(user_id).orElseThrow(()->new ResourceNotFound("User","user_id",""+user_id));
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
         Seat seat=this.seatRepository.findById(seat_id).orElseThrow(()->new ResourceNotFound("Seat","Seat_id",seat_id));
@@ -55,7 +57,7 @@ public class BookingImple implements BookingServices {
         booking.setDate(bookingBody.getDate());
         booking.setFromTime(bookingBody.getFromTime());
         booking.setToTime(bookingBody.getToTime());
-        if(this.bookingRepository.isSeatBookedOnThatDate(seat, date)==1){
+        if(this.bookingRepository.isSeatBookedOnThatDateAndTime(seat, date,fromTime,toTime)==1){
             return new BookingResponse(0, "This seat was already taken.");
         }
         if(this.bookingRepository.isUserBookedOnThatDate(user, date)==1){
@@ -79,7 +81,7 @@ public class BookingImple implements BookingServices {
 
     @Override
     public List<BookingDto> getAllBooking() {
-        List<Booking> allBookings=this.bookingRepository.findAll();
+        List<Booking> allBookings=this.bookingRepository.findByIsActive(true);
         List<BookingDto> allBookingDto=allBookings.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
         return allBookingDto;
     }

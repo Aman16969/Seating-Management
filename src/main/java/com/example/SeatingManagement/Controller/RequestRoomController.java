@@ -15,6 +15,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("api/requestBooking")
+@CrossOrigin
 public class RequestRoomController {
     @Autowired
     private RequestBookingService requestBookingService;
@@ -24,7 +25,7 @@ public class RequestRoomController {
        RequestBookingRoomDto request = this.requestBookingService.createNewRequest(requestBookingRoomDto);
        return new ResponseEntity<>(request, HttpStatus.CREATED);
    }
-   @PutMapping("/request/{request_id}/{value}")
+   @PutMapping("/request/{request_id}/value/{value}")
    public ResponseEntity<String> setActiveStatus(@PathVariable Integer request_id,@PathVariable boolean value) {
        String request = this.requestBookingService.setActiveStatus(request_id,value);
        return new ResponseEntity<>(request, HttpStatus.OK);
@@ -38,6 +39,11 @@ public class RequestRoomController {
     public ResponseEntity<List<RequestBookingRoomDto>> allRequest() {
         List<RequestBookingRoomDto> requests = this.requestBookingService.allRequest();
         return new ResponseEntity<>(requests, HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<RequestBookingRoomDto> getRequestById(@PathVariable Integer id) {
+        RequestBookingRoomDto request = this.requestBookingService.getAllRequestById(id);
+        return new ResponseEntity<>(request, HttpStatus.OK);
     }
     @GetMapping("/byUser/{email}")
     public ResponseEntity<List<RequestBookingRoomDto>> allRequestByUser(@PathVariable String email) {

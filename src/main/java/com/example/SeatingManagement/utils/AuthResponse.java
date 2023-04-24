@@ -13,7 +13,9 @@ import lombok.Setter;
 public class AuthResponse {
     private Integer id;
     private String email;
+    private String firstName;
+    private String lastName;
     private String role;
     private String accessToken;
-    private Integer locationId;
+    private Location location;
 }

@@ -1,20 +1,15 @@
 package com.example.SeatingManagement.Controller;
 
-
-import com.example.SeatingManagement.Entity.User;
-import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.UserService;
-import com.example.SeatingManagement.utils.UserBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/user")
@@ -27,6 +22,12 @@ public class UserController {
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
         UserDto newUser=this.userService.registerUser(userDto);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+    }
+    @PostMapping("/role/{email}")
+    public ResponseEntity<String> updateUserRole(@PathVariable String email,@RequestBody Map<Object,Object> role){
+
+        String message=this.userService.updateUserRole(email,role);
+        return ResponseEntity.ok(message);
     }
     @GetMapping("/")
 //    @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -45,9 +46,9 @@ public class UserController {
         this.userService.deleteUserById(user_id);
         return  new ResponseEntity<ApiResponse>( new ApiResponse("User deleted Successfully",true),HttpStatus.OK);
     }
-    @PutMapping("/{user_id}")
-    public ResponseEntity<UserDto> updateUser(@Valid @RequestBody String accoliteId,@PathVariable Integer user_id){
-        UserDto updatedUser=this.userService.updateUserById(user_id,accoliteId);
+    @PutMapping("/{user_id}/location/{locationId}")
+    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable Integer user_id,@PathVariable Integer locationId){
+        UserDto updatedUser=this.userService.updateUserLocationById(user_id,locationId);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
     }
     @GetMapping("/findByEmail/{email}")

@@ -53,7 +53,7 @@ public class SpringSecurityConfiguration {
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
         httpSecurity.exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> {

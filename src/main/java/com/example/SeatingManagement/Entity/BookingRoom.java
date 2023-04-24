@@ -27,15 +27,13 @@ public class BookingRoom {
     private LocalTime fromTime;
     @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime toTime;
+    private String roomType;
     @OneToOne
     @JoinColumn(name = "userAdmin", referencedColumnName = "user_id")
     private User admin;
     @OneToOne
-    @JoinColumn(name = "boardRooms", referencedColumnName = "boardRoom_id")
-    private BoardRoom boardRoom;
-    @OneToOne
-    @JoinColumn(name = "disscussionRooms", referencedColumnName = "disscussionRoom_id")
-    private DisscussionRoom disscussionRoom;
+    @JoinColumn(name = "Rooms", referencedColumnName = "id")
+    private Room room;
     @OneToOne
     @JoinColumn(name = "users", referencedColumnName = "user_id")
     private User user;

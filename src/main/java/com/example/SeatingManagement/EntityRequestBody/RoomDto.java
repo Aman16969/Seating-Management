@@ -12,11 +12,12 @@ import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class DisscussionRoomDto {
+@NoArgsConstructor
+public class RoomDto {
     private String id;
     private String name;
+    private Integer capacity;
     private boolean isActive=true;
     private Location location;
 }

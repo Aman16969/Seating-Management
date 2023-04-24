@@ -4,14 +4,9 @@ import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.EntityRequestBody.LocationDto;
 import com.example.SeatingManagement.ExceptionHandling.IllegalArgument;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
-import com.example.SeatingManagement.Repository.BoardRoomRepository;
-import com.example.SeatingManagement.Repository.DisscussionRoomRepository;
 import com.example.SeatingManagement.Repository.LocationRepository;
-import com.example.SeatingManagement.Services.BoardRoomServices;
-import com.example.SeatingManagement.Services.DisscussionRoomServices;
 import com.example.SeatingManagement.Services.LocationService;
 import com.example.SeatingManagement.Services.SeatService;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +22,6 @@ public class LocationImple implements LocationService {
     private ModelMapper modelMaper;
     @Autowired
     private SeatService seatService;
-    @Autowired
-    private BoardRoomServices boardRoomServices;
-    @Autowired
-    private DisscussionRoomServices disscussionRoomServices;
 
     @Override
     public LocationDto createLocation(LocationDto locationDto) {

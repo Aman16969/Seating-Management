@@ -11,13 +11,14 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class DisscussionRoom {
+@NoArgsConstructor
+public class Room {
     @Id
-    @Column(name="disscussionRoom_id")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
+    private Integer capacity;
     private boolean isActive=true;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)

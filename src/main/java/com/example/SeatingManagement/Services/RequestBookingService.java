@@ -12,6 +12,7 @@ public interface RequestBookingService {
     String setActiveStatus(Integer id,boolean value);
     String setAccepted(Integer id,boolean value);
     List<RequestBookingRoomDto> allRequest();
+    RequestBookingRoomDto getAllRequestById(Integer id);
     List<RequestBookingRoomDto> allRequestByUser(String email);
 
 }

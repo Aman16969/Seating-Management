@@ -31,6 +31,7 @@ public class RequestBookingImple implements RequestBookingService {
     public String setActiveStatus(Integer id, boolean value) {
         RequestBookingRoom request=this.requestBookingRepository.findById(id).orElseThrow(()->new ResourceNotFound("Request","request_id",""+id));
         request.setActive(value);
+        this.requestBookingRepository.save(request);
         return "request with "+id+"'s active status changed to "+value;
     }
 
@@ -38,7 +39,8 @@ public class RequestBookingImple implements RequestBookingService {
     public String setAccepted(Integer id, boolean value) {
         RequestBookingRoom request=this.requestBookingRepository.findById(id).orElseThrow(()->new ResourceNotFound("Request","request_id",""+id));
         request.setAccepted(value);
-        return "your request have been accepted and yoy are alloted a room";
+        this.requestBookingRepository.save(request);
+        return "your request have been accepted and yoy are allotted a room";
     }
 
     @Override
@@ -46,6 +48,14 @@ public class RequestBookingImple implements RequestBookingService {
         List<RequestBookingRoom> requestBookingRooms=this.requestBookingRepository.findByIsActive(true);
         List<RequestBookingRoomDto> requests=requestBookingRooms.stream().map((e)->this.modelMapper.map(e,RequestBookingRoomDto.class)).collect(Collectors.toList());
         return requests;
+    }
+
+    @Override
+    public RequestBookingRoomDto getAllRequestById(Integer id) {
+        RequestBookingRoom request=this.requestBookingRepository.findById(id).orElseThrow(()->new ResourceNotFound("Request","request_id",""+id));
+        RequestBookingRoomDto requestBookingRoomDto=this.modelMapper.map(request,RequestBookingRoomDto.class);
+        return requestBookingRoomDto;
+
     }
 
     @Override

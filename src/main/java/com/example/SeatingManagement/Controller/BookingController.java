@@ -71,7 +71,7 @@ public class BookingController {
         Integer isBookedOrNot = this.bookingServices.isBookedOrNot(user_id, date);
         return new ResponseEntity<>(isBookedOrNot, HttpStatus.OK);
     }
-    @PutMapping("/setActiveStatus/{id}/{value}")
+    @PutMapping("/setActiveStatus/{id}/value/{value}")
     public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id,@PathVariable boolean value) {
         String response = this.bookingServices.setActiveStatus(id, value);
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -83,7 +83,7 @@ public class BookingController {
     }
 
     @GetMapping("/available/locationDateTime")
-    public ResponseEntity<Map<String, Integer>> seatsAvailableByLocationDateTime(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("fromTime") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime fromTime, @RequestParam("toTime") @DateTimeFormat(pattern = "HH:mm:ss") LocalTime toTime) throws ParseException{
+    public ResponseEntity<Map<String, Integer>> seatsAvailableByLocationDateTime(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("fromTime") @DateTimeFormat(pattern = "HH:mm") LocalTime fromTime, @RequestParam("toTime") @DateTimeFormat(pattern = "HH:mm") LocalTime toTime) throws ParseException{
         Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableByLocationDateTime(locationId, date, fromTime, toTime);
         return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
