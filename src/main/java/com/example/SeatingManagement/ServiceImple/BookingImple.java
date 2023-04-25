@@ -203,7 +203,11 @@ public class BookingImple implements BookingServices {
     @Override
     public Map<String, Integer> seatsAvailableByLocationDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime) {
         Location location=this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location","location_id",""+locationId));
+//        System.out.println(toTime);
         List<Seat> availableSeats = this.bookingRepository.findAvailableSeatsByLocationDateTime(location, date, fromTime, toTime);
+//        for(int i=0; i<availableSeats.size(); i++){
+//            System.out.println(availableSeats.get(i).getId());
+//        }
         Map<String, Integer> seatAvailability = new HashMap<>();
         for(int i=0; i<availableSeats.size(); i++){
             seatAvailability.put(availableSeats.get(i).getId(), 1);
