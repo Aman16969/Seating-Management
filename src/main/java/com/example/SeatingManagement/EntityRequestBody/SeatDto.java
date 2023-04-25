@@ -24,7 +24,7 @@ public class SeatDto {
     @NotNull
     private Integer c;
     @NotNull
-    private Integer d=0;
+    private Integer d=1;
     @NotNull
     //@Pattern(regexp = "^([A-z][0-9]+)$", message="Seat Naming Convention Should Be Like eg:A1")
     private String name;

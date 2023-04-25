@@ -21,7 +21,7 @@ public class Seat {
     private String name;
     private Integer r;
     private Integer c;
-    private Integer d;
+    private Integer d=1;
     private boolean isActive=true;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
