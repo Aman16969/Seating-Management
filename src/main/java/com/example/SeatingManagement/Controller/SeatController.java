@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/seat")
-@CrossOrigin
+@CrossOrigin (origins= "*", allowedHeaders = "*")
 public class SeatController {
     @Autowired
     private SeatService seatService;

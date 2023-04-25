@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/room")
-@CrossOrigin
+@CrossOrigin (origins= "*", allowedHeaders = "*")
 public class RoomController {
     @Autowired
     private RoomServices roomServices;

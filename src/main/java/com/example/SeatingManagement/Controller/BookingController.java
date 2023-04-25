@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/booking")
-@CrossOrigin
+@CrossOrigin(origins= "*", allowedHeaders = "*")
 public class BookingController {
     @Autowired
     private BookingServices bookingServices;
