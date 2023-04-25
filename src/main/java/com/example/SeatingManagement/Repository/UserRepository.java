@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 Optional<User> findByEmail(String email);
 
 List<User> findByLocation(Location location);
+    List<User> findByLocationAndRole(Location location, String role);
+
     @Transactional
     @Modifying
     @Query("DELETE FROM User u WHERE u.id = :userId")
