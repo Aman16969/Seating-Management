@@ -8,6 +8,7 @@ import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.SeatRepository;
+import com.example.SeatingManagement.Services.LocationService;
 import com.example.SeatingManagement.Services.SeatService;
 import com.example.SeatingManagement.utils.SeatBody;
 import com.example.SeatingManagement.utils.SeatResponse;
@@ -15,7 +16,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +41,8 @@ public class SeatImple implements SeatService {
         seat.setId(""+location.getId()+"R"+seatBody.getRow()+"C"+seatBody.getCol());
        Seat newSeat=this.seatRepository.save(seat);
        SeatDto newSeatDto=this.modelMapper.map(newSeat,SeatDto.class);
+       location.setSeatingCapacity(location.getSeatingCapacity()+1);
+       this.locationRepository.save(location);
        return newSeatDto;
     }
 
@@ -58,22 +63,45 @@ public class SeatImple implements SeatService {
     @Override
     public SeatResponse deleteSeatById(String id, String value) {
         Seat seat=this.seatRepository.findById(id).orElseThrow(()->new ResourceNotFound("Seat","Seat_id",id));
+        Location location = this.locationRepository.findById(seat.getLocation().getId()).orElseThrow(()->new ResourceNotFound("Location", "location_id",seat.getLocation().getId().toString()));
         if(value.equals("true")){
             seat.setActive(true);
+            location.setSeatingCapacity(location.getSeatingCapacity()+1);
+            this.locationRepository.save(location);
         }
         else{
             seat.setActive(false);
+            location.setSeatingCapacity(location.getSeatingCapacity()-1);
+            this.locationRepository.save(location);
         }
         this.seatRepository.save(seat);
         return new SeatResponse(0, "NA", "NA", 0);
     }
 
+//    @Override
+//    public Map<String, SeatResponse> getSeatsByLocation(Integer id) {
+//        Location location=this.locationRepository.findById(id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+id));
+//        Map<String, SeatResponse> seatMap = new HashMap<>();
+//        for(int i=1; i<=location.getRs(); i++){
+//            for(int j=1; j<= location.getCs(); j++){
+//                String lid = location.getId()+"R"+i+"C"+j;
+//                if(this.seatRepository.isThereSeatAtPosition(location, i, j)==1){
+//                    Seat seat = this.seatRepository.seatAtPosition(location, i, j);
+//                    seatMap.put(lid, new SeatResponse(1, seat.getId(), seat.getName(), seat.getD()));
+//                }
+//                else {
+//                    seatMap.put(lid, new SeatResponse(0, "NA", "", 0));
+//                }
+//            }
+//        }
+//        return seatMap;
+//    }
+
     @Override
-    public List<SeatDto> getSeatsByLocation(Integer id) {
+    public List<Seat> getSeatsByLocation(Integer id) {
         Location location=this.locationRepository.findById(id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+id));
-        List<Seat> seats=this.seatRepository.findSeatsByLocationId(location);
-        List<SeatDto> seatDtos=seats.stream().map((e)->this.modelMapper.map(e,SeatDto.class)).collect(Collectors.toList());
-        return seatDtos;
+        List<Seat> seats = this.seatRepository.findSeatsByLocationId(location);
+        return seats;
     }
 
 //    @Override
@@ -121,7 +149,7 @@ public class SeatImple implements SeatService {
             return new SeatResponse(1, seat.getId(), seat.getName(), seat.getD());
         }
         else {
-            return new SeatResponse(0, "  ", "  ", 0);
+            return new SeatResponse(0, "NA", "  ", 0);
         }
     }
 
