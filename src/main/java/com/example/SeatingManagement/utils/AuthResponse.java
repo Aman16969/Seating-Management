@@ -1,6 +1,7 @@
 package com.example.SeatingManagement.utils;
 
 import com.example.SeatingManagement.Entity.Location;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ public class AuthResponse {
     private String lastName;
     private String role;
     private String accessToken;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Location location;
 }

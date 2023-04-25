@@ -15,6 +15,9 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking,Integer> {
+    @Query("SELECT b FROM Booking b WHERE b.date BETWEEN :startDate AND :endDate")
+    List<Booking> findAllByDateBetween(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+
     List<Booking> findByDateAndLocation(LocalDate date, Location location);
     List<Booking> findByLocation(Location location);
     List<Booking> findByDate(LocalDate date);
