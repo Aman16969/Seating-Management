@@ -1,5 +1,6 @@
 package com.example.SeatingManagement.Controller;
 
+import com.example.SeatingManagement.Entity.Seat;
 import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.SeatService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/seat")
@@ -44,12 +46,6 @@ public class SeatController {
 //        return new ResponseEntity<ApiResponse>(new ApiResponse("Seat deleted successfully", true), HttpStatus.OK);
 //    }
 
-    @GetMapping("/location/{id}")
-    public ResponseEntity<List<SeatDto>> getSeatsByLocation(@PathVariable("id") Integer id){
-        List<SeatDto> seats = this.seatService.getSeatsByLocation(id);
-        return new ResponseEntity<>(seats, HttpStatus.OK);
-    }
-
     @GetMapping("/position")
     public ResponseEntity<SeatResponse> getSetByPosition(@RequestParam("location") Integer locationId, @RequestParam("row") Integer row, @RequestParam("column") Integer column){
         SeatResponse seatResponse = this.seatService.getSeatByPosition(locationId, row, column);
@@ -60,5 +56,11 @@ public class SeatController {
     public ResponseEntity<SeatResponse> deleteSeat(@PathVariable("id") String id, @PathVariable("value") String value){
         SeatResponse seat = this.seatService.deleteSeatById(id, value);
         return new ResponseEntity<>(seat, HttpStatus.OK);
+    }
+
+    @GetMapping("/location/{id}")
+    public ResponseEntity<List<Seat>> getSeatsByLocation(@PathVariable("id") Integer id){
+        List<Seat> seats = this.seatService.getSeatsByLocation(id);
+        return new ResponseEntity<>(seats, HttpStatus.OK);
     }
 }
