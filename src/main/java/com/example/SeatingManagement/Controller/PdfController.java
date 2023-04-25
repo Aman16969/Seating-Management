@@ -2,6 +2,7 @@ package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.Repository.UserRepository;
+import com.example.SeatingManagement.Services.PdfServices;
 import com.itextpdf.text.BaseColor;
 import com.lowagie.text.*;
 import com.lowagie.text.Font;
@@ -24,75 +25,70 @@ import java.util.List;
 @CrossOrigin
 public class PdfController {
     @Autowired
-    private UserRepository userRepository;
+    private PdfServices pdfServices;
     @GetMapping("/users")
-    public ResponseEntity<byte[]> generatePdf() throws IOException, DocumentException {
-        List<User> users = userRepository.findAll();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        Document document = new Document();
-        PdfWriter.getInstance(document, byteArrayOutputStream);
-        document.open();
-
-        // Define font styles for the PDF
-
-        Font headingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new Color(0, 0, 255));
-
-        Font tableHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.BLACK);
-        Font tableCellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.DARK_GRAY);
-
-        // Add the heading to the document
-        Paragraph heading = new Paragraph("All User List", headingFont);
-        heading.setAlignment(Element.ALIGN_CENTER);
-        document.add(heading);
-        document.add(Chunk.NEWLINE);
-
-        // Define table columns and their widths
-        float[] columnWidths = {2f, 3f, 3f};
-        PdfPTable table = new PdfPTable(columnWidths);
-        table.setWidthPercentage(100);
-
-        // Add table headers
-        PdfPCell cell1 = new PdfPCell(new Phrase("Name", tableHeaderFont));
-        cell1.setBackgroundColor(Color.LIGHT_GRAY);
-        cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell1);
-
-        PdfPCell cell2 = new PdfPCell(new Phrase("Email", tableHeaderFont));
-        cell2.setBackgroundColor(Color.LIGHT_GRAY);
-        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell2);
-
-        PdfPCell cell3 = new PdfPCell(new Phrase("Location", tableHeaderFont));
-        cell3.setBackgroundColor(Color.LIGHT_GRAY);
-        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell3);
-
-        // Add table data
-        for (User user : users) {
-            PdfPCell nameCell = new PdfPCell(new Phrase(user.getFirstName(), tableCellFont));
-            nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            nameCell.setBackgroundColor(Color.WHITE);
-            table.addCell(nameCell);
-
-            PdfPCell emailCell = new PdfPCell(new Phrase(user.getEmail(), tableCellFont));
-            emailCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            emailCell.setBackgroundColor(Color.WHITE);
-            table.addCell(emailCell);
-
-            PdfPCell locationCell = new PdfPCell(new Phrase(user.getLocation().getName(), tableCellFont));
-            locationCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            locationCell.setBackgroundColor(Color.WHITE);
-            table.addCell(locationCell);
-        }
-
-        // Add table to the document
-        document.add(table);
-
-        document.close();
-        byte[] pdfBytes = byteArrayOutputStream.toByteArray();
+    public ResponseEntity<byte[]> generateAllUserPdf() throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllUsersPdf();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", "users.pdf");
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
 
     }
+    @GetMapping("/users/admin/location/{id}")
+    public ResponseEntity<byte[]> generateAllAdminPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllAdminPdf(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "admins.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/users/user/location/{id}")
+    public ResponseEntity<byte[]> generateAllUserPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllUserPdf(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "ALlusers.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/booking/daily/location/{id}")
+    public ResponseEntity<byte[]> generateAllBookingDailyPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllBookingPdfDaily(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "Daily.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/booking/weekly/location/{id}")
+    public ResponseEntity<byte[]> generateAllBookingWeeklyPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllBookingPdfWeekly(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "WeeklyBooking.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/booking/monthly/location/{id}")
+    public ResponseEntity<byte[]> generateAllBookingMonthlyPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllBookingPdfMonthly(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "MonthlyBooking.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/request/location/{id}")
+    public ResponseEntity<byte[]> generateAllRequestPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllRequest(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "Request.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/room/location/{id}")
+    public ResponseEntity<byte[]> generateAllRoomBookingPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllBookingRoom(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "RoomBooking.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+    @GetMapping("/seat/location/{id}")
+    public ResponseEntity<byte[]> generateSeatPdf(@PathVariable Integer id) throws IOException, DocumentException {
+        byte[] pdfBytes=this.pdfServices.generateAllSeatPdfName(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "Seat.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
 }
