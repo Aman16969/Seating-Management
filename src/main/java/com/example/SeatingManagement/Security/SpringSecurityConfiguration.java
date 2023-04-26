@@ -52,6 +52,7 @@ public class SpringSecurityConfiguration {
         httpSecurity.cors().and().csrf().disable();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.authorizeRequests()
+                .antMatchers("/api/swift").permitAll()
                 .antMatchers("/auth/login").permitAll()
                 .anyRequest().authenticated();
         httpSecurity.exceptionHandling()

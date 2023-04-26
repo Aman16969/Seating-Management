@@ -14,14 +14,12 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
-
-Optional<User> findByEmail(String email);
-
-List<User> findByLocation(Location location);
+    Optional<User> findByEmail(String email);
+    List<User> findByLocation(Location location);
     List<User> findByLocationAndRole(Location location, String role);
-
     @Transactional
     @Modifying
     @Query("DELETE FROM User u WHERE u.id = :userId")
     void deleteUserById(@Param("userId") String userId);
+    Optional<User> findByAccoliteId(String accoliteId);
 }
