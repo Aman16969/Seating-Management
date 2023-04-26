@@ -52,6 +52,12 @@ public class SeatController {
         return new ResponseEntity<>(seatResponse, HttpStatus.OK);
     }
 
+    @PutMapping("/changeDirection/{seatId}")
+    public ResponseEntity<SeatResponse> changeSeatDirection(@PathVariable("seatId") String seatId){
+        SeatResponse seatResponse = this.seatService.changeSeatDirection(seatId);
+        return new ResponseEntity<>(seatResponse, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}/{value}")
     public ResponseEntity<SeatResponse> deleteSeat(@PathVariable("id") String id, @PathVariable("value") String value){
         SeatResponse seat = this.seatService.deleteSeatById(id, value);
