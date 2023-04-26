@@ -37,6 +37,7 @@ public class SeatImple implements SeatService {
         seat.setLocation(location);
         seat.setR(seatBody.getRow());
         seat.setC(seatBody.getCol());
+        seat.setD(seatBody.getDir());
         seat.setName(seatBody.getName());
         seat.setId(""+location.getId()+"R"+seatBody.getRow()+"C"+seatBody.getCol());
        Seat newSeat=this.seatRepository.save(seat);
@@ -164,5 +165,18 @@ public class SeatImple implements SeatService {
         Seat newSeat = this.seatRepository.save(seat);
         SeatDto newSeatDto=this.modelMapper.map(newSeat,SeatDto.class);
         return newSeatDto;
+    }
+
+    @Override
+    public SeatResponse changeSeatDirection(String seatId) {
+        Seat seat = this.seatRepository.findById(seatId).orElseThrow(()->new ResourceNotFound("Seat", "seat_id", seatId));
+        seat.setD((seat.getD()+1)%2);
+        Seat newSeat = this.seatRepository.save(seat);
+        SeatResponse seatResponse = new SeatResponse();
+        seatResponse.setSeatDirection(newSeat.getD());
+        seatResponse.setSeatId(newSeat.getId());
+        seatResponse.setIsAvailable(1);
+        seatResponse.setSeatName(newSeat.getName());
+        return seatResponse;
     }
 }
