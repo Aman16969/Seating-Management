@@ -18,6 +18,7 @@ public class AuthResponse {
     private String lastName;
     private String role;
     private String accessToken;
+    private String accoliteId;
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Location location;
 }

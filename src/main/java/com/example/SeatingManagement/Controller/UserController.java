@@ -41,6 +41,21 @@ public class UserController {
         UserDto user=this.userService.getUserById(user_id);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/email/{email}")
+//    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    public ResponseEntity<UserDto> userByEmail(@PathVariable("email") String email){
+        UserDto user=this.userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/accolite/{acc_id}")
+//    @PreAuthorize("hasAnyAuthority('USER','ADMIN')")
+    public ResponseEntity<UserDto> userByAccoliteID(@PathVariable("acc_id") String accId){
+        UserDto user=this.userService.getUserByAccoliteId(accId);
+        return ResponseEntity.ok(user);
+    }
+
     @DeleteMapping("/{user_id}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable("user_id") Integer user_id){
         this.userService.deleteUserById(user_id);
@@ -51,6 +66,13 @@ public class UserController {
         UserDto updatedUser=this.userService.updateUserLocationById(user_id,locationId);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
     }
+
+    @PutMapping("/{user_id}/accolite/{accolite}")
+    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable Integer user_id,@PathVariable String accolite){
+        UserDto updatedUser=this.userService.updateUserAccoliteIdById(user_id,accolite);
+        return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
+    }
+
     @GetMapping("/findByEmail/{email}")
     public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email){
         UserDto userDto=this.userService.getUserByEmail(email);

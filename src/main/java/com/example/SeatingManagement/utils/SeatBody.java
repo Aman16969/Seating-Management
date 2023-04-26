@@ -13,5 +13,6 @@ public class SeatBody {
     private Integer locationId;
     private Integer row;
     private Integer col;
+    private Integer dir;
     private String name;
 }
