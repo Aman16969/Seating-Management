@@ -8,6 +8,7 @@ import com.example.SeatingManagement.EntityRequestBody.*;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,4 +23,5 @@ public interface PdfServices {
     byte[] generateAllRequest(Integer id);
     byte[] generateAllBookingRoom(Integer id);
     byte[] generateAllSeatPdfName(Integer id);
+    byte[] getAllBookingsByDates(LocalDate fromDate, LocalDate toDate);
 }
