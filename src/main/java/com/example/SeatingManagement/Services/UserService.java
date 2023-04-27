@@ -21,8 +21,7 @@ public interface UserService {
     UserDto getUserByEmail(String email);
    String updateUserActiveStatus(String email, boolean value);
    String updateUserRole(String email,Map<Object,Object> role);
+    UserDto getUserByAccoliteId(String accoliteId);
 
-
-
-
+    UserDto updateUserAccoliteIdById(Integer user_id, String accoliteId);
 }

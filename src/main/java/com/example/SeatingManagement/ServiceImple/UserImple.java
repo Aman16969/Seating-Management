@@ -136,6 +136,22 @@ public class UserImple implements UserService {
         return "user Role changes";
     }
 
+    @Override
+    public UserDto getUserByAccoliteId(String accoliteId) {
+        User user=this.userRepository.findByAccoliteId(accoliteId).orElseThrow(()->new ResourceNotFound("User","accoliteId",accoliteId));
+        UserDto userDto=this.modelMapper.map(user,UserDto.class);
+        return userDto;
+    }
+
+    @Override
+    public UserDto updateUserAccoliteIdById(Integer userId, String accoliteId) {
+        User user=this.userRepository.findById(userId).orElseThrow(()-> new ResourceNotFound("User","user id",""+userId));
+        user.setAccoliteId(accoliteId);
+        User updatedUser=this.userRepository.save(user);
+        UserDto updatedUserDto=this.modelMapper.map(updatedUser,UserDto.class);
+        return updatedUserDto;
+    }
+
 //    @Override
 //    public UserDto setLocationOfUser(String id, Integer location_id) {
 //        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+location_id));

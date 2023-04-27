@@ -23,4 +23,6 @@ public interface SeatService {
     SeatResponse getSeatByPosition(Integer locationId, Integer row, Integer column);
 
     SeatDto updateSeat(SeatDto seatDto);
+
+    SeatResponse changeSeatDirection(String seatId);
 }
