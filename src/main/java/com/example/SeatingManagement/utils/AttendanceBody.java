@@ -13,20 +13,10 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttendanceBody {
-    private String empID;
+    private String emp_Id;
     private String name;
-    private LocalDate date;
-    private LocalTime inTime;
-    private LocalTime outTime;
+    private String date;
+    private String in_Time;
+    private String out_Time;
 
-    @Override
-    public String toString() {
-        return "AttendanceBody{" +
-                "empID='" + empID + '\'' +
-                ", name='" + name + '\'' +
-                ", date=" + date +
-                ", inTime=" + inTime +
-                ", outTime=" + outTime +
-                '}';
-    }
 }
