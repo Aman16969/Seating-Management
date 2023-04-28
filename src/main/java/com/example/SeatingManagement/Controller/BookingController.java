@@ -8,6 +8,9 @@ import com.example.SeatingManagement.utils.AttendanceBody;
 import com.example.SeatingManagement.utils.AttendanceResponse;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,9 +18,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -91,11 +96,15 @@ public class BookingController {
     }
 
     @PostMapping("/markAttendance")
-    public ResponseEntity<String> markAttendance(@RequestBody String body){
-        System.out.println(body);
-//        for(int i=0; i<attendanceBodyList.size(); i++){
-//            System.out.println(attendanceBodyList.get(i).toString());
-//        }
-        return ResponseEntity.ok("mark attendance");
+    public ResponseEntity<?> markAttendance(@RequestBody String json) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<AttendanceBody> attendanceBodyList = objectMapper.readValue(json, new TypeReference<List<AttendanceBody>>() {});
+            this.bookingServices.updateAttendance(attendanceBodyList);
+            return new ResponseEntity<>(new AttendanceBody("INT1437", "Visswateza", "a","a","a"), HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request body");
+        }
     }
 }

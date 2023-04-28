@@ -24,6 +24,9 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     @Query("SELECT b from Booking b WHERE b.date = :givenDate AND b.accoliteId = :id AND b.isActive = true")
     Booking findBookingByAccoliteIdAndDate(@Param("givenDate") LocalDate date, @Param("id") String accoliteId);
 
+    @Query("SELECT count(b) from Booking b WHERE b.date = :givenDate AND b.accoliteId = :id AND b.isActive = true")
+    Integer isBookingByAccoliteIdAndDate(@Param("givenDate") LocalDate date, @Param("id") String accoliteId);
+
     List<Booking> findByDateAndLocation(LocalDate date, Location location);
     List<Booking> findByLocation(Location location);
     List<Booking> findByDate(LocalDate date);
