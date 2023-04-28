@@ -10,6 +10,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -88,6 +90,14 @@ public class PdfController {
         byte[] pdfBytes=this.pdfServices.generateAllSeatPdfName(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", "Seat.pdf");
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/bookings/dateWise/{fromDate}/{toDate}")
+    public ResponseEntity<byte[]> generateBookingsByDatesPdf(@PathVariable("fromDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate fromDate, @PathVariable("toDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate toDate) throws IOException, DocumentException{
+        byte[] pdfBytes = this.pdfServices.getAllBookingsByDates(fromDate, toDate);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDispositionFormData("attachment", "Bookings_from_"+fromDate+"_"+toDate+".pdf");
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 

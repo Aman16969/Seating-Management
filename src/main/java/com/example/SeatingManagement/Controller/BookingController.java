@@ -4,6 +4,8 @@ import com.example.SeatingManagement.EntityRequestBody.BookingDto;
 import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.BookingServices;
+import com.example.SeatingManagement.utils.AttendanceBody;
+import com.example.SeatingManagement.utils.AttendanceResponse;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +88,14 @@ public class BookingController {
     public ResponseEntity<Map<String, Integer>> seatsAvailableByLocationDateTime(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("fromTime") @DateTimeFormat(pattern = "HH:mm") LocalTime fromTime, @RequestParam("toTime") @DateTimeFormat(pattern = "HH:mm") LocalTime toTime) throws ParseException{
         Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableByLocationDateTime(locationId, date, fromTime, toTime);
         return new ResponseEntity<>(availableSeats, HttpStatus.OK);
+    }
+
+    @PostMapping("/markAttendance")
+    public ResponseEntity<AttendanceBody> markAttendance(@RequestBody List<AttendanceBody> attendanceBodyList){
+        System.out.println("This is hell");
+        for(int i=0; i<attendanceBodyList.size(); i++){
+            System.out.println(attendanceBodyList.get(i).toString());
+        }
+        return new ResponseEntity<>(new AttendanceBody("INT1437", "Visswateza", LocalDate.now(), LocalTime.now(), LocalTime.now()), HttpStatus.OK);
     }
 }

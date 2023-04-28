@@ -694,4 +694,83 @@ public class PdfImple implements PdfServices {
         byte[] pdfBytes = byteArrayOutputStream.toByteArray();
         return pdfBytes;
     }
+
+    @Override
+    public byte[] getAllBookingsByDates(LocalDate fromDate, LocalDate toDate) {
+        List<Booking> bookings = this.bookingRepository.findAllByDateBetween(fromDate, toDate);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+        document.open();
+        Font headingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new Color(0, 0, 255));
+        Font tableHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.BLACK);
+        Font tableCellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.DARK_GRAY);
+        Paragraph heading = new Paragraph("Bookings between "+fromDate+" and "+toDate+".", headingFont);
+        heading.setAlignment(Element.ALIGN_CENTER);
+        document.add(heading);
+        document.add(Chunk.NEWLINE);
+        float[] columnWidths = {2f, 2f, 2f, 2f, 2f, 2f};
+        PdfPTable table = new PdfPTable(columnWidths);
+        table.setWidthPercentage(100);
+        PdfPCell cell1 = new PdfPCell(new Phrase("Id", tableHeaderFont));
+        cell1.setBackgroundColor(Color.LIGHT_GRAY);
+        cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell1);
+        PdfPCell cell2 = new PdfPCell(new Phrase("Location", tableHeaderFont));
+        cell2.setBackgroundColor(Color.LIGHT_GRAY);
+        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell2);
+        PdfPCell cell3 = new PdfPCell(new Phrase("Date", tableHeaderFont));
+        cell3.setBackgroundColor(Color.LIGHT_GRAY);
+        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell3);
+        PdfPCell cell4 = new PdfPCell(new Phrase("From time", tableHeaderFont));
+        cell4.setBackgroundColor(Color.LIGHT_GRAY);
+        cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell4);
+        PdfPCell cell5 = new PdfPCell(new Phrase("To time", tableHeaderFont));
+        cell5.setBackgroundColor(Color.LIGHT_GRAY);
+        cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell5);
+        PdfPCell cell6 = new PdfPCell(new Phrase("Status", tableHeaderFont));
+        cell6.setBackgroundColor(Color.LIGHT_GRAY);
+        cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell6);
+        for (Booking booking : bookings) {
+            PdfPCell idCell = new PdfPCell(new Phrase(String.valueOf(booking.getId()), tableCellFont));
+            idCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            idCell.setBackgroundColor(Color.WHITE);
+            table.addCell(idCell);
+            PdfPCell locationCell = new PdfPCell(new Phrase(String.valueOf(booking.getLocation().getName()), tableCellFont));
+            locationCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            locationCell.setBackgroundColor(Color.WHITE);
+            table.addCell(locationCell);
+            PdfPCell dateCell = new PdfPCell(new Phrase(String.valueOf(booking.getDate()), tableCellFont));
+            dateCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            dateCell.setBackgroundColor(Color.WHITE);
+            table.addCell(dateCell);
+            PdfPCell fromTimeCell = new PdfPCell(new Phrase(String.valueOf(booking.getFromTime()), tableCellFont));
+            fromTimeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            fromTimeCell.setBackgroundColor(Color.WHITE);
+            table.addCell(fromTimeCell);
+            PdfPCell toTimeCell = new PdfPCell(new Phrase(String.valueOf(booking.getToTime()), tableCellFont));
+            toTimeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            toTimeCell.setBackgroundColor(Color.WHITE);
+            table.addCell(toTimeCell);
+            PdfPCell statusCell;
+            if(booking.isActive()) {
+                statusCell = new PdfPCell(new Phrase("Active", tableCellFont));
+            }
+            else{
+                statusCell = new PdfPCell(new Phrase("Cancelled", tableCellFont));
+            }
+            statusCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            statusCell.setBackgroundColor(Color.WHITE);
+            table.addCell(statusCell);
+        }
+        document.add(table);
+        document.close();
+        byte[] pdfBytes = byteArrayOutputStream.toByteArray();
+        return pdfBytes;
+    }
 }
