@@ -91,11 +91,11 @@ public class BookingController {
     }
 
     @PostMapping("/markAttendance")
-    public ResponseEntity<AttendanceBody> markAttendance(@RequestBody List<AttendanceBody> attendanceBodyList){
-        System.out.println("This is hell");
-        for(int i=0; i<attendanceBodyList.size(); i++){
-            System.out.println(attendanceBodyList.get(i).toString());
-        }
-        return new ResponseEntity<>(new AttendanceBody("INT1437", "Visswateza", LocalDate.now(), LocalTime.now(), LocalTime.now()), HttpStatus.OK);
+    public ResponseEntity<String> markAttendance(@RequestBody String body){
+        System.out.println(body);
+//        for(int i=0; i<attendanceBodyList.size(); i++){
+//            System.out.println(attendanceBodyList.get(i).toString());
+//        }
+        return ResponseEntity.ok("mark attendance");
     }
 }
