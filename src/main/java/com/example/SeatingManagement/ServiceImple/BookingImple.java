@@ -11,6 +11,7 @@ import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.SeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.BookingServices;
+import com.example.SeatingManagement.utils.AttendanceBody;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import org.modelmapper.ModelMapper;
@@ -213,5 +214,10 @@ public class BookingImple implements BookingServices {
             seatAvailability.put(availableSeats.get(i).getId(), 1);
         }
         return seatAvailability;
+    }
+
+    @Override
+    public void updateAttendance(List<AttendanceBody> attendanceBodyList) {
+
     }
 }

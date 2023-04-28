@@ -31,7 +31,11 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-    private boolean isActive=true;
+    private boolean isActive = true;
     private LocalTime fromTime;
     private LocalTime toTime;
+    private LocalTime inTime;
+    private LocalTime outTime;
+    private boolean isPresent = false;
+    private String accoliteId;
 }

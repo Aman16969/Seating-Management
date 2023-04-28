@@ -29,5 +29,8 @@ public class BookingDto {
     private Seat seat;
     private User user;
     private Location location;
-
+    private LocalTime inTime;
+    private LocalTime outTime;
+    private boolean isPresent = false;
+    private String accoliteId;
 }
