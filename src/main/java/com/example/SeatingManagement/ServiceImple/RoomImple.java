@@ -29,6 +29,15 @@ public class RoomImple implements RoomServices {
     public RoomDto addnewRoom(RoomDto roomDto) {
         Room room=this.modelMapper.map(roomDto,Room.class);
         Room newRoom=this.roomRepository.save((room));
+        Location location = this.locationRepository.findById(newRoom.getLocation().getId()).orElseThrow(()->new ResourceNotFound("Location", "locationId", newRoom.getLocation().getId().toString()));
+        if(newRoom.getRoomType().equals("BOARD")){
+            location.setBoardRoomCapacity(location.getBoardRoomCapacity()+1);
+            this.locationRepository.save(location);
+        }
+        else{
+            location.setDiscussionRoomCapacity(location.getDiscussionRoomCapacity()+1);
+            this.locationRepository.save(location);
+        }
         return this.modelMapper.map(newRoom,RoomDto.class);
     }
 

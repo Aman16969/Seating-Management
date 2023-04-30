@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 public class RoomDto {
     private String id;
     private String name;
+    private String roomType;
     private Integer capacity;
     private boolean isActive=true;
     private Location location;

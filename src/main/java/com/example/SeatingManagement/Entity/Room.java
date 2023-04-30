@@ -18,6 +18,7 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    private String roomType;
     private Integer capacity;
     private boolean isActive=true;
     @ManyToOne(fetch = FetchType.LAZY)
