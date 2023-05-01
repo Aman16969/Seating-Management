@@ -18,5 +18,4 @@ public class AttendanceBody {
     private String date;
     private String in_Time;
     private String out_Time;
-
 }

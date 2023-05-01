@@ -38,4 +38,22 @@ public class Booking {
     private LocalTime outTime;
     private boolean isPresent = false;
     private String accoliteId;
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", date=" + date +
+                ", seat=" + seat +
+                ", user=" + user +
+                ", location=" + location +
+                ", isActive=" + isActive +
+                ", fromTime=" + fromTime +
+                ", toTime=" + toTime +
+                ", inTime=" + inTime +
+                ", outTime=" + outTime +
+                ", isPresent=" + isPresent +
+                ", accoliteId='" + accoliteId + '\'' +
+                '}';
+    }
 }

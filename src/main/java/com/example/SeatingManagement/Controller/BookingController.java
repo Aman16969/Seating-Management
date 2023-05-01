@@ -100,9 +100,7 @@ public class BookingController {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             List<AttendanceBody> attendanceBodyList = objectMapper.readValue(json, new TypeReference<List<AttendanceBody>>() {});
-            for (int i=0;i<attendanceBodyList.size();i++){
-                System.out.println(attendanceBodyList.get(i).getName());
-            }
+            this.bookingServices.updateAttendance(attendanceBodyList);
             return new ResponseEntity<>(new AttendanceBody("INT1437", "Visswateza", "a","a","a"), HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
