@@ -314,6 +314,97 @@ public class PdfImple implements PdfServices {
     }
 
     @Override
+    public byte[] generateAllBookingPdfDay(LocalDate date, Integer id) {
+        Location location=this.locationRepository.findById(id).orElseThrow(()-> new ResourceNotFound("Location","Location_Id",""+id));
+        List<Booking> bookings = (List<Booking>) this.bookingRepository.findBookingByDateAndLocation(date,location);
+        List<BookingDto> bookingDtos = bookings.stream().map((e) -> this.modelMapper.map(e, BookingDto.class)).collect(Collectors.toList());
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Document document = new Document();
+        PdfWriter.getInstance(document, byteArrayOutputStream);
+        document.open();
+        Font headingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new Color(0, 0, 255));
+        Font tableHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.BLACK);
+        Font tableCellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.DARK_GRAY);
+        Paragraph heading = new Paragraph("All Booking List " + date , headingFont);
+        heading.setAlignment(Element.ALIGN_CENTER);
+        document.add(heading);
+        document.add(Chunk.NEWLINE);
+        float[] columnWidths = {3f, 2f, 2f, 2f, 2f, 2f,1f};
+        PdfPTable table = new PdfPTable(columnWidths);
+        table.setWidthPercentage(100);
+        PdfPCell cell1 = new PdfPCell(new Phrase("Email", tableHeaderFont));
+        cell1.setBackgroundColor(Color.LIGHT_GRAY);
+        cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell1);
+        PdfPCell cell2 = new PdfPCell(new Phrase("Seat Name", tableHeaderFont));
+        cell2.setBackgroundColor(Color.LIGHT_GRAY);
+        cell2.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell2);
+        PdfPCell cell3 = new PdfPCell(new Phrase("Location", tableHeaderFont));
+        cell3.setBackgroundColor(Color.LIGHT_GRAY);
+        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell3);
+        PdfPCell cell4 = new PdfPCell(new Phrase("Date", tableHeaderFont));
+        cell3.setBackgroundColor(Color.LIGHT_GRAY);
+        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell4);
+        PdfPCell cell5 = new PdfPCell(new Phrase("Start Time", tableHeaderFont));
+        cell3.setBackgroundColor(Color.LIGHT_GRAY);
+        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell5);
+        PdfPCell cell6 = new PdfPCell(new Phrase("End Time", tableHeaderFont));
+        cell3.setBackgroundColor(Color.LIGHT_GRAY);
+        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell6);
+        PdfPCell cell7 = new PdfPCell(new Phrase("Present", tableHeaderFont));
+        cell7.setBackgroundColor(Color.LIGHT_GRAY);
+        cell7.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(cell7);
+        for (BookingDto booking : bookingDtos) {
+            PdfPCell emailCell = new PdfPCell(new Phrase(booking.getUser().getEmail(), tableCellFont));
+            emailCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            emailCell.setBackgroundColor(Color.WHITE);
+            table.addCell(emailCell);
+
+            PdfPCell nameCell = new PdfPCell(new Phrase(booking.getSeat().getName(), tableCellFont));
+            nameCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            nameCell.setBackgroundColor(Color.WHITE);
+            table.addCell(nameCell);
+
+            PdfPCell locationCell = new PdfPCell(new Phrase(booking.getLocation().getName(), tableCellFont));
+            locationCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            locationCell.setBackgroundColor(Color.WHITE);
+            table.addCell(locationCell);
+
+            PdfPCell dateCell = new PdfPCell(new Phrase(String.valueOf(booking.getDate()), tableCellFont));
+            dateCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            dateCell.setBackgroundColor(Color.WHITE);
+            table.addCell(dateCell);
+
+            PdfPCell startTimeCell = new PdfPCell(new Phrase(String.valueOf(booking.getFromTime()), tableCellFont));
+            startTimeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            startTimeCell.setBackgroundColor(Color.WHITE);
+            table.addCell(startTimeCell);
+
+            PdfPCell toTimeCell = new PdfPCell(new Phrase(String.valueOf(booking.getToTime()), tableCellFont));
+            toTimeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            toTimeCell.setBackgroundColor(Color.WHITE);
+            table.addCell(toTimeCell);
+            PdfPCell present = new PdfPCell(new Phrase(booking.isPresent() ? "present" : "absent", tableCellFont));
+            present.setHorizontalAlignment(Element.ALIGN_LEFT);
+            present.setBackgroundColor(Color.WHITE);
+            table.addCell(present);
+        }
+
+        document.add(table);
+
+        document.close();
+        byte[] pdfBytes = byteArrayOutputStream.toByteArray();
+
+        return pdfBytes;
+    }
+
+    @Override
     public byte[] generateAllBookingPdfMonthly(Integer id) {
         LocalDate today=LocalDate.now();
         LocalDate lastMonthStart = today.minusMonths(1).withDayOfMonth(1);
