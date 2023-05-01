@@ -15,6 +15,7 @@ public interface PdfServices {
     byte[] generateAllAdminPdf(Integer id);
     byte[] generateAllUserPdf(Integer id);
     byte[] generateAllBookingPdfDaily(Integer id);
+    byte [] generateAllBookingPdfDay(LocalDate date,Integer id);
     byte[] generateAllBookingPdfMonthly(Integer id);
     byte[] generateAllBookingPdfWeekly(Integer id);
     byte[] generateAllRequest(Integer id);
