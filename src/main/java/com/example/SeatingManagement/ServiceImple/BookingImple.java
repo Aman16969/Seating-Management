@@ -11,10 +11,12 @@ import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.SeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.BookingServices;
+import com.example.SeatingManagement.utils.AttendanceBody;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -57,6 +59,7 @@ public class BookingImple implements BookingServices {
         booking.setDate(bookingBody.getDate());
         booking.setFromTime(bookingBody.getFromTime());
         booking.setToTime(bookingBody.getToTime());
+        booking.setAccoliteId(bookingBody.getAccoliteId());
         if(this.bookingRepository.isSeatBookedOnThatDateAndTime(seat, date,fromTime,toTime)==1){
             return new BookingResponse(0, "This seat was already taken.");
         }
@@ -213,5 +216,18 @@ public class BookingImple implements BookingServices {
             seatAvailability.put(availableSeats.get(i).getId(), 1);
         }
         return seatAvailability;
+    }
+
+    @Override
+    public void updateAttendance(List<AttendanceBody> attendanceBodyList) {
+        for(int i=0; i<attendanceBodyList.size(); i++){
+            if(1==this.bookingRepository.isBookingByAccoliteIdAndDate(LocalDate.parse(attendanceBodyList.get(i).getDate()), attendanceBodyList.get(i).getEmp_Id())){
+                Booking booking = this.bookingRepository.findBookingByAccoliteIdAndDate(LocalDate.parse(attendanceBodyList.get(i).getDate()), attendanceBodyList.get(i).getEmp_Id());
+                booking.setInTime(LocalTime.parse(attendanceBodyList.get(i).getIn_Time()));
+                booking.setOutTime(LocalTime.parse(attendanceBodyList.get(i).getOut_Time()));
+                booking.setPresent(true);
+                this.bookingRepository.save(booking);
+            }
+        }
     }
 }

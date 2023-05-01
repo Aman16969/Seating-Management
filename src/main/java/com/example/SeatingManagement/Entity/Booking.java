@@ -31,7 +31,29 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;
-    private boolean isActive=true;
+    private boolean isActive = true;
     private LocalTime fromTime;
     private LocalTime toTime;
+    private LocalTime inTime;
+    private LocalTime outTime;
+    private boolean isPresent = false;
+    private String accoliteId;
+
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", date=" + date +
+                ", seat=" + seat +
+                ", user=" + user +
+                ", location=" + location +
+                ", isActive=" + isActive +
+                ", fromTime=" + fromTime +
+                ", toTime=" + toTime +
+                ", inTime=" + inTime +
+                ", outTime=" + outTime +
+                ", isPresent=" + isPresent +
+                ", accoliteId='" + accoliteId + '\'' +
+                '}';
+    }
 }

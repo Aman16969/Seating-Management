@@ -24,4 +24,5 @@ public class BookingBody {
     private String seatId;
     private String userId;
     private Integer locationId;
+    private String accoliteId;
 }
