@@ -107,7 +107,7 @@ public class BookingImple implements BookingServices {
     @Override
     public List<BookingDto> getAllBookingByLocation(Integer location_id) {
         Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","location_id",""+location_id));
-        List<Booking> allBookingsByLocation=this.bookingRepository.findByLocationAndIsActive(location);
+        List<Booking> allBookingsByLocation=this.bookingRepository.findByLocation(location);
         List<BookingDto> allBookingDto=allBookingsByLocation.stream().map((e)->this.modelMapper.map(e,BookingDto.class)).collect(Collectors.toList());
         return allBookingDto;
     }
