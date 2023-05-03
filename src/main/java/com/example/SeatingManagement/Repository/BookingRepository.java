@@ -28,7 +28,8 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     Integer isBookingByAccoliteIdAndDate(@Param("givenDate") LocalDate date, @Param("id") String accoliteId);
 
     List<Booking> findByDateAndLocation(LocalDate date, Location location);
-    List<Booking> findByLocation(Location location);
+    @Query("SELECT b from Booking b WHERE b.location = :location AND b.isActive = true")
+    List<Booking> findByLocation(@Param("location") Location location);
     @Query("SELECT b from Booking b WHERE b.date = :date AND b.location = :location AND b.isActive = true")
     Booking findBookingByDateAndLocation(@Param("date") LocalDate date, @Param("location") Location location);
 

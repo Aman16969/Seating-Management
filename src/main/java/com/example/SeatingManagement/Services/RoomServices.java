@@ -11,4 +11,5 @@ public interface RoomServices {
     RoomDto addnewRoom(RoomDto roomDto);
     List<RoomDto> getByLocation(Integer location_id);
 
+    List<RoomDto> getByLocationAndType(Integer id, String type);
 }

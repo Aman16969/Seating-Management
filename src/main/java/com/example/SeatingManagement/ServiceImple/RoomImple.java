@@ -49,5 +49,13 @@ public class RoomImple implements RoomServices {
         return roomDtos;
     }
 
+    @Override
+    public List<RoomDto> getByLocationAndType(Integer location_id, String type) {
+        Location location=this.locationRepository.findById(location_id).orElseThrow(()->new ResourceNotFound("Location","Location Id",""+location_id));
+        List<Room> rooms=this.roomRepository.findRoomsByLocationAndType(location, type);
+        List<RoomDto> roomDtos=rooms.stream().map((e)->this.modelMapper.map(e,RoomDto.class)).collect(Collectors.toList());
+        return roomDtos;
+    }
+
 
 }

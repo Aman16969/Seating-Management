@@ -30,4 +30,10 @@ public class RoomController {
         List<RoomDto> rooms = this.roomServices.getByLocation(id);
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
+
+    @GetMapping("/location/{id}/type/{type}")
+    public ResponseEntity<List<RoomDto>> GetRoomByLocation(@PathVariable("id") Integer id, @PathVariable("type") String type){
+        List<RoomDto> rooms = this.roomServices.getByLocationAndType(id, type);
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
 }
