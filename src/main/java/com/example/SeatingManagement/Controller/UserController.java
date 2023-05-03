@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/user")
-@CrossOrigin
+@CrossOrigin (origins= "*", allowedHeaders = "*")
 public class UserController {
     @Autowired
     private UserService userService;

@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("api/bookRoom")
-@CrossOrigin
+@CrossOrigin (origins= "*", allowedHeaders = "*")
 public class BookingRoomController {
     @Autowired
     private BookingRoomServices bookingRoomServices;

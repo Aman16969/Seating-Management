@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/room")
-@CrossOrigin
+@CrossOrigin (origins= "*", allowedHeaders = "*")
 public class RoomController {
     @Autowired
     private RoomServices roomServices;
@@ -28,6 +28,12 @@ public class RoomController {
     @GetMapping("/location/{id}")
     public ResponseEntity<List<RoomDto>> GetRoomByLocation(@PathVariable Integer id){
         List<RoomDto> rooms = this.roomServices.getByLocation(id);
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
+    }
+
+    @GetMapping("/location/{id}/type/{type}")
+    public ResponseEntity<List<RoomDto>> GetRoomByLocation(@PathVariable("id") Integer id, @PathVariable("type") String type){
+        List<RoomDto> rooms = this.roomServices.getByLocationAndType(id, type);
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 }

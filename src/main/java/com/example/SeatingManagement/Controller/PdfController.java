@@ -63,7 +63,7 @@ public class PdfController {
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
     @GetMapping("/booking/day/{date}/location/{id}")
-    public ResponseEntity<byte[]> generateAllBookingPerDayPdf(@PathVariable LocalDate date,@PathVariable Integer id) throws IOException, DocumentException {
+    public ResponseEntity<byte[]> generateAllBookingPerDayPdf(@PathVariable @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date,@PathVariable Integer id) throws IOException, DocumentException {
         byte[] pdfBytes=this.pdfServices.generateAllBookingPdfDay(date,id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentDispositionFormData("attachment", "Day.pdf");

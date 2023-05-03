@@ -7,13 +7,14 @@ import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.utils.UserBody;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public interface UserService {
     UserDto registerUser(UserDto userDto);
-    String decodeGoogleToken(String token);
+    String decodeGoogleToken(String token) throws IOException;
     UserDto updateUserLocationById(Integer UserId, Integer locationId);
     UserDto getUserById(Integer id);
     void deleteUserById(Integer id);

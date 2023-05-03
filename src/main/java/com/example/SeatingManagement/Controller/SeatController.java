@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/seat")
-@CrossOrigin
+@CrossOrigin (origins= "*", allowedHeaders = "*")
 public class SeatController {
     @Autowired
     private SeatService seatService;
