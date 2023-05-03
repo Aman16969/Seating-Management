@@ -15,7 +15,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class SwiftData {
     @Id
-    private String empId;
     private String email;
-    private String name;
+    private String empId;
 }
