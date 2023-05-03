@@ -4,6 +4,7 @@ import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
+import com.example.SeatingManagement.PayLoad.EmployeeDataFromSwift;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.UserService;
@@ -14,7 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +32,8 @@ public class UserImple implements UserService {
     private LocationRepository locationRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private EmployeeDataFromSwift employeeDataFromSwift;
 
 
     @Override
@@ -43,7 +48,7 @@ public class UserImple implements UserService {
     }
 
     @Override
-    public String decodeGoogleToken(String token) {
+    public String decodeGoogleToken(String token) throws IOException {
         String[] chunks = token.split("\\.");
         String payload = new String(Base64.decodeBase64(chunks[1]));
         Map<String, String> map = new HashMap<>();
@@ -54,12 +59,18 @@ public class UserImple implements UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://eolblxg3qe42qa0.m.pipedream.net/";
         Optional<User> user=this.userRepository.findByEmail(map.get("email"));
+
         if(user.isEmpty()) {
+            Map<String, String> requestBody = new HashMap<>();
+            EmployeeDataFromSwift employeeDataFromSwift = new EmployeeDataFromSwift();
+            Map<String, String> employeeMap = employeeDataFromSwift.getEmployees(url);
             BCryptPasswordEncoder b=new BCryptPasswordEncoder();
             String password= b.encode("password");
             User newuser=new User();
+            newuser.setAccoliteId(employeeMap.get(map.get("email")));
             newuser.setEmail(map.get("email"));
             newuser.setFirstName(map.get("given_name"));
             newuser.setLastName(map.get("family_name"));

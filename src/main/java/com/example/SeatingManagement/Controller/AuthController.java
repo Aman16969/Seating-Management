@@ -16,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -41,6 +42,8 @@ public class AuthController {
         }
         catch (BadCredentialsException ex){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 //    @PostMapping("/decode")

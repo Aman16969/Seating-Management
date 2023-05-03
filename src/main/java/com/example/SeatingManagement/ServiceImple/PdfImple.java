@@ -329,7 +329,7 @@ public class PdfImple implements PdfServices {
         heading.setAlignment(Element.ALIGN_CENTER);
         document.add(heading);
         document.add(Chunk.NEWLINE);
-        float[] columnWidths = {3f, 2f, 2f, 2f, 2f, 2f,1f};
+        float[] columnWidths = {4f, 2f, 2f, 2f, 2f, 2f,2f};
         PdfPTable table = new PdfPTable(columnWidths);
         table.setWidthPercentage(100);
         PdfPCell cell1 = new PdfPCell(new Phrase("Email", tableHeaderFont));
@@ -345,17 +345,20 @@ public class PdfImple implements PdfServices {
         cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell3);
         PdfPCell cell4 = new PdfPCell(new Phrase("Date", tableHeaderFont));
-        cell3.setBackgroundColor(Color.LIGHT_GRAY);
-        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell4.setBackgroundColor(Color.LIGHT_GRAY);
+        cell4.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell4);
+
         PdfPCell cell5 = new PdfPCell(new Phrase("Start Time", tableHeaderFont));
-        cell3.setBackgroundColor(Color.LIGHT_GRAY);
-        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell5.setBackgroundColor(Color.LIGHT_GRAY);
+        cell5.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell5);
+
         PdfPCell cell6 = new PdfPCell(new Phrase("End Time", tableHeaderFont));
-        cell3.setBackgroundColor(Color.LIGHT_GRAY);
-        cell3.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell6.setBackgroundColor(Color.LIGHT_GRAY);
+        cell6.setHorizontalAlignment(Element.ALIGN_CENTER);
         table.addCell(cell6);
+
         PdfPCell cell7 = new PdfPCell(new Phrase("Present", tableHeaderFont));
         cell7.setBackgroundColor(Color.LIGHT_GRAY);
         cell7.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -376,10 +379,10 @@ public class PdfImple implements PdfServices {
             locationCell.setBackgroundColor(Color.WHITE);
             table.addCell(locationCell);
 
-            PdfPCell dateCell = new PdfPCell(new Phrase(String.valueOf(booking.getDate()), tableCellFont));
-            dateCell.setHorizontalAlignment(Element.ALIGN_LEFT);
-            dateCell.setBackgroundColor(Color.WHITE);
-            table.addCell(dateCell);
+            PdfPCell gdate = new PdfPCell(new Phrase(String.valueOf(booking.getDate()), tableCellFont));
+            gdate.setHorizontalAlignment(Element.ALIGN_LEFT);
+            gdate.setBackgroundColor(Color.WHITE);
+            table.addCell(gdate);
 
             PdfPCell startTimeCell = new PdfPCell(new Phrase(String.valueOf(booking.getFromTime()), tableCellFont));
             startTimeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -390,6 +393,7 @@ public class PdfImple implements PdfServices {
             toTimeCell.setHorizontalAlignment(Element.ALIGN_LEFT);
             toTimeCell.setBackgroundColor(Color.WHITE);
             table.addCell(toTimeCell);
+
             PdfPCell present = new PdfPCell(new Phrase(booking.isPresent() ? "present" : "absent", tableCellFont));
             present.setHorizontalAlignment(Element.ALIGN_LEFT);
             present.setBackgroundColor(Color.WHITE);
