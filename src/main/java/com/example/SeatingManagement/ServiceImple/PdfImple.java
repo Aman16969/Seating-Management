@@ -322,7 +322,7 @@ public class PdfImple implements PdfServices {
         Document document = new Document();
         PdfWriter.getInstance(document, byteArrayOutputStream);
         document.open();
-        Font headingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new Color(0, 0, 255));
+        Font headingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18, new Color(72, 72, 149));
         Font tableHeaderFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, Color.BLACK);
         Font tableCellFont = FontFactory.getFont(FontFactory.HELVETICA, 10, Color.DARK_GRAY);
         Paragraph heading = new Paragraph("All Booking List " + date , headingFont);
