@@ -1,11 +1,13 @@
 package com.example.SeatingManagement.ServiceImple;
 
 import com.example.SeatingManagement.Entity.Location;
+import com.example.SeatingManagement.Entity.SwiftData;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.PayLoad.EmployeeDataFromSwift;
 import com.example.SeatingManagement.Repository.LocationRepository;
+import com.example.SeatingManagement.Repository.SwiftRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,6 +36,8 @@ public class UserImple implements UserService {
     private ModelMapper modelMapper;
     @Autowired
     private EmployeeDataFromSwift employeeDataFromSwift;
+    @Autowired
+    private SwiftRepository swiftRepository;
 
 
     @Override
@@ -64,13 +68,15 @@ public class UserImple implements UserService {
         Optional<User> user=this.userRepository.findByEmail(map.get("email"));
 
         if(user.isEmpty()) {
-            Map<String, String> requestBody = new HashMap<>();
-            EmployeeDataFromSwift employeeDataFromSwift = new EmployeeDataFromSwift();
-            Map<String, String> employeeMap = employeeDataFromSwift.getEmployees(url);
+            SwiftData data =this.swiftRepository.findByEmail(map.get("email"));
+
+//            Map<String, String> requestBody = new HashMap<>();
+//            EmployeeDataFromSwift employeeDataFromSwift = new EmployeeDataFromSwift();
+//            Map<String, String> employeeMap = employeeDataFromSwift.getEmployees(url);
             BCryptPasswordEncoder b=new BCryptPasswordEncoder();
             String password= b.encode("password");
             User newuser=new User();
-            newuser.setAccoliteId(employeeMap.get(map.get("email")));
+            newuser.setAccoliteId(data.getEmpId());
             newuser.setEmail(map.get("email"));
             newuser.setFirstName(map.get("given_name"));
             newuser.setLastName(map.get("family_name"));

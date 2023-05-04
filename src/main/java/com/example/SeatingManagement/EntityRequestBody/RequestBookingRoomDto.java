@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -15,11 +17,13 @@ public class RequestBookingRoomDto {
     private Integer id;
     @Email
     private String email;
+    private LocalDate date;
+    private LocalTime fromTime;
+    private LocalTime toTime;
+    private String roomType;
+    private Integer capacity;
     private String description;
     private boolean isActive=true;
     private boolean accepted=false;
-    private String date;
-    private String fromTime;
-    private String toTime;
-    private String roomType;
+
 }
