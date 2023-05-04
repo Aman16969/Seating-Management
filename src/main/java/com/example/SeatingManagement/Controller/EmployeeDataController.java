@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/test")
+@RequestMapping("api/secret/get/accolite/")
 public class EmployeeDataController {
 
     @Autowired

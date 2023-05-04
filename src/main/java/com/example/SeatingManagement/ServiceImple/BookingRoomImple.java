@@ -2,6 +2,7 @@ package com.example.SeatingManagement.ServiceImple;
 
 import com.example.SeatingManagement.Entity.*;
 import com.example.SeatingManagement.EntityRequestBody.BookingRoomDto;
+import com.example.SeatingManagement.EntityRequestBody.RoomDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.*;
 import com.example.SeatingManagement.Services.BookingRoomServices;
@@ -11,6 +12,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -70,5 +73,13 @@ public class BookingRoomImple implements BookingRoomServices {
         List<BookingRoom> bookingRooms=this.bookingRoomRepository.findAllByUserAndIsActive(user,true);
 //        List<BookingRoomDto> bookingRoomDtos=bookingRooms.stream().map((e)->this.modelMapper.map(e,BookingRoomDto.class)).collect(Collectors.toList());
         return bookingRooms;
+    }
+
+    @Override
+    public List<RoomDto> roomsAvailableByLocationDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime) {
+        Location location=this.locationRepository.findById(locationId).orElseThrow(()-> new ResourceNotFound("Location","id",""+locationId));
+        List<Room> rooms=this.bookingRoomRepository.findAvailableRoomsByLocationDateTime(location, date, fromTime, toTime);
+        List<RoomDto> availableRooms=rooms.stream().map((e)->this.modelMapper.map(e,RoomDto.class)).collect(Collectors.toList());
+        return availableRooms;
     }
 }
