@@ -33,9 +33,6 @@ public class RequestBookingRoom {
     private String description;
     private boolean accepted=false;
     private boolean isActive=true;
-    private String date;
-    private String fromTime;
-    private String toTime;
-    private String roomType;
+
 
 }

@@ -25,8 +25,5 @@ public class RequestBookingRoomDto {
     private String description;
     private boolean isActive=true;
     private boolean accepted=false;
-    private String date;
-    private String fromTime;
-    private String toTime;
-    private String roomType;
+
 }
