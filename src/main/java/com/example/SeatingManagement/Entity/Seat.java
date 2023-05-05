@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.stream.events.StartElement;
 
 @Entity
@@ -18,6 +19,7 @@ public class Seat {
     @Id
     @Column(name="seat_id")
     private String id;
+    @NotNull
     private String name;
     private Integer r;
     private Integer c;
@@ -26,5 +28,4 @@ public class Seat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;
-
 }

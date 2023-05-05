@@ -70,17 +70,17 @@ public class BookingImple implements BookingServices {
         return new BookingResponse(1, "Booking Successful");
     }
 
-    @Override
-    public BookingDto updateExistingBooking(BookingBody bookingBody) {
-        return null;
-    }
+//    @Override
+//    public BookingDto updateExistingBooking(BookingBody bookingBody) {
+//        return null;
+//    }
 
-    @Override
-    public void deleteBookingOfUserById(Integer id) {
-        Booking booking=this.bookingRepository.findById(id).orElseThrow(()->new ResourceNotFound("Booking","booking_id",""+id));
-        this.bookingRepository.delete(booking);
-
-    }
+//    @Override
+//    public void deleteBookingOfUserById(Integer id) {
+//        Booking booking=this.bookingRepository.findById(id).orElseThrow(()->new ResourceNotFound("Booking","booking_id",""+id));
+//        this.bookingRepository.delete(booking);
+//
+//    }
 
     @Override
     public List<BookingDto> getAllBooking() {

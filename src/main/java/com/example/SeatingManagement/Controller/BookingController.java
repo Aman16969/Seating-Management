@@ -5,7 +5,6 @@ import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.AttendanceBody;
-import com.example.SeatingManagement.utils.AttendanceResponse;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -42,11 +41,11 @@ public class BookingController {
         List<BookingDto> allBookings=this.bookingServices.getAllBooking();
         return new ResponseEntity<>(allBookings, HttpStatus.CREATED);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteBookingById(@PathVariable("id") Integer id) {
-        this.bookingServices.deleteBookingOfUserById(id);
-        return new ResponseEntity<ApiResponse>(new ApiResponse("Booking deleted Successfully", true), HttpStatus.OK);
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<ApiResponse> deleteBookingById(@PathVariable("id") Integer id) {
+//        this.bookingServices.deleteBookingOfUserById(id);
+//        return new ResponseEntity<ApiResponse>(new ApiResponse("Booking deleted Successfully", true), HttpStatus.OK);
+//    }
     @GetMapping("/location")
     public ResponseEntity<List<BookingDto>> getBookingsByLocation(@RequestParam("location") Integer location_id) {
         List<BookingDto> allBookingsByLocation=this.bookingServices.getAllBookingByLocation(location_id);
@@ -58,7 +57,7 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByUser,HttpStatus.OK);
     }
     @GetMapping("/locationAndDate")
-    public ResponseEntity<Map<String,String>> getBookingsByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("location") Integer location_id) {
+    public ResponseEntity<Map<String,String>> getBookingsByDateAndLocation(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("location") Integer location_id) {
         Map<String,String> allBookingsByDateAndLocation=this.bookingServices.getAllBookingByDateAndLocation(date,location_id);
         return new ResponseEntity<>(allBookingsByDateAndLocation,HttpStatus.OK);
     }
@@ -68,7 +67,7 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByDate,HttpStatus.OK);
     }
     @GetMapping("/available/locationAndDate")
-    public ResponseEntity<Map<String,String>> getAvailabeBookingsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
+    public ResponseEntity<Map<String,String>> getAvailabeSeatsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
         Map<String,String> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
         return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
     }
@@ -84,7 +83,7 @@ public class BookingController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/available/locationAndDates")
-    public ResponseEntity<Map<String, Integer>> seatsAvailableOnDatesAndLocation(@RequestParam("location") Integer locationId, @RequestParam("startDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate endDate) throws ParseException, ParseException {
+    public ResponseEntity<Map<String, Integer>> seatsAvailableOnDatesAndLocationAndTime(@RequestParam("location") Integer locationId, @RequestParam("startDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate startDate, @RequestParam("endDate") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate endDate) throws ParseException, ParseException {
         Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableOnDatesAndLocation(locationId, startDate, endDate);
         return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
@@ -101,7 +100,7 @@ public class BookingController {
             ObjectMapper objectMapper = new ObjectMapper();
             List<AttendanceBody> attendanceBodyList = objectMapper.readValue(json, new TypeReference<List<AttendanceBody>>() {});
             this.bookingServices.updateAttendance(attendanceBodyList);
-            return new ResponseEntity<>(new AttendanceBody("INT1437", "Visswateza", "a","a","a"), HttpStatus.OK);
+            return new ResponseEntity<>("Attendance marked successfully", HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request body");

@@ -36,4 +36,5 @@ public class RoomController {
         List<RoomDto> rooms = this.roomServices.getByLocationAndType(id, type);
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
+//    addsoft delete
 }

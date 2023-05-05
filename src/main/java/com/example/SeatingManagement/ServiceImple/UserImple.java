@@ -5,7 +5,6 @@ import com.example.SeatingManagement.Entity.SwiftData;
 import com.example.SeatingManagement.Entity.User;
 import com.example.SeatingManagement.EntityRequestBody.UserDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
-import com.example.SeatingManagement.PayLoad.EmployeeDataFromSwift;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.SwiftRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
@@ -34,8 +33,7 @@ public class UserImple implements UserService {
     private LocationRepository locationRepository;
     @Autowired
     private ModelMapper modelMapper;
-    @Autowired
-    private EmployeeDataFromSwift employeeDataFromSwift;
+
     @Autowired
     private SwiftRepository swiftRepository;
 
