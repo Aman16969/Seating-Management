@@ -12,4 +12,5 @@ public interface RoomServices {
     List<RoomDto> getByLocation(Integer location_id);
 
     List<RoomDto> getByLocationAndType(Integer id, String type);
+    RoomDto deleteRoomById(Integer id, String value);
 }

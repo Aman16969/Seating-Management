@@ -16,7 +16,5 @@ public interface RequestBookingRepository extends JpaRepository<RequestBookingRo
 
     @Query("SELECT r FROM RequestBookingRoom r JOIN User u ON r.email=u.email AND u.location = :location")
     List<RequestBookingRoom> findAllByLocation(Location location);
-
-
     List<RequestBookingRoom> findByEmailAndIsActive(String email, boolean isActive);
 }

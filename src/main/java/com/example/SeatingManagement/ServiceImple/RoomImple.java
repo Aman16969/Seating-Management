@@ -3,14 +3,17 @@ package com.example.SeatingManagement.ServiceImple;
 
 import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.Room;
+import com.example.SeatingManagement.Entity.Seat;
 import com.example.SeatingManagement.EntityRequestBody.RoomDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.RoomRepository;
 import com.example.SeatingManagement.Services.RoomServices;
+import com.example.SeatingManagement.utils.SeatResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +59,29 @@ public class RoomImple implements RoomServices {
         List<RoomDto> roomDtos=rooms.stream().map((e)->this.modelMapper.map(e,RoomDto.class)).collect(Collectors.toList());
         return roomDtos;
     }
-
-
+    @Override
+    public RoomDto deleteRoomById(Integer id, String value) {
+        Room rooms=this.roomRepository.findById(id).orElseThrow(()->new ResourceNotFound("Room","Room_id",Integer.toString(id)));
+        Location location = this.locationRepository.findById(rooms.getLocation().getId()).orElseThrow(()->new ResourceNotFound("Location", "location_id",rooms.getLocation().getId().toString()));
+        if(value.equals("true")){
+            rooms.setActive(true);
+            if (rooms.getRoomType().equals("BOARD")) {
+                location.setBoardRoomCapacity(location.getBoardRoomCapacity() + 1);
+            } else {
+                location.setDiscussionRoomCapacity(location.getDiscussionRoomCapacity() + 1);
+            }
+            this.locationRepository.save(location);
+        }
+        else{
+            rooms.setActive(false);
+            if (rooms.getRoomType().equals("BOARD")) {
+                location.setBoardRoomCapacity(location.getBoardRoomCapacity() - 1);
+            } else {
+                location.setDiscussionRoomCapacity(location.getDiscussionRoomCapacity() - 1);
+            }
+            this.locationRepository.save(location);
+        }
+        this.roomRepository.save(rooms);
+        return new RoomDto();
+    }
 }
