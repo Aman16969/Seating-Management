@@ -27,7 +27,6 @@ public class Booking {
     private Seat seat;
     @OneToOne
     @JoinColumn(name = "users", referencedColumnName = "user_id")
-    private String accoliteId;
     private User user;
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
@@ -38,6 +37,7 @@ public class Booking {
     private LocalTime inTime;
     private LocalTime outTime;
     private boolean isPresent = false;
+    private String accoliteId;
 
 
 }

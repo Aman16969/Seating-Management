@@ -33,7 +33,8 @@ public class User implements UserDetails {
     private Integer id;
     private String accoliteId;
     private String email;
-    private String name;
+    private String firstName;
+    private String lastName;
     private boolean isActive=true;
     private String role = "USER";
     private String password="password";
