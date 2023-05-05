@@ -2,7 +2,7 @@ package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.SwiftData;
 import com.example.SeatingManagement.Repository.SwiftRepository;
-import com.example.SeatingManagement.utils.EmployeeDataFromAccolite;
+import com.example.SeatingManagement.utils.EmployeeDataFromAccolite_redundant;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -58,9 +58,9 @@ public class EmployeeDataController {
             ObjectMapper objectMapper = new ObjectMapper();
             Map<String, Object> responseMap = objectMapper.readValue(responseEntity.getBody(), new TypeReference<Map<String, Object>>(){});
 
-            List<EmployeeDataFromAccolite> employeeDataList = objectMapper.convertValue(responseMap.get("employee_data"), new TypeReference<List<EmployeeDataFromAccolite>>(){});
+            List<EmployeeDataFromAccolite_redundant> employeeDataList = objectMapper.convertValue(responseMap.get("employee_data"), new TypeReference<List<EmployeeDataFromAccolite_redundant>>(){});
             Map<String, String> employeeMap = new HashMap<>();
-            for(EmployeeDataFromAccolite employeeData : employeeDataList) {
+            for(EmployeeDataFromAccolite_redundant employeeData : employeeDataList) {
                 SwiftData swiftData=new SwiftData();
                 swiftData.setEmail(employeeData.getCompany_email_id());
                 swiftData.setEmpId(employeeData.getEmployee_id());

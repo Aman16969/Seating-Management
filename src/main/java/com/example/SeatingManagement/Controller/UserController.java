@@ -17,21 +17,22 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
-    @PostMapping("/")
-//    @PreAuthorize("hasAnyAuthority('USER')")
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
-        UserDto newUser=this.userService.registerUser(userDto);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
-    }
+
+
+//    @PostMapping("/")
+////    @PreAuthorize("hasAnyAuthority('USER')")
+//    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody UserDto userDto) {
+//        UserDto newUser=this.userService.registerUser(userDto);
+//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+//    }
     @PostMapping("/role/{email}")
     public ResponseEntity<String> updateUserRole(@PathVariable String email,@RequestBody Map<Object,Object> role){
-
         String message=this.userService.updateUserRole(email,role);
         return ResponseEntity.ok(message);
     }
     @GetMapping("/")
 //    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public ResponseEntity<List<UserDto>> allUsers(){
+    public ResponseEntity<List<UserDto>> allUsersByLocation(){
         List<UserDto> allUser=this.userService.getAllUser();
         return new ResponseEntity<>(allUser,HttpStatus.OK);
     }
@@ -56,23 +57,24 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("/{user_id}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("user_id") Integer user_id){
-        this.userService.deleteUserById(user_id);
-        return  new ResponseEntity<ApiResponse>( new ApiResponse("User deleted Successfully",true),HttpStatus.OK);
-    }
+//    @DeleteMapping("/{user_id}")
+//    public ResponseEntity<ApiResponse> deleteUser(@PathVariable("user_id") Integer user_id){
+//        this.userService.deleteUserById(user_id);
+//        return  new ResponseEntity<ApiResponse>( new ApiResponse("User deleted Successfully",true),HttpStatus.OK);
+//    }
     @PutMapping("/{user_id}/location/{locationId}")
-    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable Integer user_id,@PathVariable Integer locationId){
+    public ResponseEntity<UserDto> updateUserLocation(@Valid @PathVariable Integer user_id,@PathVariable Integer locationId){
         UserDto updatedUser=this.userService.updateUserLocationById(user_id,locationId);
         return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
     }
 
-    @PutMapping("/{user_id}/accolite/{accolite}")
-    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable Integer user_id,@PathVariable String accolite){
-        UserDto updatedUser=this.userService.updateUserAccoliteIdById(user_id,accolite);
-        return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
-    }
+//    @PutMapping("/{user_id}/accolite/{accolite}")
+//    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable Integer user_id,@PathVariable String accolite){
+//        UserDto updatedUser=this.userService.updateUserAccoliteIdById(user_id,accolite);
+//        return new ResponseEntity<>(updatedUser,HttpStatus.CREATED);
+//    }
 
+//    check>
     @GetMapping("/findByEmail/{email}")
     public ResponseEntity<UserDto> findUserByEmail(@PathVariable String email){
         UserDto userDto=this.userService.getUserByEmail(email);

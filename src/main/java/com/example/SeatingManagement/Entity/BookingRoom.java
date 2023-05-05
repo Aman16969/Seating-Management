@@ -37,6 +37,7 @@ public class BookingRoom {
     @OneToOne
     @JoinColumn(name = "users", referencedColumnName = "user_id")
     private User user;
+//    ?can be removed
     @ManyToOne
     @JoinColumn(name = "locations", referencedColumnName = "id")
     private Location location;

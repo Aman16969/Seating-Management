@@ -15,8 +15,8 @@ import java.util.Map;
 @Service
 public interface BookingServices {
     BookingResponse createNewBooking(BookingBody bookingBody);
-    BookingDto updateExistingBooking(BookingBody bookingBody);
-    void deleteBookingOfUserById(Integer id);
+//    BookingDto updateExistingBooking(BookingBody bookingBody);
+//    void deleteBookingOfUserById(Integer id);
     List<BookingDto> getAllBooking();
     List<BookingDto> getAllBookingByUser(Integer user_id);
     List<BookingDto> getAllBookingByDate(LocalDate date);
@@ -24,11 +24,8 @@ public interface BookingServices {
     List<BookingDto> getAllBookingByLocation(Integer location_id);
     Map<String,String> allAvailableSeats(Integer location_id,LocalDate date);
     Integer isBookedOrNot(Integer userId, LocalDate date);
-
     String setActiveStatus(Integer id,boolean value);
     Map<String, Integer> seatsAvailableOnDatesAndLocation(Integer locationId, LocalDate startDate, LocalDate endDate) throws ParseException;
-
     Map<String, Integer> seatsAvailableByLocationDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime);
-
     void updateAttendance(List<AttendanceBody> attendenceBodyList);
 }

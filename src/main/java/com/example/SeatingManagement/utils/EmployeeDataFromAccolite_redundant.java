@@ -7,9 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class AttendanceResponse {
-    private boolean isSuccessful;
-    private String message;
+@AllArgsConstructor
+public class EmployeeDataFromAccolite_redundant {
+    private String employee_id;
+    private String company_email_id;
 }
