@@ -34,7 +34,6 @@ public class LocationController {
         return new ResponseEntity<>(allLocations, HttpStatus.OK);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public ResponseEntity<LocationDto> updateLocationById( @Valid @RequestBody LocationDto locationDto, @PathVariable(value = "id") Integer id){
         LocationDto updatedLocationDto = this.locationService.updateLocationById(locationDto,id);
@@ -52,11 +51,11 @@ public class LocationController {
         LocationDto locationDto=this.locationService.getLocationById(id);
         return new ResponseEntity<>(locationDto,HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteLocation(@PathVariable("id") Integer id) {
-        this.locationService.deleteLocationById(id);
-        return new ResponseEntity<ApiResponse>(new ApiResponse("Location deleted Successfully", true), HttpStatus.OK);
-    }
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<ApiResponse> deleteLocation(@PathVariable("id") Integer id) {
+//        this.locationService.deleteLocationById(id);
+//        return new ResponseEntity<ApiResponse>(new ApiResponse("Location deleted Successfully", true), HttpStatus.OK);
+//    }
     @PutMapping("/setActiveStatus/{id}/{value}")
     public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id, @PathVariable boolean value){
         String response=this.locationService.setActiveStatus(id,value);

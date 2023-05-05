@@ -64,19 +64,19 @@ public class LocationImple implements LocationService {
         return updatedLocationDto;
     }
 
-    @Override
-    public void deleteLocationById(Integer id) {
-        Location location=this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+id));
-        this.locationRepository.delete(location);
-    }
+//    @Override
+//    public void deleteLocationById(Integer id) {
+//        Location location=this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+id));
+//        this.locationRepository.delete(location);
+//    }
 
-    @Override
-    public String setActiveStatus(Integer id, boolean value) {
-        Location location=this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+id));
-        location.setActive(value);
-        this.locationRepository.save(location);
-        return location.getName()+ "'s active status is changed to "+value;
-    }
+//    @Override
+//    public String setActiveStatus(Integer id, boolean value) {
+//        Location location=this.locationRepository.findById(id).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+id));
+//        location.setActive(value);
+//        this.locationRepository.save(location);
+//        return location.getName()+ "'s active status is changed to "+value;
+//    }
 
     @Override
     public LocationDto updateLocationRowAndColumn(Integer locationId, Integer row, Integer column) {
