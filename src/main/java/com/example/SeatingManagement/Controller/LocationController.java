@@ -57,11 +57,11 @@ public class LocationController {
 //        this.locationService.deleteLocationById(id);
 //        return new ResponseEntity<ApiResponse>(new ApiResponse("Location deleted Successfully", true), HttpStatus.OK);
 //    }
-    @PutMapping("/setActiveStatus/{id}/{value}")
-    public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id, @PathVariable boolean value){
-        String response=this.locationService.setActiveStatus(id,value);
-        return new ResponseEntity<>(response,HttpStatus.OK);
-    }
+//    @PutMapping("/setActiveStatus/{id}/{value}")
+//    public ResponseEntity<String> setBookingActiveStatus(@PathVariable Integer id, @PathVariable boolean value){
+//        String response=this.locationService.setActiveStatus(id,value);
+//        return new ResponseEntity<>(response,HttpStatus.OK);
+//    }
 //    ?update location name to be added
 }
 
