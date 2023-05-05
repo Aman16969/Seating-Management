@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,14 +26,13 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull
     private String name;
     private Integer seatingCapacity = 0;
     private Integer boardRoomCapacity = 0;
-//    conferense Room
     private Integer discussionRoomCapacity = 0;
     private Integer rs = 1;
     private Integer cs = 1;
-//    dontneed
     @Column(columnDefinition = "LONGTEXT")
     private String image;
     private boolean isActive = true;

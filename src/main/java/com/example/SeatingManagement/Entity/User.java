@@ -27,6 +27,7 @@ import java.util.*;
 @AllArgsConstructor
 // implements UserDetails
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="user_id")
@@ -38,6 +39,7 @@ public class User implements UserDetails {
     private boolean isActive=true;
     private String role = "USER";
     private String password="password";
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location",nullable = true, referencedColumnName = "id")
     private Location location;
