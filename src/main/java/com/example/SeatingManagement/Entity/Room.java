@@ -21,6 +21,7 @@ public class Room {
     private String roomType;
     private Integer capacity;
     private boolean isActive=true;
+    private boolean deleted= false;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;

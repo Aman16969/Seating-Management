@@ -34,12 +34,11 @@ public class Location {
     private Integer discussionRoomCapacity = 0;
     private Integer rs = 1;
     private Integer cs = 1;
-<<<<<<< HEAD
+
 //    dontneed
     @Column(columnDefinition = "LONGTEXT")
     private String image;
-=======
->>>>>>> 14521adc7f9a373504c2062434ca193c6eae964d
+
     private boolean isActive = true;
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
