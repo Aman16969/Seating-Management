@@ -60,7 +60,7 @@ public class RequestBookingImple implements RequestBookingService {
 
     @Override
     public List<RequestBookingRoomDto> allRequestByUser(String email) {
-        List<RequestBookingRoom> requestBookingRooms=this.requestBookingRepository.findByEmailAndIsActive(email,true);
+        List<RequestBookingRoom> requestBookingRooms=this.requestBookingRepository.findByEmailAndIsActiveAndIsNotAccepted(email,true);
         List<RequestBookingRoomDto> requests=requestBookingRooms.stream().map((e)->this.modelMapper.map(e,RequestBookingRoomDto.class)).collect(Collectors.toList());
         return requests;
     }

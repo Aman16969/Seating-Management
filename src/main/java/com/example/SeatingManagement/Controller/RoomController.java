@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/room")
+    @RequestMapping("api/room")
 @CrossOrigin (origins= "*", allowedHeaders = "*")
 public class RoomController {
     @Autowired
