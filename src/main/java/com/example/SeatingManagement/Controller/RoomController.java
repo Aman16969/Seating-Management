@@ -4,7 +4,9 @@ package com.example.SeatingManagement.Controller;
 import com.example.SeatingManagement.Entity.Room;
 import com.example.SeatingManagement.EntityRequestBody.RoomDto;
 import com.example.SeatingManagement.EntityRequestBody.SeatDto;
+import com.example.SeatingManagement.Repository.RoomRepository;
 import com.example.SeatingManagement.Services.RoomServices;
+import com.example.SeatingManagement.utils.SeatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,4 +39,9 @@ public class RoomController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 //    addsoft delete
+    @PutMapping("/{id}/{value}")
+public ResponseEntity<RoomDto> deleteRoom(@PathVariable("id") Integer id, @PathVariable("value") String value){
+    RoomDto rooms = this.roomServices.deleteRoomById(id, value);
+    return new ResponseEntity<>(rooms, HttpStatus.OK);
+}
 }

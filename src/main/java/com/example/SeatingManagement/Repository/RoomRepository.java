@@ -16,6 +16,9 @@ public interface RoomRepository extends JpaRepository<Room,Integer> {
     @Query("SELECT s FROM Room s WHERE s.location = ?1")
     List<Room> findRoomsByLocationId(Location location);
 
+
+
+
     @Query("SELECT s FROM Room s WHERE s.location = :location AND s.roomType = :type")
     List<Room> findRoomsByLocationAndType(@Param("location") Location location, @Param("type") String type);
 }
