@@ -1,5 +1,4 @@
 package com.example.SeatingManagement.Entity;
-import javax.persistence.CascadeType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.stream.events.StartElement;
 
 @Entity
 @Getter
@@ -28,4 +26,7 @@ public class Seat {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", referencedColumnName = "id", nullable = false)
     private Location location;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    private RequestSeat requestSeatBody;
 }
