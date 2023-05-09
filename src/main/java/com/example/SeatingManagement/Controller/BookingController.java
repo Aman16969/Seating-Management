@@ -5,6 +5,7 @@ import com.example.SeatingManagement.EntityRequestBody.SeatDto;
 import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.AttendanceBody;
+
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -100,7 +101,7 @@ public class BookingController {
             ObjectMapper objectMapper = new ObjectMapper();
             List<AttendanceBody> attendanceBodyList = objectMapper.readValue(json, new TypeReference<List<AttendanceBody>>() {});
             this.bookingServices.updateAttendance(attendanceBodyList);
-            return new ResponseEntity<>("Attendance marked successfully", HttpStatus.OK);
+            return new ResponseEntity<>(new AttendanceBody("INT1437", "Visswateza", "a","a","a"), HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request body");
