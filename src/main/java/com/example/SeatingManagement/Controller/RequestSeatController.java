@@ -2,6 +2,7 @@ package com.example.SeatingManagement.Controller;
 
 import com.example.SeatingManagement.Entity.RequestSeat;
 import com.example.SeatingManagement.Services.RequestSeatService;
+import com.example.SeatingManagement.utils.SeatRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,13 +12,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/request/seat/")
+@CrossOrigin (origins= "*", allowedHeaders = "*")
+
 public class RequestSeatController {
     @Autowired
     private RequestSeatService requestSeatService;
 
     @PostMapping("/")
-    public ResponseEntity<RequestSeat> addNewRequest(@RequestBody RequestSeat requestSeat){
-        RequestSeat newRequestSeat = this.requestSeatService.createNewSeatRequest(requestSeat);
+    public ResponseEntity<RequestSeat> addNewRequest(@RequestBody SeatRequest seatRequest){
+        RequestSeat newRequestSeat = this.requestSeatService.createNewSeatRequest(seatRequest);
         return new ResponseEntity<>(newRequestSeat, HttpStatus.OK);
     }
 
@@ -30,6 +33,11 @@ public class RequestSeatController {
     @PutMapping("/cancel/{id}")
     public ResponseEntity<RequestSeat> cancelRequest(@PathVariable("id") Integer id){
         RequestSeat updateRequestSeat = this.requestSeatService.cancelSeatRequest(id);
+        return new ResponseEntity<>(updateRequestSeat, HttpStatus.OK);
+    }
+    @PutMapping("/accept/{id}")
+    public ResponseEntity<RequestSeat> acceptRequest(@PathVariable("id") Integer id){
+        RequestSeat updateRequestSeat = this.requestSeatService.acceptSeatRequest(id);
         return new ResponseEntity<>(updateRequestSeat, HttpStatus.OK);
     }
 
@@ -51,9 +59,5 @@ public class RequestSeatController {
         return new ResponseEntity<>(requestSeats, HttpStatus.OK);
     }
 
-    @GetMapping("/admin/{admin}")
-    public ResponseEntity<List<RequestSeat>> getRequestsByAdmin(@PathVariable("admin") Integer adminId){
-        List<RequestSeat> requestSeats = this.requestSeatService.getAllAdminRequests(adminId);
-        return new ResponseEntity<>(requestSeats, HttpStatus.OK);
-    }
+
 }

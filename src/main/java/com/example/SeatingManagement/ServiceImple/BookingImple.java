@@ -12,6 +12,7 @@ import com.example.SeatingManagement.Repository.SeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.AttendanceBody;
+import com.example.SeatingManagement.utils.AvailableSeat;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import org.modelmapper.ModelMapper;
@@ -217,7 +218,20 @@ public class BookingImple implements BookingServices {
         }
         return seatAvailability;
     }
+    @Override
+    public List<AvailableSeat> SeatDropdownLocDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime) {
+        Location location=this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location","location_id",""+locationId));
+//        System.out.println(toTime);
+        List<Seat> availableSeats = this.bookingRepository.findAvailableSeatsByLocationDateTime(location, date, fromTime, toTime);
+        List<AvailableSeat> availableSeats1 = availableSeats.stream().map((e) -> {
+            AvailableSeat availableSeat = new AvailableSeat();
+            availableSeat.setId(e.getId());
+            availableSeat.setName(e.getName());
+            return availableSeat;
+        }).collect(Collectors.toList());
 
+        return availableSeats1;
+    }
     @Override
     public void updateAttendance(List<AttendanceBody> attendanceBodyList) {
         for(int i=0; i<attendanceBodyList.size(); i++){

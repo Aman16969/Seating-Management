@@ -8,6 +8,7 @@ import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.RequestSeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.RequestSeatService;
+import com.example.SeatingManagement.utils.SeatRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,19 @@ public class RequestSeatImple implements RequestSeatService {
     private UserRepository userRepository;
 
     @Override
-    public RequestSeat createNewSeatRequest(RequestSeat requestSeat) {
-        RequestSeat newRequestSeat = this.requestSeatRepository.save(requestSeat);
+    public RequestSeat createNewSeatRequest(SeatRequest seatRequest) {
+        Location location = this.locationRepository.findById(seatRequest.getLocationId()).orElseThrow(()->new ResourceNotFound("Location", "id", seatRequest.getLocationId().toString()));
+        User user = this.userRepository.findByEmail(seatRequest.getEmail()).orElseThrow(()->new ResourceNotFound("User", "user email", seatRequest.getEmail()));
+        RequestSeat newReq=new RequestSeat();
+        newReq.setDate(seatRequest.getDate());
+        newReq.setFromTime(seatRequest.getFromTime());
+        newReq.setToTime(seatRequest.getToTime());
+        newReq.setUser(user);
+        newReq.setLocation(location);
+        newReq.setDescription(seatRequest.getDescription());
+        newReq.setAccepted(false);
+        newReq.setActive(true);
+        RequestSeat newRequestSeat = this.requestSeatRepository.save(newReq);
         return newRequestSeat;
     }
 
@@ -43,6 +55,13 @@ public class RequestSeatImple implements RequestSeatService {
     }
 
     @Override
+    public RequestSeat acceptSeatRequest(Integer id) {
+        RequestSeat requestSeat = this.requestSeatRepository.findById(id).orElseThrow(()->new ResourceNotFound("RequestSeat", "id", id.toString()));
+        requestSeat.setAccepted(true);
+        RequestSeat acceptedRequestSeat = this.requestSeatRepository.save(requestSeat);
+        return acceptedRequestSeat;
+    }
+    @Override
     public List<RequestSeat> getAllLocationRequests(Integer locationId) {
         Location location = this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location", "id", locationId.toString()));
         List<RequestSeat> requestSeats = this.requestSeatRepository.findByLocationAndIsActive(location, true);
@@ -56,12 +75,6 @@ public class RequestSeatImple implements RequestSeatService {
         return requestSeats;
     }
 
-    @Override
-    public List<RequestSeat> getAllAdminRequests(Integer adminId) {
-        User admin = this.userRepository.findById(adminId).orElseThrow(()->new ResourceNotFound("User", "user_id", adminId.toString()));
-        List<RequestSeat> requestSeats = this.requestSeatRepository.findByAdminAndIsActive(admin, true);
-        return requestSeats;
-    }
 
     @Override
     public RequestSeat getRequestById(Integer id) {

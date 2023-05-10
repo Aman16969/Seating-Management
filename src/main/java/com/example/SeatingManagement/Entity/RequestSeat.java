@@ -23,17 +23,12 @@ public class RequestSeat {
     @JoinColumn(name = "location",nullable = true, referencedColumnName = "id")
     private Location location;
     @OneToOne
-    @JoinColumn(name = "admin", referencedColumnName = "user_id")
-    private User admin;
-    @OneToOne
     @JoinColumn(name = "user", referencedColumnName = "user_id")
     private User user;
     private LocalDate date;
     private LocalTime fromTime;
     private LocalTime toTime;
-    private String status;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seat",nullable = true, referencedColumnName = "seat_id")
-    private Seat seat;
+    private String description;
     private boolean isActive = true;
+    private boolean isAccepted=false;
 }

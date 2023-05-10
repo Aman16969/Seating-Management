@@ -6,6 +6,7 @@ import com.example.SeatingManagement.PayLoad.ApiResponse;
 import com.example.SeatingManagement.Services.BookingServices;
 import com.example.SeatingManagement.utils.AttendanceBody;
 
+import com.example.SeatingManagement.utils.AvailableSeat;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -92,6 +93,11 @@ public class BookingController {
     @GetMapping("/available/locationDateTime")
     public ResponseEntity<Map<String, Integer>> seatsAvailableByLocationDateTime(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("fromTime") @DateTimeFormat(pattern = "HH:mm") LocalTime fromTime, @RequestParam("toTime") @DateTimeFormat(pattern = "HH:mm") LocalTime toTime) throws ParseException{
         Map<String, Integer> availableSeats = this.bookingServices.seatsAvailableByLocationDateTime(locationId, date, fromTime, toTime);
+        return new ResponseEntity<>(availableSeats, HttpStatus.OK);
+    }
+    @GetMapping("/dropdown/locationDateTime")
+    public ResponseEntity<List<AvailableSeat>> seatsAvailable(@RequestParam("location") Integer locationId, @RequestParam("date") @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("fromTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime fromTime, @RequestParam("toTime") @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime toTime) throws ParseException{
+        List<AvailableSeat> availableSeats = this.bookingServices.SeatDropdownLocDateTime(locationId, date, fromTime, toTime);
         return new ResponseEntity<>(availableSeats, HttpStatus.OK);
     }
 

@@ -40,7 +40,9 @@ public class SeatImple implements SeatService {
         seat.setD(seatBody.getDir());
         seat.setName(seatBody.getName());
         seat.setId(""+location.getId()+"R"+seatBody.getRow()+"C"+seatBody.getCol());
+        System.out.println(seat.getId());
        Seat newSeat=this.seatRepository.save(seat);
+
        SeatDto newSeatDto=this.modelMapper.map(newSeat,SeatDto.class);
        location.setSeatingCapacity(location.getSeatingCapacity()+1);
        this.locationRepository.save(location);

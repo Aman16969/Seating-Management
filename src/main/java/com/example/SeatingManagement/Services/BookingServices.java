@@ -2,6 +2,7 @@ package com.example.SeatingManagement.Services;
 
 import com.example.SeatingManagement.EntityRequestBody.BookingDto;
 import com.example.SeatingManagement.utils.AttendanceBody;
+import com.example.SeatingManagement.utils.AvailableSeat;
 import com.example.SeatingManagement.utils.BookingBody;
 import com.example.SeatingManagement.utils.BookingResponse;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Service
 public interface BookingServices {
+    List<AvailableSeat> SeatDropdownLocDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime);
     BookingResponse createNewBooking(BookingBody bookingBody);
 //    BookingDto updateExistingBooking(BookingBody bookingBody);
 //    void deleteBookingOfUserById(Integer id);

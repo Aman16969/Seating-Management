@@ -26,5 +26,5 @@ public interface RequestSeatRepository extends JpaRepository<RequestSeat, Intege
 
     List<RequestSeat> findByLocationAndIsActive(Location location, boolean isActive);
     List<RequestSeat> findByUserAndIsActive(User user, boolean isActive);
-    List<RequestSeat> findByAdminAndIsActive(User admin, boolean isActive);
+
 }

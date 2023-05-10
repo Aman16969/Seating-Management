@@ -4,6 +4,7 @@ import com.example.SeatingManagement.Entity.Booking;
 import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.Seat;
 import com.example.SeatingManagement.Entity.User;
+import com.example.SeatingManagement.utils.AvailableSeat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -40,4 +41,9 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     Integer isUserBookedOnThatDate(@Param("user") User user, @Param("date") LocalDate date);
     @Query("SELECT count(*) from Booking b where  b.seat = :seat AND b.date = :date AND b.isActive = true AND  ((b.fromTime > :fromTime AND b.fromTime < :toTime) OR (b.toTime > :fromTime AND b.toTime < :toTime) OR (b.fromTime < :fromTime AND b.toTime > :toTime))")
     Integer isSeatBookedOnThatDateAndTime(@Param("seat") Seat seat, @Param("date") LocalDate date,@Param("fromTime") LocalTime fromTime,@Param("toTime") LocalTime tofromTime);
+
+//    @Query("SELECT s.id,s.name FROM Seat s WHERE s.location = :location AND s NOT IN "
+//            + "(SELECT b.seat FROM Booking b WHERE b.date = :date AND b.isActive = true AND ((b.fromTime > :fromTime AND b.fromTime < :toTime) OR (b.toTime > :fromTime AND b.toTime < :toTime) OR (b.fromTime <= :fromTime AND b.toTime >= :toTime)))")
+//    List<AvailableSeat> availabeSeat(@Param("location") Location location, @Param("date") LocalDate date, @Param("fromTime") LocalTime fromTime, @Param("toTime") LocalTime toTime);
+
 }
