@@ -32,7 +32,7 @@ public class EmailImple implements EmailService {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 //secret not to be given to any one and its my personal email crediential
-                return new PasswordAuthentication("ranjan.aman540@gmail.com","qxrtlaczcwosolqv");
+                return new PasswordAuthentication("aman.ranjan@accolitedigital.com","hrziphrvliavtopq");
             }
         });
         //for any error
