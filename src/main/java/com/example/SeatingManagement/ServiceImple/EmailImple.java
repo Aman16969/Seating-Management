@@ -53,12 +53,8 @@ public class EmailImple implements EmailService {
             m.setText(message);
             //send
             Transport.send(m);
-
-
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
     }
 }

@@ -6,8 +6,10 @@ import com.example.SeatingManagement.EntityRequestBody.RoomDto;
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.*;
 import com.example.SeatingManagement.Services.BookingRoomServices;
+import com.example.SeatingManagement.Services.EmailService;
 import com.example.SeatingManagement.utils.BookingResponse;
 import com.example.SeatingManagement.utils.BookingRoomBody;
+import com.example.SeatingManagement.utils.EmailBody;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +28,12 @@ public class BookingRoomImple implements BookingRoomServices {
     private LocationRepository locationRepository;
     @Autowired
     private RoomRepository boardRoomRepository;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
     @Override
     public BookingRoom createNewBooking(BookingRoomBody bookingRoomBody) {
-
         User admin=this.userRepository.findByEmail(bookingRoomBody.getAdminEmail()).orElseThrow(()->new ResourceNotFound("user","userEmail",bookingRoomBody.getAdminEmail()));
         User user=this.userRepository.findByEmail(bookingRoomBody.getUserEmail()).orElseThrow(()->new ResourceNotFound("user","userEmail",bookingRoomBody.getUserEmail()));
         Location location=this.locationRepository.findById(bookingRoomBody.getLocation_id()).orElseThrow(() -> new ResourceNotFound("Location", "location_id", ""+bookingRoomBody.getLocation_id()));
@@ -46,10 +48,29 @@ public class BookingRoomImple implements BookingRoomServices {
         bookingRoom.setRoom(room);
         bookingRoom.setRoomType(bookingRoomBody.getRoomType());
         bookingRoom.setActive(true);
-
         BookingRoom newBooking=this.bookingRoomRepository.save(bookingRoom);
-        return newBooking;
+        EmailBody emailBody = new EmailBody();
+        emailBody.setToEmail(user.getEmail());
+        emailBody.setSubject(bookingRoomBody.getRoomType()+" Request Approved");
+        emailBody.setMessage("Dear "+user.getFirstName()+",\n" +
+                "\n" +
+                "We are pleased to inform you that your request for a "+bookingRoomBody.getRoomType()+" has been approved. The following are the details of your booking:\n" +
+                "\n" +
+                "Room Name: "+room.getName()+"\n" +
+                "Location: "+room.getLocation().getName()+"\n" +
+                "Capacity: "+room.getCapacity()+"\n" +
+                "Date: "+bookingRoomBody.getDate()+"\n" +
+                "Time Slot: "+bookingRoomBody.getFromTime()+" to "+bookingRoomBody.getToTime()+"\n" +
+                "\n" +
+                "We hope this board room will fulfill your business requirements.\n" +
+                "\n" +
+                "Thank you.\n" +
+                "\n" +
+                "Best regards,\n" +
+                "Accolite Digital\n");
+        this.emailService.sendMail(emailBody);
 
+        return newBooking;
     }
     @Override
     public String setActiveStatus(Integer id, boolean value) {

@@ -7,7 +7,9 @@ import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.RequestSeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
+import com.example.SeatingManagement.Services.EmailService;
 import com.example.SeatingManagement.Services.RequestSeatService;
+import com.example.SeatingManagement.utils.EmailBody;
 import com.example.SeatingManagement.utils.SeatRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class RequestSeatImple implements RequestSeatService {
     private LocationRepository locationRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public RequestSeat createNewSeatRequest(SeatRequest seatRequest) {
@@ -37,6 +41,20 @@ public class RequestSeatImple implements RequestSeatService {
         newReq.setAccepted(false);
         newReq.setActive(true);
         RequestSeat newRequestSeat = this.requestSeatRepository.save(newReq);
+        EmailBody emailBody = new EmailBody();
+        emailBody.setToEmail(user.getEmail());
+        emailBody.setSubject("Seat Request Confirmation for "+location.getName()+" location.");
+        emailBody.setMessage("Dear "+user.getFirstName()+",\n" +
+                "\n" +
+                "This is to confirm that we have received your request for a seat at our "+location.getName()+" location on "+newReq.getDate()+" during the "+newReq.getFromTime()+" to "+newReq.getToTime()+" time slot.\n" +
+                "\n" +
+                "We will review your request and make every effort to accommodate your seating requirements. We will notify you as soon as possible once your booking has been confirmed.\n" +
+                "\n" +
+                "Thank you for using our seat booking system. If you have any questions or concerns, please do not hesitate to contact us.\n" +
+                "\n" +
+                "Best regards,\n" +
+                "Accolite Digital");
+        this.emailService.sendMail(emailBody);
         return newRequestSeat;
     }
 
