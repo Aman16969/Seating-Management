@@ -11,10 +11,8 @@ import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.SeatRepository;
 import com.example.SeatingManagement.Repository.UserRepository;
 import com.example.SeatingManagement.Services.BookingServices;
-import com.example.SeatingManagement.utils.AttendanceBody;
-import com.example.SeatingManagement.utils.AvailableSeat;
-import com.example.SeatingManagement.utils.BookingBody;
-import com.example.SeatingManagement.utils.BookingResponse;
+import com.example.SeatingManagement.Services.EmailService;
+import com.example.SeatingManagement.utils.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -41,6 +39,8 @@ public class BookingImple implements BookingServices {
     private UserRepository userRepository;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public BookingResponse createNewBooking(BookingBody bookingBody) {
@@ -64,11 +64,30 @@ public class BookingImple implements BookingServices {
         if(this.bookingRepository.isSeatBookedOnThatDateAndTime(seat, date,fromTime,toTime)==1){
             return new BookingResponse(0, "This seat was already taken.");
         }
-        if(this.bookingRepository.isUserBookedOnThatDate(user, date)==1){
+        else if(this.bookingRepository.isUserBookedOnThatDate(user, date)==1){
             return new BookingResponse(0, "You already made booking for this date.");
         }
-        Booking newBooking=this.bookingRepository.save(booking);
-        return new BookingResponse(1, "Booking Successful");
+        else {
+            Booking newBooking = this.bookingRepository.save(booking);
+            EmailBody emailBody = new EmailBody();
+            emailBody.setToEmail(user.getEmail());
+            emailBody.setSubject("Seat Booking Confirmation for " + bookingBody.getDate() + " - " + seat.getLocation().getName() + ".");
+            emailBody.setMessage("Dear " + user.getFirstName() + ",\n" +
+                    "\n" +
+                    "We would like to confirm that you have successfully booked a seat in our office for the following details:\n" +
+                    "\n" +
+                    "Seat: " + seat.getName() + "\n" +
+                    "Location: " + seat.getLocation().getName() + "\n" +
+                    "Date: " + bookingBody.getDate() + "\n" +
+                    "Time Slot: " + bookingBody.getFromTime() + " - " + bookingBody.getToTime() + "\n" +
+                    "\n" +
+                    "Thank you for using our seat booking system." +
+                    "\n" +
+                    "Best regards,\n" +
+                    "Accolite Digital");
+            this.emailService.sendMail(emailBody);
+            return new BookingResponse(1, "Booking Successful");
+        }
     }
 
 //    @Override
