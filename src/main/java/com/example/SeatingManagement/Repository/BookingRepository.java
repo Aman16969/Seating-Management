@@ -27,6 +27,8 @@ public interface BookingRepository extends JpaRepository<Booking,Integer> {
     List<Booking> findByDateAndLocation(LocalDate date, Location location);
     @Query("SELECT b from Booking b WHERE b.location = :location AND b.isActive = true")
     List<Booking> findByLocation(@Param("location") Location location);
+    @Query("SELECT b.date FROM Booking b WHERE b.user= :user AND b.isActive = true")
+    List<Object> activeDate(@Param("user") User user);
     List<Booking> findBookingByDateAndLocation(LocalDate date, Location location);
     List<Booking> findByDate(LocalDate date);
     List<Booking> findByIsActive(boolean isActive);
