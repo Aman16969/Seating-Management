@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -67,6 +68,12 @@ public class BookingController {
         List<BookingDto> allBookingsByLocation=this.bookingServices.getAllBookingByLocation(location_id);
         return new ResponseEntity<>(allBookingsByLocation,HttpStatus.OK);
     }
+    @GetMapping("/attendance/stats")
+    public ResponseEntity<AttendanceStats> getAttendanceStats(@RequestParam("user") Integer userId, @RequestParam("type") String type, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("value") Integer value){
+        AttendanceStats attendanceStats = this.bookingServices.getAttendanceStats(userId, type, date, value);
+        return new ResponseEntity<>(attendanceStats, HttpStatus.OK);
+    }
+
     @GetMapping("/user")
     public ResponseEntity<List<BookingDto>> getBookingsByUser(@RequestParam("user") Integer user_id) {
         List<BookingDto> allBookingsByUser=this.bookingServices.getAllBookingByUser(user_id);
@@ -83,7 +90,7 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByDate,HttpStatus.OK);
     }
     @GetMapping("/available/locationAndDate")
-    public ResponseEntity<Map<String,String>> getAvailabeSeatsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
+    public ResponseEntity<Map<String,String>> getAvailableSeatsByDate(@RequestParam("location") Integer location_id,@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date ) {
         Map<String,String> allAvailableBookingsByDateAndLocation=this.bookingServices.allAvailableSeats(location_id,date);
         return new ResponseEntity<>(allAvailableBookingsByDateAndLocation,HttpStatus.OK);
     }

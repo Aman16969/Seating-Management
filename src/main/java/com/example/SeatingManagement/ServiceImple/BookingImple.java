@@ -263,4 +263,23 @@ public class BookingImple implements BookingServices {
             }
         }
     }
+
+    @Override
+    public AttendanceStats getAttendanceStats(Integer userId, String type, LocalDate date, Integer value) {
+        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User", "user_id", userId.toString()));
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
+        if(type.equals("yearly")){
+            startDate = LocalDate.ofYearDay(date.getYear()-value, 1);
+            endDate = LocalDate.ofYearDay(date.getYear()-value, today.lengthOfYear());
+        }
+        if(type.equals("monthly")){
+            startDate = today.minusMonths(-value).withDayOfMonth(1);
+            endDate = today.minusMonths(-value).withDayOfMonth(today.minusMonths(1).lengthOfMonth());
+        }
+        Integer present = this.bookingRepository.getTotalNumberOfBookingsByUserAndStatus(user, startDate, endDate, true);
+        Integer absent = this.bookingRepository.getTotalNumberOfBookingsByUserAndStatus(user, startDate, endDate, false);
+        return new AttendanceStats(present+absent, present, absent);
+    }
 }
