@@ -291,14 +291,14 @@ public class BookingImple implements BookingServices {
     }
 
     @Override
-    public AttendanceStats getAttendanceStats(Integer userId, String type, LocalDate date, Integer value) {
+    public AttendanceStats getAttendanceStats(Integer userId, String type, Integer value) {
         User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User", "user_id", userId.toString()));
         LocalDate today = LocalDate.now();
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = LocalDate.now();
         if(type.equals("yearly")){
-            startDate = LocalDate.ofYearDay(date.getYear()-value, 1);
-            endDate = LocalDate.ofYearDay(date.getYear()-value, today.lengthOfYear());
+            startDate = LocalDate.ofYearDay(today.getYear()-value, 1);
+            endDate = LocalDate.ofYearDay(today.getYear()-value, today.lengthOfYear());
         }
         if(type.equals("monthly")){
             startDate = today.minusMonths(-value).withDayOfMonth(1);

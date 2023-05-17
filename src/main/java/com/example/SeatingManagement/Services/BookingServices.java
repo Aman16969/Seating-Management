@@ -37,5 +37,5 @@ public interface BookingServices {
     Map<String, Integer> seatsAvailableByLocationDateTime(Integer locationId, LocalDate date, LocalTime fromTime, LocalTime toTime);
     void updateAttendance(List<AttendanceBody> attendenceBodyList);
 
-    AttendanceStats getAttendanceStats(Integer userId, String type, LocalDate date, Integer value);
+    AttendanceStats getAttendanceStats(Integer userId, String type, Integer value);
 }

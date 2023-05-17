@@ -78,8 +78,8 @@ public class BookingController {
         return new ResponseEntity<>(allBookingsByLocation,HttpStatus.OK);
     }
     @GetMapping("/attendance/stats")
-    public ResponseEntity<AttendanceStats> getAttendanceStats(@RequestParam("user") Integer userId, @RequestParam("type") String type, @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("value") Integer value){
-        AttendanceStats attendanceStats = this.bookingServices.getAttendanceStats(userId, type, date, value);
+    public ResponseEntity<AttendanceStats> getAttendanceStats(@RequestParam("user") Integer userId, @RequestParam("type") String type, @RequestParam("value") Integer value){
+        AttendanceStats attendanceStats = this.bookingServices.getAttendanceStats(userId, type, value);
         return new ResponseEntity<>(attendanceStats, HttpStatus.OK);
     }
 
