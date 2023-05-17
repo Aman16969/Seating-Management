@@ -23,8 +23,8 @@ public interface RequestSeatRepository extends JpaRepository<RequestSeat, Intege
 //
 //    @Query("SELECT rs FROM RequestSeat rs WHERE rs.admin = :admin AND rs.isActive = true")
 //    List<RequestSeat> requestsByAdmin(@Param("admin") User admin);
-
-    List<RequestSeat> findByLocationAndIsActive(Location location, boolean isActive);
+@Query("SELECT r FROM RequestSeat r WHERE (r.location = :location AND r.isActive = :isActive AND r.isAccepted = false)")
+    List<RequestSeat> findByLocationAndIsActiveAndIsNotAccepted(Location location, boolean isActive);
     List<RequestSeat> findByUserAndIsActive(User user, boolean isActive);
 
 }

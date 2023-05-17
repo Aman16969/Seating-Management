@@ -82,7 +82,7 @@ public class RequestSeatImple implements RequestSeatService {
     @Override
     public List<RequestSeat> getAllLocationRequests(Integer locationId) {
         Location location = this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location", "id", locationId.toString()));
-        List<RequestSeat> requestSeats = this.requestSeatRepository.findByLocationAndIsActive(location, true);
+        List<RequestSeat> requestSeats = this.requestSeatRepository.findByLocationAndIsActiveAndIsNotAccepted(location, true);
         return requestSeats;
     }
 

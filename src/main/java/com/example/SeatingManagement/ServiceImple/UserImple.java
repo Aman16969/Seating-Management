@@ -63,17 +63,27 @@ public class UserImple implements UserService {
         }
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://eolblxg3qe42qa0.m.pipedream.net/";
-        Optional<User> user=this.userRepository.findByEmail(map.get("email"));
 
-        if(user.isEmpty()) {
-            SwiftData data =this.swiftRepository.findByEmail(map.get("email"));
+
+        SwiftData accoliteUser = this.swiftRepository.findByEmail(map.get("email"));
+
+        Optional<User> user = null;
+        if (accoliteUser != null) {
+            user = this.userRepository.findByEmail(map.get("email"));
+        }
+        else{
+            return null;
+        }
+
+        if (user.isEmpty()) {
+            SwiftData data = this.swiftRepository.findByEmail(map.get("email"));
 
 //            Map<String, String> requestBody = new HashMap<>();
 //            EmployeeDataFromSwift employeeDataFromSwift = new EmployeeDataFromSwift();
 //            Map<String, String> employeeMap = employeeDataFromSwift.getEmployees(url);
-            BCryptPasswordEncoder b=new BCryptPasswordEncoder();
-            String password= b.encode("password");
-            User newuser=new User();
+            BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+            String password = b.encode("password");
+            User newuser = new User();
             newuser.setAccoliteId(data.getEmpId());
             newuser.setEmail(map.get("email"));
             newuser.setFirstName(map.get("given_name"));

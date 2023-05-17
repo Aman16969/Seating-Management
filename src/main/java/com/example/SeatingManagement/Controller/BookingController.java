@@ -47,6 +47,13 @@ public class BookingController {
     @Autowired
     private BookingRepository bookingRepository;
 
+
+    @GetMapping("/activeDates/user/{email}")
+    public  ResponseEntity<List<Object>> activeDates(@PathVariable("email") String email ){
+        User user=this.userRepository.findByEmail(email).orElseThrow();
+        List<Object> dates=this.bookingRepository.activeDate(user);
+        return ResponseEntity.ok(dates);
+    }
     @PostMapping("/")
     public ResponseEntity<BookingResponse> addNewBooking(@RequestBody BookingBody bookingBody){
         BookingResponse bookingResponse = this.bookingServices.createNewBooking(bookingBody);
@@ -184,4 +191,5 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request body");
         }
     }
+
 }
