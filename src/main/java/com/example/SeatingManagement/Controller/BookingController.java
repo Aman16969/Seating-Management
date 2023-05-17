@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -57,25 +59,6 @@ public class BookingController {
     @PostMapping("/")
     public ResponseEntity<BookingResponse> addNewBooking(@RequestBody BookingBody bookingBody){
         BookingResponse bookingResponse = this.bookingServices.createNewBooking(bookingBody);
-        User user = this.userRepository.findById(Integer.parseInt(bookingBody.getUserId())).orElseThrow(()->new ResourceNotFound("User", "user_id", bookingBody.getUserId()));
-        Seat seat = this.seatRepository.findById(bookingBody.getSeatId()).orElseThrow(()->new ResourceNotFound("Seat", "seat_id", bookingBody.getSeatId()));
-        EmailBody emailBody = new EmailBody();
-        emailBody.setToEmail(user.getEmail());
-        emailBody.setSubject("Seat Booking Confirmation for "+bookingBody.getDate()+" - "+seat.getLocation().getName()+".");
-        emailBody.setMessage("Dear "+user.getFirstName()+",\n" +
-                "\n" +
-                "We would like to confirm that you have successfully booked a seat in our office for the following details:\n" +
-                "\n" +
-                "Seat: "+seat.getName()+"\n" +
-                "Location: "+seat.getLocation().getName()+"\n" +
-                "Date: "+bookingBody.getDate()+"\n" +
-                "Time Slot: "+bookingBody.getFromTime()+" - "+bookingBody.getToTime()+"\n" +
-                "\n" +
-                "Thank you for using our seat booking system."+
-                "\n" +
-                "Best regards,\n" +
-                "Accolite Digital");
-        this.emailService.sendMail(emailBody);
         return new ResponseEntity<>(bookingResponse, HttpStatus.CREATED);
     }
     @GetMapping("/")
@@ -140,6 +123,24 @@ public class BookingController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Scheduled(cron = "0 0 12 * * ?")
+    public void sendMail(){
+        EmailBody emailBody = new EmailBody();
+        emailBody.setToEmail("ss.jain@accolitedigital.com");
+        emailBody.setSubject("Seat Booking for ");
+        emailBody.setMessage("Dear " +
+                "\n" +
+                "This is to inform you that your seat booking at booking.getToTime()+" +
+                "\n" +
+                "We apologize for any inconvenience this may have caused. If you have any questions or concerns, please feel free to reach out to the admin team.\n" +
+                "\n" +
+                "Thank you for your understanding.\n" +
+                "\n" +
+                "Best regards,\n" +
+                "Accolite Digital");
+        this.emailService.sendMail(emailBody);
+    }
+
     @PutMapping("/setActiveStatus/admin/{id}/value/{value}")
     public ResponseEntity<String> setBookingActiveStatusByAdmin(@PathVariable Integer id,@PathVariable boolean value) {
         String response = this.bookingServices.setActiveStatus(id, value);
@@ -151,7 +152,7 @@ public class BookingController {
         emailBody.setSubject("Seat Booking for "+booking.getDate()+" - "+booking.getSeat().getLocation().getName()+" Cancelled by Admin");
         emailBody.setMessage("Dear "+user.getFirstName()+",\n" +
                 "\n" +
-                "This is to inform you that your seat booking at "+seat.getLocation()+" for "+booking.getDate()+" from "+booking.getFromTime()+" to "+booking.getToTime()+" has been cancelled by the admin.\n" +
+                "This is to inform you that your seat booking at "+seat.getLocation().getName()+" for "+booking.getDate()+" from "+booking.getFromTime()+" to "+booking.getToTime()+" has been cancelled by the admin.\n" +
                 "\n" +
                 "We apologize for any inconvenience this may have caused. If you have any questions or concerns, please feel free to reach out to the admin team.\n" +
                 "\n" +
