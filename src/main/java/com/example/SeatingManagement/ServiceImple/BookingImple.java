@@ -15,7 +15,7 @@ import com.example.SeatingManagement.Services.EmailService;
 import com.example.SeatingManagement.utils.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -89,7 +89,33 @@ public class BookingImple implements BookingServices {
             return new BookingResponse(1, "Booking Successful");
         }
     }
-
+    @Override
+    //@Scheduled(fixedDelay = 60000)
+    @Scheduled(cron = "0 0 8 * * *")
+    public void sendDailyReminder() {
+        LocalDate currentDate = LocalDate.now();
+        List<Booking> bookings = this.bookingRepository.findByDate(currentDate);
+        for (Booking booking : bookings) {
+            User user = booking.getUser();
+            Seat seat = booking.getSeat();
+            Location location = booking.getLocation();
+            EmailBody emailBody = new EmailBody();
+            emailBody.setToEmail(user.getEmail());
+            emailBody.setSubject("Daily Booking Reminder");
+            emailBody.setMessage("Dear " + user.getFirstName() + ",\n\n" +
+                    "This is a reminder for your seat booking:\n" +
+                    "\n" +
+                    "Seat: " + seat.getName() + "\n" +
+                    "Location: " + location.getName() + "\n" +
+                    "Date: " + booking.getDate() + "\n" +
+                    "Time Slot: " + booking.getFromTime() + " - " + booking.getToTime() + "\n" +
+                    "\n" +
+                    "Thank you for using our seat booking system.\n" +
+                    "Best regards,\n" +
+                    "Accolite Digital");
+            this.emailService.sendMail(emailBody);
+        }
+    }
 //    @Override
 //    public BookingDto updateExistingBooking(BookingBody bookingBody) {
 //        return null;

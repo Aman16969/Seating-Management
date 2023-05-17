@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -112,6 +114,24 @@ public class BookingController {
                 "Accolite Digital");
         this.emailService.sendMail(emailBody);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Scheduled(cron = "0 0 12 * * ?")
+    public void sendMail(){
+        EmailBody emailBody = new EmailBody();
+        emailBody.setToEmail("ss.jain@accolitedigital.com");
+        emailBody.setSubject("Seat Booking for ");
+        emailBody.setMessage("Dear " +
+                "\n" +
+                "This is to inform you that your seat booking at booking.getToTime()+" +
+                "\n" +
+                "We apologize for any inconvenience this may have caused. If you have any questions or concerns, please feel free to reach out to the admin team.\n" +
+                "\n" +
+                "Thank you for your understanding.\n" +
+                "\n" +
+                "Best regards,\n" +
+                "Accolite Digital");
+        this.emailService.sendMail(emailBody);
     }
 
     @PutMapping("/setActiveStatus/admin/{id}/value/{value}")
