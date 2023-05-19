@@ -296,16 +296,23 @@ public class BookingImple implements BookingServices {
         LocalDate today = LocalDate.now();
         LocalDate startDate = LocalDate.now();
         LocalDate endDate = LocalDate.now();
+        Integer present=0, absent=0;
+        String heading =  String.valueOf(today.getYear());
         if(type.equals("yearly")){
-            startDate = LocalDate.ofYearDay(today.getYear()-value, 1);
-            endDate = LocalDate.ofYearDay(today.getYear()-value, today.lengthOfYear());
+            startDate = LocalDate.ofYearDay(today.getYear()+value, 1);
+            endDate = LocalDate.ofYearDay(today.getYear()+value, today.lengthOfYear());
+            heading = String.valueOf(today.getYear()+value);
         }
         if(type.equals("monthly")){
             startDate = today.minusMonths(-value).withDayOfMonth(1);
             endDate = today.minusMonths(-value).withDayOfMonth(today.minusMonths(1).lengthOfMonth());
+            heading = String.valueOf(startDate.getMonth())+" "+ String.valueOf(startDate.getYear());
         }
-        Integer present = this.bookingRepository.getTotalNumberOfBookingsByUserAndStatus(user, startDate, endDate, true);
-        Integer absent = this.bookingRepository.getTotalNumberOfBookingsByUserAndStatus(user, startDate, endDate, false);
-        return new AttendanceStats(present+absent, present, absent);
+        if(endDate.isAfter(today)){
+            endDate = today;
+        }
+        present = this.bookingRepository.getTotalNumberOfBookingsByUserAndStatus(user, startDate, endDate, true);
+        absent = this.bookingRepository.getTotalNumberOfBookingsByUserAndStatus(user, startDate, endDate, false);
+        return new AttendanceStats(present+absent, present, absent, heading);
     }
 }

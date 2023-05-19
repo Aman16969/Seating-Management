@@ -13,4 +13,5 @@ public class AttendanceStats {
     private Integer totalBookings;
     private Integer bookedAndPresent;
     private Integer bookedAndAbsent;
+    private String heading;
 }
