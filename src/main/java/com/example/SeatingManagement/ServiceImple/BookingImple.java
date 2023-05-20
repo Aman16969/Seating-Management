@@ -202,16 +202,12 @@ public class BookingImple implements BookingServices {
 
     @Override
     public Map<String, Integer> seatsAvailableOnDatesAndLocation(Integer locationId, LocalDate startDate, LocalDate endDate) throws ParseException, ParseException {
-        System.out.println(locationId);
         Location location = this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location", "location_id", String.valueOf(locationId)));
-        System.out.println(location.getName());
         List<Seat> seats = this.seatRepository.findSeatsByLocationId(location);
-        System.out.println(seats.toArray());
         Map<String, Integer> availableSeats = new HashMap<>();
-        for(int i=0; i<seats.size(); i++){
+        for(int i=0; i<seats.size(); i++) {
             availableSeats.put(seats.get(i).getId(), 1);
         }
-        System.out.println(availableSeats.toString());
         List<String> dates = new ArrayList<>();
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate1 = formatter.parse(String.valueOf(startDate)); // today's date
@@ -231,7 +227,7 @@ public class BookingImple implements BookingServices {
         }
         for(String date :  dates) {
             //Date date1 = formatter.parse(String.valueOf(date));
-            System.out.println(date);
+
             List<Booking> allBookingsByLocationAndDate=this.bookingRepository.findByDateAndLocation(LocalDate.parse(date),location);
             for(int i=0; i<allBookingsByLocationAndDate.size(); i++){
                 availableSeats.put(allBookingsByLocationAndDate.get(i).getSeat().getId(), 0);
