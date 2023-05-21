@@ -14,4 +14,5 @@ public class AreaResponse {
     private Integer isAvailable;
     private String areaId;
     private String areaName;
+    private Integer d;
 }

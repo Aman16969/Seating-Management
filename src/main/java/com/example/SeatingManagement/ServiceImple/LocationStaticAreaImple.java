@@ -2,14 +2,12 @@ package com.example.SeatingManagement.ServiceImple;
 
 import com.example.SeatingManagement.Entity.Location;
 import com.example.SeatingManagement.Entity.LocationStaticArea;
-import com.example.SeatingManagement.Entity.Seat;
-import com.example.SeatingManagement.EntityRequestBody.SeatDto;
+
 import com.example.SeatingManagement.ExceptionHandling.ResourceNotFound;
 import com.example.SeatingManagement.Repository.LocationRepository;
 import com.example.SeatingManagement.Repository.LocationStaticAreaRepository;
 import com.example.SeatingManagement.Services.LocationStaticAreaServices;
 import com.example.SeatingManagement.utils.AreaResponse;
-import com.example.SeatingManagement.utils.SeatResponse;
 import com.example.SeatingManagement.utils.StaticAreaBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +29,8 @@ public class LocationStaticAreaImple implements LocationStaticAreaServices {
         area.setR(staticAreaBody.getRow());
         area.setC(staticAreaBody.getCol());
         area.setName(staticAreaBody.getName());
-        area.setId(""+location.getId()+"R"+staticAreaBody.getRow()+"C"+staticAreaBody.getCol());
+        area.setD(staticAreaBody.getD());
+        area.setId(""+location.getId()+"R"+staticAreaBody.getRow()+"C"+staticAreaBody.getCol()+"D"+staticAreaBody.getD());
         LocationStaticArea staticArea=this.locationStaticAreaRepository.save(area);
         return staticArea;
     }
@@ -44,14 +43,14 @@ public class LocationStaticAreaImple implements LocationStaticAreaServices {
     }
 
     @Override
-    public AreaResponse getAreaByPosition(Integer locationId, Integer row, Integer column) {
+    public AreaResponse getAreaByPosition(Integer locationId, Integer row, Integer column,Integer dir) {
         Location location=this.locationRepository.findById(locationId).orElseThrow(()->new ResourceNotFound("Location","Location_id",""+locationId));
-        if(this.locationStaticAreaRepository.isThereAreaAtPosition(location, row, column)==1){
-            LocationStaticArea locationStaticArea = this.locationStaticAreaRepository.areaAtPosition(location, row, column);
-            return new AreaResponse(1, locationStaticArea.getId(), locationStaticArea.getName());
+        if(this.locationStaticAreaRepository.isThereAreaAtPosition(location, row, column,dir)==1){
+            LocationStaticArea locationStaticArea = this.locationStaticAreaRepository.areaAtPosition(location, row, column,dir);
+            return new AreaResponse(1, locationStaticArea.getId(), locationStaticArea.getName(),locationStaticArea.getD());
         }
         else {
-            return new AreaResponse(0, "NA", "  ");
+            return new AreaResponse(0, "NA", "  ",0);
         }
     }
 
@@ -60,7 +59,7 @@ public class LocationStaticAreaImple implements LocationStaticAreaServices {
         LocationStaticArea area=this.locationStaticAreaRepository.findById(id).orElseThrow(()->new ResourceNotFound("Seat","Seat_id",id));
        area.setActive(false);
         this.locationStaticAreaRepository.save(area);
-        return new AreaResponse(0, "NA", "NA");
+        return new AreaResponse(0, "NA", "NA",0);
     }
 
 

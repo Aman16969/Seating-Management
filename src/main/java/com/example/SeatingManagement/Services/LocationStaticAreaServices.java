@@ -14,7 +14,7 @@ import java.util.List;
 public interface LocationStaticAreaServices {
     LocationStaticArea addNewArea(StaticAreaBody staticAreaBody);
     List<LocationStaticArea> getAreaByLocation(Integer id);
-    AreaResponse getAreaByPosition(Integer locationId, Integer row, Integer column);
+    AreaResponse getAreaByPosition(Integer locationId, Integer row, Integer column,Integer dir);
     AreaResponse deleteAreaById(String id, String value);
     LocationStaticArea updateArea(LocationStaticArea locationStaticArea);
 

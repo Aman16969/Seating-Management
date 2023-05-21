@@ -13,6 +13,7 @@ public class StaticAreaBody {
     private Integer locationId;
     private Integer row;
     private Integer col;
+    private Integer d;
     private String name;
 
 }

@@ -20,6 +20,7 @@ public class LocationStaticArea {
     private String name;
     private Integer r;
     private Integer c;
+    private Integer d;
     @Column(columnDefinition = "LONGTEXT")
     private String image;
     private boolean isActive=true;

@@ -35,8 +35,8 @@ public class LocationStaticAreaController {
         return new ResponseEntity<>(areas, HttpStatus.OK);
     }
     @GetMapping("/position")
-    public ResponseEntity<AreaResponse> getAreaByPosition(@RequestParam("location") Integer locationId, @RequestParam("row") Integer row, @RequestParam("column") Integer column){
-        AreaResponse areaResponse = this.locationStaticAreaServices.getAreaByPosition(locationId, row, column);
+    public ResponseEntity<AreaResponse> getAreaByPosition(@RequestParam("location") Integer locationId, @RequestParam("row") Integer row, @RequestParam("column") Integer column, @RequestParam("dir") Integer dir){
+        AreaResponse areaResponse = this.locationStaticAreaServices.getAreaByPosition(locationId, row, column,dir);
         return new ResponseEntity<>(areaResponse, HttpStatus.OK);
     }
     @PutMapping("/{id}/{value}")
