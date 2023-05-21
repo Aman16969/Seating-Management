@@ -45,4 +45,7 @@ public class Location {
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private Set<RequestSeat> requestSeatBodies = new HashSet<>();
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<LocationStaticArea> locationStaticAreas = new HashSet<>();
 }
