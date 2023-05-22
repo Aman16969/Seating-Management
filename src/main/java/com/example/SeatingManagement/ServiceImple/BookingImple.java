@@ -301,7 +301,19 @@ public class BookingImple implements BookingServices {
         }
         if(type.equals("monthly")){
             startDate = today.minusMonths(-value).withDayOfMonth(1);
-            endDate = today.minusMonths(-value).withDayOfMonth(today.minusMonths(1).lengthOfMonth());
+            int month = startDate.getMonthValue();
+            if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
+                endDate = today.minusMonths(-value).minusDays(-31);
+            } else if (month == 2) {
+                if(startDate.isLeapYear())
+                    endDate = today.minusMonths(-value).minusDays(-29);
+                else
+                    endDate = today.minusMonths(-value).minusDays(-28);
+            }
+            else{
+                endDate = today.minusMonths(-value).minusDays(-30);
+            }
+            //endDate = today.minusMonths(-value).withDayOfMonth(today.minusMonths(1).lengthOfMonth());
             heading = String.valueOf(startDate.getMonth())+" "+ String.valueOf(startDate.getYear());
         }
         if(endDate.isAfter(today)){
