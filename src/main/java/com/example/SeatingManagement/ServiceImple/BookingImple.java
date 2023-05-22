@@ -303,16 +303,17 @@ public class BookingImple implements BookingServices {
             startDate = today.minusMonths(-value).withDayOfMonth(1);
             int month = startDate.getMonthValue();
             if(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12){
-                endDate = today.minusMonths(-value).minusDays(-31);
+                endDate = today.minusMonths(-value).withDayOfMonth(1).minusDays(-30);
             } else if (month == 2) {
                 if(startDate.isLeapYear())
-                    endDate = today.minusMonths(-value).minusDays(-29);
+                    endDate = today.minusMonths(-value).withDayOfMonth(1).minusDays(-28);
                 else
-                    endDate = today.minusMonths(-value).minusDays(-28);
+                    endDate = today.minusMonths(-value).withDayOfMonth(1).minusDays(-27);
             }
             else{
-                endDate = today.minusMonths(-value).minusDays(-30);
+                endDate = today.minusMonths(-value).withDayOfMonth(1).minusDays(-29);
             }
+            System.out.println(String.valueOf(startDate)+" "+String.valueOf(endDate));
             //endDate = today.minusMonths(-value).withDayOfMonth(today.minusMonths(1).lengthOfMonth());
             heading = String.valueOf(startDate.getMonth())+" "+ String.valueOf(startDate.getYear());
         }
