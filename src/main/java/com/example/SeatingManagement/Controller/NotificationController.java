@@ -17,6 +17,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notification")
+@CrossOrigin (origins= "*", allowedHeaders = "*")
+
 public class NotificationController {
     @Autowired
     private UserRepository userRepository;
@@ -33,9 +35,9 @@ public class NotificationController {
         return new ResponseEntity<>(newNotification, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<Notification>> getAllNotificationByUser(@PathVariable("id") Integer userId){
-        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User", "user_id", userId.toString()));
+    @GetMapping("email/{email}")
+    public ResponseEntity<List<Notification>> getAllNotificationByUser(@PathVariable("email") String email){
+        User user = this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("User", "email", email));
         List<Notification> notifications = this.notificationServices.getNotificationBasedOnUser(user);
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
