@@ -27,7 +27,7 @@ public class NotificationController {
 
     @PostMapping("/")
     public ResponseEntity<Notification> addNewNotification(@RequestBody NotificationBody notificationBody){
-        User user = this.userRepository.findById(notificationBody.getUserId()).orElseThrow(()->new ResourceNotFound("User", "user_id", notificationBody.getUserId().toString()));
+        User user = this.userRepository.findByEmail(notificationBody.getEmail()).orElseThrow(()->new ResourceNotFound("User", "user_id", notificationBody.getEmail()));
         Notification notification = new Notification();
         notification.setUser(user);
         notification.setMessage(notificationBody.getMessage());
@@ -42,16 +42,16 @@ public class NotificationController {
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
-    @GetMapping("/pending/{id}")
-    public ResponseEntity<List<Notification>> getAllPendingNotificationByUser(@PathVariable("id") Integer userId){
-        User user = this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFound("User", "user_id", userId.toString()));
+    @GetMapping("/pending/email/{email}")
+    public ResponseEntity<List<Notification>> getAllPendingNotificationByUser(@PathVariable("email") String email){
+        User user = this.userRepository.findByEmail(email).orElseThrow(()->new ResourceNotFound("User", "user_id", email));
         List<Notification> notifications = this.notificationServices.getAllPendingNotificationBasedOnUser(user);
         return new ResponseEntity<>(notifications, HttpStatus.OK);
     }
 
     @PutMapping("/markAsRead/{id}")
-    public ResponseEntity<Notification> markNotificationAsRead(@PathVariable("id") Integer notificationId){
-        Notification notification = this.notificationServices.markNotificationAsRead(notificationId);
-        return new ResponseEntity<>(notification, HttpStatus.OK);
+    public ResponseEntity<String> markNotificationAsRead(@PathVariable("id") Integer id){
+        String response = this.notificationServices.markNotificationAsRead(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

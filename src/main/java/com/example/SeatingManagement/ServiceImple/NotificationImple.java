@@ -34,10 +34,10 @@ public class NotificationImple implements NotificationServices {
     }
 
     @Override
-    public Notification markNotificationAsRead(Integer notificationId) {
+    public String markNotificationAsRead(Integer notificationId) {
         Notification notification = this.notificationRepository.findById(notificationId).orElseThrow(()->new ResourceNotFound("Notification", "notificationId", notificationId.toString()));
         notification.setRead(true);
         Notification updatedNotification = this.notificationRepository.save(notification);
-        return updatedNotification;
+        return "Successfully marked the notification as read";
     }
 }

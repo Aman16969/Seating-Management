@@ -12,5 +12,5 @@ public interface NotificationServices {
     List<Notification> getNotificationBasedOnUser(User user);
 
     List<Notification> getAllPendingNotificationBasedOnUser(User user);
-    Notification markNotificationAsRead(Integer notificationId);
+    String markNotificationAsRead(Integer notificationId);
 }

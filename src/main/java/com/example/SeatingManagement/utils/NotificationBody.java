@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NotificationBody {
-    private Integer userId;
+    private String email;
     private String message;
 }
